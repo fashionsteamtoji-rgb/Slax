@@ -2,162 +2,358 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale5.0">
-    <title>Slax - الموقع الشخصي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة Slax الرسمية</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0f172a;
-            color: #f8fafc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #0b0f19; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* نافذة الترحيب المؤقتة */
+        /* نافذة الترحيب */
         #welcome-popup {
             position: fixed;
             top: 20px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            font-size: 1.2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            font-size: 1rem;
             font-weight: bold;
             z-index: 1000;
             animation: fadeInOut 5s forwards;
+            text-align: center;
         }
-
         @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(-20px); }
-            15% { opacity: 1; transform: translateY(0); }
-            85% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-20px); pointer-events: none; }
+            0% { opacity: 0; transform: translate(-50%, -20px); }
+            15% { opacity: 1; transform: translate(-50%, 0); }
+            85% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -20px); pointer-events: none; }
         }
 
-        h1 {
-            margin-bottom: 10px;
-            font-size: 1.8rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        /* القائمة العلوية */
+        header {
+            background-color: #1e1e2f;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #3b82f6;
         }
-
-        p {
-            color: #94a3b8;
-            margin-bottom: 20px;
+        .logo { font-size: 1.5rem; font-weight: bold; color: #38bdf8; }
+        nav { display: flex; gap: 15px; }
+        nav button {
+            background: none; border: none; color: #94a3b8; font-size: 1rem; cursor: pointer; font-weight: bold; transition: 0.2s;
         }
+        nav button.active, nav button:hover { color: #38bdf8; }
 
-        /* لوحة الرسم */
+        /* الأقسام */
+        .section { display: none; padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; flex: 1; }
+        .section.active { display: flex; flex-direction: column; align-items: center; }
+
+        /* قسم الرسم */
+        .canvas-container {
+            background-color: #161b22;
+            border: 2px solid #30363d;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
         canvas {
             border: 2px solid #38bdf8;
-            border-radius: 12px;
-            background-color: #1e293b;
-            cursor: crosshair;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            touch-action: none; /* يمنع تحريك الشاشة بالجوال أثناء الرسم */
-        }
-
-        .controls {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            background-color: #ef4444;
-            color: white;
-            border: none;
-            padding: 8px 20px;
             border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
+            background-color: #ffffff;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .tools-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+        .tools-bar input[type="color"] {
+            border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; background: none;
+        }
+        .tools-bar input[type="range"] { accent-color: #38bdf8; }
+        .btn {
+            background-color: #238636; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn-danger { background-color: #da3633; }
+        .btn-secondary { background-color: #30363d; }
+
+        /* قسم النشر والتفاعل (لايك وتعليق) */
+        .feed-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .feed-card h3 { color: #38bdf8; margin-bottom: 8px; }
+        .interaction-bar {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            align-items: center;
+        }
+        .interaction-bar button {
+            background: none; border: none; color: #8b949e; cursor: pointer; font-size: 0.9rem; display: flex; gap: 5px; align-items: center;
+        }
+        .interaction-bar button:hover { color: #58a6ff; }
+        .comments-section {
+            margin-top: 10px;
+            border-top: 1px solid #30363d;
+            padding-top: 10px;
+        }
+        .comments-list { font-size: 0.85rem; color: #c9d1d9; margin-bottom: 8px; }
+        .comment-input-box {
+            display: flex; gap: 8px;
+        }
+        .comment-input-box input {
+            flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 6px 10px; color: white;
         }
 
-        button:hover {
-            background-color: #dc2626;
+        /* قسم الألعاب */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
         }
+        .game-card {
+            background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s;
+        }
+        .game-card:hover { border-color: #38bdf8; transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
-    <!-- رسالة الترحيب التي تختفي بعد 5 ثواني -->
-    <div id="welcome-popup">أهلاً بك في موقع Slax الرسمي! نورتنا 🚀</div>
+    <!-- الترحيب -->
+    <div id="welcome-popup">أهلاً بك يا بطل في منصة Slax المتكاملة! 🚀</div>
 
-    <h1>لوحة الرسم التفاعلية</h1>
-    <p>ارسم بإصبعك أو بالماوس بحرية تامة:</p>
+    <!-- القائمة -->
+    <header>
+        <div class="logo">Slax Hub</div>
+        <nav>
+            <button class="active" onclick="switchTab('draw', this)">الرسم</button>
+            <button onclick="switchTab('feed', this)">النشر والمجتمع</button>
+            <button onclick="switchTab('games', this)">الألعاب</button>
+        </nav>
+    </header>
 
-    <canvas id="drawCanvas" width="350" height="400"></canvas>
+    <!-- 1. قسم الرسم -->
+    <div id="draw" class="section active">
+        <div class="canvas-container">
+            <h2 style="color: #38bdf8;">لوحة الرسم الاحترافية</h2>
+            <canvas id="paintCanvas" width="320" height="380"></canvas>
+            <div class="tools-bar">
+                <input type="color" id="colorPicker" value="#38bdf8">
+                <input type="range" id="brushSize" min="1" max="30" value="4">
+                <button class="btn btn-secondary" id="undoBtn">↩ تراجع</button>
+                <button class="btn btn-secondary" id="redoBtn">↪ إعادة</button>
+                <button class="btn btn-danger" id="clearBtn">مسح</button>
+                <button class="btn" id="publishBtn">نشر الرسمة</button>
+            </div>
+        </div>
+    </div>
 
-    <div class="controls">
-        <button id="clearBtn">مسح اللوحة</button>
+    <!-- 2. قسم النشر -->
+    <div id="feed" class="section">
+        <h2 style="margin-bottom: 15px;">منشورات ورسومات المجتمع</h2>
+        <div id="postsContainer" style="width: 100%;">
+            <!-- منشور تجريبي -->
+            <div class="feed-card">
+                <h3>محمد (L)</h3>
+                <p>أهلاً بكم في أول منصة رسم ونشر تفاعلية لـ Slax!</p>
+                <div class="interaction-bar">
+                    <button onclick="likePost(this)">❤️ <span class="like-count">12</span> لايك</button>
+                </div>
+                <div class="comments-section">
+                    <div class="comments-list">💬 فكرة رهيبة وراقي جداً!</div>
+                    <div class="comment-input-box">
+                        <input type="text" placeholder="اكتب تعليقك هنا..." onkeypress="addComment(event, this)">
+                        <button class="btn" style="padding: 4px 10px;" onclick="postCommentBtn(this)">تعليق</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. قسم الألعاب -->
+    <div id="games" class="section">
+        <h2 style="margin-bottom: 15px;">قسم الألعاب المصغرة</h2>
+        <div class="games-grid">
+            <div class="game-card" onclick="alert('لعبة الذاكرة قادمة قريباً!')">
+                <h3>🧠 لعبة الذاكرة</h3>
+                <p style="color: #8b949e; font-size: 0.85rem; margin-top: 5px;">اختبر قوة تركيزك</p>
+            </div>
+            <div class="game-card" onclick="alert('لعبة السرعة قادمة قريباً!')">
+                <h3>⚡ تحدي السرعة</h3>
+                <p style="color: #8b949e; font-size: 0.85rem; margin-top: 5px;">أسرع ضغطة تفوز</p>
+            </div>
+        </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('drawCanvas');
+        // التنقل بين الأقسام
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // إعدادات لوحة الرسم
+        const canvas = document.getElementById('paintCanvas');
         const ctx = canvas.getContext('2d');
-
         let isDrawing = false;
+        let history = [];
+        let historyStep = -1;
 
-        // إعدادات الخط
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 4;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
 
-        // دالة تبدأ الرسم (للماوس أو اللمس)
-        function startPosition(e) {
-            isDrawing = true;
-            draw(e);
+        function saveState() {
+            historyStep++;
+            if (historyStep < history.length) { history.length = historyStep; }
+            history.push(canvas.toDataURL());
         }
 
-        function endPosition() {
-            isDrawing = false;
+        function startDraw(e) {
+            isDrawing = true;
             ctx.beginPath();
+            const pos = getPos(e);
+            ctx.moveTo(pos.x, pos.y);
         }
 
         function draw(e) {
             if (!isDrawing) return;
+            const pos = getPos(e);
+            ctx.strokeStyle = document.getElementById('colorPicker').value;
+            ctx.lineWidth = document.getElementById('brushSize').value;
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
 
-            // استخراج إحداثيات الماوس أو اللمس بدقة
+        function stopDraw() {
+            if (isDrawing) {
+                isDrawing = false;
+                saveState();
+            }
+        }
+
+        function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-
+            let clientX = e.clientX, clientY = e.clientY;
             if (e.touches && e.touches[0]) {
                 clientX = e.touches[0].clientX;
                 clientY = e.touches[0].clientY;
             }
-
-            const x = clientX - rect.left;
-            const y = clientY - rect.top;
-
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
+            return { x: clientX - rect.left, y: clientY - rect.top };
         }
 
-        // ربط الأحداث للكمبيوتر (موس)
-        canvas.addEventListener('mousedown', startPosition);
-        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousedown', startDraw);
         canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
 
-        // ربط الأحداث للموبايل (لمس)
-        canvas.addEventListener('touchstart', (e) => { startPosition(e); e.preventDefault(); });
-        canvas.addEventListener('touchend', (e) => { endPosition(); e.preventDefault(); });
+        canvas.addEventListener('touchstart', (e) => { startDraw(e); e.preventDefault(); });
         canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); });
+        canvas.addEventListener('touchend', (e) => { stopDraw(); e.preventDefault(); });
 
-        // زر المسح
-        document.getElementById('clearBtn').addEventListener('click', () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // حفظ أول حالة بيضاء للكانفاس
+        window.onload = () => {
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveState();
+        };
+
+        // زر التراجع
+        document.getElementById('undoBtn').addEventListener('click', () => {
+            if (historyStep > 0) {
+                historyStep--;
+                let img = new Image();
+                img.src = history[historyStep];
+                img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); }
+            }
         });
-    </script>
 
+        // زر الإعادة
+        document.getElementById('redoBtn').addEventListener('click', () => {
+            if (historyStep < history.length - 1) {
+                historyStep++;
+                let img = new Image();
+                img.src = history[historyStep];
+                img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); }
+            }
+        });
+
+        // مسح اللوحة
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveState();
+        });
+
+        // نشر الرسمة للمجتمع
+        document.getElementById('publishBtn').addEventListener('click', () => {
+            let dataUrl = canvas.toDataURL();
+            let container = document.getElementById('postsContainer');
+            let card = document.createElement('div');
+            card.className = 'feed-card';
+            card.innerHTML = `
+                <h3>رسمة جديدة بواسطة L</h3>
+                <img src="${dataUrl}" style="width:100%; border-radius:6px; margin-top:8px;">
+                <div class="interaction-bar">
+                    <button onclick="likePost(this)">❤️ <span class="like-count">0</span> لايك</button>
+                </div>
+                <div class="comments-section">
+                    <div class="comments-list"></div>
+                    <div class="comment-input-box">
+                        <input type="text" placeholder="اكتب تعليقك هنا..." onkeypress="addComment(event, this)">
+                        <button class="btn" style="padding: 4px 10px;" onclick="postCommentBtn(this)">تعليق</button>
+                    </div>
+                </div>
+            `;
+            container.prepend(card);
+            switchTab('feed', document.querySelectorAll('nav button')[1]);
+        });
+
+        // نظام اللايكات
+        function likePost(btn) {
+            let countSpan = btn.querySelector('.like-count');
+            countSpan.textContent = parseInt(countSpan.textContent) + 1;
+            btn.style.color = '#f85149';
+        }
+
+        // إضافة تعليق
+        function addComment(e, input) {
+            if (e.key === 'Enter' && input.value.trim() !== '') {
+                saveComment(input);
+            }
+        }
+        function postCommentBtn(btn) {
+            let input = btn.previousElementSibling;
+            if (input.value.trim() !== '') {
+                saveComment(input);
+            }
+        }
+        function saveComment(input) {
+            let commentsList = input.closest('.comments-section').querySelector('.comments-list');
+            let newComment = document.createElement('div');
+            newComment.style.marginTop = '4px';
+            newComment.textContent = `• زائر: ${input.value}`;
+            commentsList.appendChild(newComment);
+            input.value = '';
+        }
+    </script>
 </body>
 </html>
