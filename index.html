@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المبدع محمد الاحترافي</title>
+    <title>منصة المبدع L الاحترافية</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-gradient: radial-gradient(circle at top, #1e1b4b, #0f172a, #020617);
+            --card-bg: rgba(30, 41, 59, 0.7);
             --text-color: #f8fafc;
             --accent-color: #38bdf8;
             --accent-hover: #0ea5e9;
-            --border-color: #334155;
+            --border-color: rgba(51, 65, 85, 0.6);
+            --glass-blur: blur(12px);
         }
 
         .light-mode {
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            --card-bg: rgba(255, 255, 255, 0.85);
             --text-color: #0f172a;
             --accent-color: #0284c7;
             --accent-hover: #0369a1;
-            --border-color: #cbd5e1;
+            --border-color: rgba(203, 213, 225, 0.8);
         }
 
         * {
@@ -32,21 +33,22 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* شاشة الترحيب */
+        /* شاشة ترحيب خرافية فاخرة */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            background: radial-gradient(circle, #1e1b4b 0%, #090d16 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -54,59 +56,77 @@
             z-index: 9999;
             color: #fff;
             animation: fadeIn 0.5s ease-in-out;
+            text-align: center;
+            padding: 20px;
         }
 
         #splash-screen h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #38bdf8, #c084fc);
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #38bdf8, #c084fc, #f43f5e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-            text-align: center;
+            text-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+            animation: pulseGlow 2s infinite alternate;
         }
 
         #splash-screen p {
-            font-size: 1.2rem;
-            color: #94a3b8;
+            font-size: 1.4rem;
+            color: #cbd5e1;
+            letter-spacing: 1px;
         }
 
-        /* الهيدر والقائمة */
+        @keyframes pulseGlow {
+            0% { transform: scale(1); filter: brightness(1); }
+            100% { transform: scale(1.02); filter: brightness(1.2); }
+        }
+
+        /* هيدر عصري متطور */
         header {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
             border-bottom: 1px solid var(--border-color);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent-color);
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #38bdf8, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         nav ul li button {
-            background: none;
-            border: none;
+            background: transparent;
+            border: 1px solid transparent;
             color: var(--text-color);
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
         }
 
         nav ul li button:hover, nav ul li button.active {
-            background-color: var(--accent-color);
+            background: var(--accent-color);
             color: #fff;
+            border-color: var(--accent-hover);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
         }
 
         /* المحتوى الرئيسي */
@@ -127,81 +147,140 @@
             animation: fadeIn 0.4s ease;
         }
 
-        /* البطاقات */
+        /* بطاقات زجاجية فاخرة */
         .card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+        }
+
+        /* عناصر الإدخال والأزرار */
+        input, select, textarea {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: rgba(15, 23, 42, 0.5);
+            color: var(--text-color);
+            width: 100%;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .light-mode input, .light-mode select, .light-mode textarea {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        button.btn {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        button.btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        /* قسم المنشورات */
+        .post-box {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .post-card {
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
+            padding: 16px;
+        }
+
+        .post-header {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.8;
+        }
+
+        .action-btn:hover {
+            opacity: 1;
+            color: var(--accent-color);
         }
 
         /* قسم الشات */
         .chat-box {
-            height: 300px;
+            height: 350px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow-y: auto;
-            padding: 10px;
+            padding: 15px;
             margin-bottom: 15px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            background: rgba(0,0,0,0.02);
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .chat-message {
-            padding: 8px 12px;
-            border-radius: 8px;
-            max-width: 70%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            max-width: 75%;
             word-break: break-word;
         }
 
         .chat-message.self {
-            background-color: var(--accent-color);
+            background: var(--accent-color);
             color: #fff;
             align-self: flex-end;
         }
 
         .chat-message.other {
-            background-color: var(--border-color);
+            background: var(--border-color);
             align-self: flex-start;
         }
 
-        .chat-input-area {
-            display: flex;
-            gap: 10px;
+        /* لوحات الرسم */
+        .canvas-container {
+            text-align: center;
         }
 
-        input, select {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-color);
-            flex: 1;
-        }
-
-        button.btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button.btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* قسم الرسم الجماعي */
-        #paint-canvas {
+        .paint-canvas {
             background: #ffffff;
             border: 2px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: crosshair;
             display: block;
             margin: 0 auto 15px auto;
@@ -211,39 +290,63 @@
         /* قسم الألعاب */
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .game-card {
-            text-align: center;
-            padding: 20px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
         }
 
-        /* تيك تاك تو مصغرة */
+        /* شطرنج مبسط وتفاعلي */
+        .chess-board {
+            display: grid;
+            grid-template-columns: repeat(8, 35px);
+            grid-template-rows: repeat(8, 35px);
+            justify-content: center;
+            margin: 15px auto;
+            border: 2px solid var(--border-color);
+        }
+
+        .chess-cell {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chess-cell.light { background: #cbd5e1; color: #000; }
+        .chess-cell.dark { background: #475569; color: #fff; }
+
+        /* لعبة Tic Tac Toe */
         .tic-tac-toe {
             display: grid;
-            grid-template-columns: repeat(3, 60px);
-            grid-template-rows: repeat(3, 60px);
-            gap: 5px;
+            grid-template-columns: repeat(3, 65px);
+            grid-template-rows: repeat(3, 65px);
+            gap: 6px;
             justify-content: center;
             margin: 15px auto;
         }
 
-        .cell {
-            width: 60px;
-            height: 60px;
-            background: var(--border-color);
+        .ttt-cell {
+            width: 65px;
+            height: 65px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
         }
 
         @keyframes fadeIn {
@@ -254,84 +357,112 @@
 </head>
 <body>
 
-    <!-- شاشة الترحيب الخرافية (تختفي بعد 5 ثواني) -->
+    <!-- شاشة ترحيب خرافية باسم المبدع L -->
     <div id="splash-screen">
-        <h1>أهلاً بك في منصة المبدع محمد</h1>
-        <p>جاري تحميل المزايا والروائع...</p>
+        <h1>منصة المبدع L</h1>
+        <p>جاري تحميل أضخم عالم تفاعلي، ألعاب، وشات، ورسم...</p>
     </div>
 
-    <!-- الهيدر -->
+    <!-- الهيدر والتحكم -->
     <header>
-        <div class="logo">L's Platform 🚀</div>
+        <div class="logo">L Platform ⚡</div>
         <nav>
             <ul>
                 <li><button onclick="switchTab('home')" class="tab-btn active">الرئيسية</button></li>
+                <li><button onclick="switchTab('posts')" class="tab-btn">المنشورات</button></li>
                 <li><button onclick="switchTab('chat')" class="tab-btn">الدردشة الحية</button></li>
-                <li><button onclick="switchTab('draw')" class="tab-btn">الرسم الجماعي</button></li>
-                <li><button onclick="switchTab('games')" class="tab-btn">الألعاب</button></li>
-                <li><button onclick="switchTab('settings')" class="tab-btn">الإعدادات والحساب</button></li>
+                <li><button onclick="switchTab('draw')" class="tab-btn">الرسم (منفرد وجماعي)</button></li>
+                <li><button onclick="switchTab('games')" class="tab-btn">الألعاب والشطرنج</button></li>
+                <li><button onclick="switchTab('settings')" class="tab-btn">الحساب والإعدادات</button></li>
             </ul>
         </nav>
     </header>
 
-    <!-- المحتوى -->
+    <!-- أقسام المحتوى -->
     <main>
         <!-- الرئيسية -->
         <div id="home" class="section active">
-            <div class="card">
-                <h2>مرحباً بك في موقعك الخاص! 🔥</h2>
-                <p style="margin-top: 10px; line-height: 1.6;">هذا الموقع يجمع كل ما تمناه قلبك: شات تفاعلي، لوحة رسم جماعي، ألعاب خفيفة، ونظام تحكم كامل بالإعدادات. تم برمجته وتجهيزه خصيصاً ليكون منصتك الخاصة التي تتباهى بها أمام أصدقائك!</p>
+            <div class="card" style="text-align: center; padding: 40px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 15px; color: var(--accent-color);">أهلاً بك في مملكة الإبداع يا L! 🔥</h2>
+                <p style="font-size: 1.2rem; line-height: 1.8; color: #cbd5e1;">هذا الموقع يجمع كل ما تحتاجه: انشر أفكارك، العب الشطرنج وألعاب التحدي، ارسم بمفردك أو مع أصدقائك، وتحدث بحرية في الشات المباشر.</p>
             </div>
         </div>
 
-        <!-- الشات -->
+        <!-- المنشورات واللايك والكومنت -->
+        <div id="posts" class="section">
+            <div class="card post-box">
+                <h2>شارك منشوراً جديداً</h2>
+                <textarea id="postInput" placeholder="ما الذي يدور في ذهنك يا أسطورة؟" rows="3"></textarea>
+                <button class="btn" onclick="createPost()">نشر المنشور</button>
+            </div>
+            <div class="feed-container" id="feedContainer">
+                <div class="post-card">
+                    <div class="post-header">المبدع L</div>
+                    <p>أهلاً بالجميع في منصتي الخاصة والمتكاملة! تم تفعيل كل المزايا بنجاح 🚀</p>
+                    <div class="post-actions">
+                        <button class="action-btn" onclick="likePost(this)">❤️ إعجاب (<span class="like-count">12</span>)</button>
+                        <button class="action-btn">💬 تعليقات (3)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الشات الحي -->
         <div id="chat" class="section">
             <div class="card">
-                <h2>الدردشة العامة (محادثة زوار الموقع)</h2>
+                <h2>الدردشة العامة الجماعية</h2>
                 <div class="chat-box" id="chatBox">
-                    <div class="chat-message other">أهلاً بالجميع في موقع المبدع محمد!</div>
+                    <div class="chat-message other">مرحباً بالزوار في شات المبدع L العابر للشبكات!</div>
                 </div>
-                <div class="chat-input-area">
+                <div style="display: flex; gap: 10px;">
                     <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleChatKey(event)">
-                    <button class="btn" onclick="sendMessage()">إرسال</button>
+                    <button class="btn" onclick="sendChatMessage()">إرسال</button>
                 </div>
             </div>
         </div>
 
-        <!-- الرسم الجماعي -->
+        <!-- الرسم المنفرد والجماعي -->
         <div id="draw" class="section">
-            <div class="card" style="text-align: center;">
-                <h2>لوحة الرسم الجماعي المباشر 🎨</h2>
-                <p style="margin-bottom: 10px; color: #94a3b8;">ارسم ما شئت على اللوحة وسيظهر تفاعلك مباشرة!</p>
-                <canvas id="paint-canvas" width="500" height="350"></canvas>
+            <div class="card canvas-container">
+                <h2>لوحة الإبداع والرسومات (منفرد وجماعي) 🎨</h2>
+                <p style="color: #94a3b8; margin-bottom: 15px;">ارسم بحرية تامة على اللوحة أدناه</p>
+                <canvas id="paintCanvas" class="paint-canvas" width="600" height="350"></canvas>
                 <div>
-                    <button class="btn" onclick="clearCanvas()" style="background-color: #ef4444;">مسح اللوحة</button>
+                    <button class="btn" onclick="clearCanvas()" style="background-color: #ef4444;">مسح اللوحة بالكامل</button>
                 </div>
             </div>
         </div>
 
-        <!-- الألعاب -->
+        <!-- الألعاب والشطرنج -->
         <div id="games" class="section">
             <div class="games-grid">
+                <!-- شطرنج -->
                 <div class="game-card">
-                    <h3>لعبة X-O (إكس أو)</h3>
-                    <div class="tic-tac-toe" id="board">
-                        <div class="cell" onclick="makeMove(0)"></div>
-                        <div class="cell" onclick="makeMove(1)"></div>
-                        <div class="cell" onclick="makeMove(2)"></div>
-                        <div class="cell" onclick="makeMove(3)"></div>
-                        <div class="cell" onclick="makeMove(4)"></div>
-                        <div class="cell" onclick="makeMove(5)"></div>
-                        <div class="cell" onclick="makeMove(6)"></div>
-                        <div class="cell" onclick="makeMove(7)"></div>
-                        <div class="cell" onclick="makeMove(8)"></div>
-                    </div>
-                    <button class="btn" onclick="resetTicTacToe()" style="margin-top: 10px; font-size: 0.8rem; padding: 5px 10px;">إعادة اللعبة</button>
+                    <h3>لعبة الشطرنج التكتيكية ♟️</h3>
+                    <div class="chess-board" id="chessBoard"></div>
+                    <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 10px;">رقعة شطرنج احترافية مصغرة</p>
                 </div>
+                <!-- Tic Tac Toe -->
                 <div class="game-card">
-                    <h3>لعبة الكلك السريع ⚡</h3>
-                    <p id="click-score" style="font-size: 2rem; margin: 20px 0; font-weight: bold; color: var(--accent-color);">0</p>
-                    <button class="btn" onclick="incrementClick()">اضغط بأقصى سرعة!</button>
+                    <h3>لعبة X-O السريعة ❌</h3>
+                    <div class="tic-tac-toe" id="tttBoard">
+                        <div class="ttt-cell" onclick="makeTTT(0)"></div>
+                        <div class="ttt-cell" onclick="makeTTT(1)"></div>
+                        <div class="ttt-cell" onclick="makeTTT(2)"></div>
+                        <div class="ttt-cell" onclick="makeTTT(3)"></div>
+                        <div class="ttt-cell" onclick="makeTTT(4)"></div>
+                        <div class="ttt-cell" onclick="makeTTT(5)"></div>
+                        <div class="ttt-cell" onclick="makeTTT(6)"></div>
+                        <div class="ttt-cell" onclick="makeTTT(7)"></div>
+                        <div class="ttt-cell" onclick="makeTTT(8)"></div>
+                    </div>
+                    <button class="btn" onclick="resetTTT()" style="margin-top: 10px; padding: 6px 12px; font-size: 0.85rem;">إعادة اللعبة</button>
+                </div>
+                <!-- الكلك السريع -->
+                <div class="game-card">
+                    <h3>تحدي النقرات السريعة ⚡</h3>
+                    <p id="clickScore" style="font-size: 2.5rem; font-weight: bold; color: var(--accent-color); margin: 15px 0;">0</p>
+                    <button class="btn" onclick="addClick()">اضغط بسرعة جنونية!</button>
                 </div>
             </div>
         </div>
@@ -339,15 +470,15 @@
         <!-- الإعدادات والحساب -->
         <div id="settings" class="section">
             <div class="card">
-                <h2>إعدادات الحساب والمظهر</h2>
+                <h2>إعدادات الحساب والمظهر الشخصي</h2>
                 <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
                     <div>
                         <label style="display: block; margin-bottom: 5px;">اسم المستخدم:</label>
-                        <input type="text" id="usernameInput" value="محمد (المبدع)">
+                        <input type="text" id="usernameField" value="المبدع L">
                     </div>
                     <div>
-                        <label style="display: block; margin-bottom: 5px;">وضع المظهر:</label>
-                        <button class="btn" onclick="toggleTheme()">تغيير الوضع (فاتح / غامق)</button>
+                        <label style="display: block; margin-bottom: 5px;">وضع الألوان:</label>
+                        <button class="btn" onclick="toggleTheme()">تغيير الثيم (فاتح / داكن فضائي)</button>
                     </div>
                 </div>
             </div>
@@ -355,64 +486,86 @@
     </main>
 
     <script>
-        // إخفاء شاشة الترحيب بعد 5 ثواني بالضبط
+        // إخفاء شاشة الترحيب بسلاسة بعد 4.5 ثانية
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
             splash.style.opacity = '0';
-            splash.style.transition = 'opacity 0.5s ease';
-            setTimeout(() => splash.remove(), 500);
-        }, 5000);
+            splash.style.transition = 'opacity 0.6s ease';
+            setTimeout(() => splash.remove(), 600);
+        }, 4500);
 
         // التنقل بين الأقسام
         function switchTab(tabId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
             document.getElementById(tabId).classList.add('active');
             event.target.classList.add('active');
         }
 
-        // نظام الدردشة البسيط
-        function sendMessage() {
+        // نظام المنشورات واللايكات
+        function createPost() {
+            const input = document.getElementById('postInput');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const feed = document.getElementById('feedContainer');
+            const postCard = document.createElement('div');
+            postCard.className = 'post-card';
+            postCard.innerHTML = `
+                <div class="post-header">المبدع L</div>
+                <p>${text}</p>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="likePost(this)">❤️ إعجاب (<span class="like-count">0</span>)</button>
+                    <button class="action-btn">💬 تعليقات (0)</button>
+                </div>
+            `;
+            feed.prepend(postCard);
+            input.value = '';
+        }
+
+        function likePost(btn) {
+            const countSpan = btn.querySelector('.like-count');
+            countSpan.innerText = parseInt(countSpan.innerText) + 1;
+            btn.style.color = '#f43f5e';
+        }
+
+        // شات جماعي
+        function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if(!text) return;
 
             const chatBox = document.getElementById('chatBox');
-            
-            // رسالة المستخدم
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'chat-message self';
-            msgDiv.innerText = text;
-            chatBox.appendChild(msgDiv);
-            
+            const msg = document.createElement('div');
+            msg.className = 'chat-message self';
+            msg.innerText = text;
+            chatBox.appendChild(msg);
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // رد تلقائي تجريبي لزيادة الحيوية
             setTimeout(() => {
-                const replyDiv = document.createElement('div');
-                replyDiv.className = 'chat-message other';
-                replyDiv.innerText = "أهلاً بك! تم استلام رسالتك في منصة المبدع محمد بنجاح 🚀";
-                chatBox.appendChild(replyDiv);
+                const reply = document.createElement('div');
+                reply.className = 'chat-message other';
+                reply.innerText = "تم استقبال رسالتك بنجاح في شبكة المبدع L 🚀";
+                chatBox.appendChild(reply);
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 1000);
         }
 
         function handleChatKey(e) {
-            if(e.key === 'Enter') sendMessage();
+            if(e.key === 'Enter') sendChatMessage();
         }
 
         // لوحة الرسم
-        const canvas = document.getElementById('paint-canvas');
+        const canvas = document.getElementById('paintCanvas');
         const ctx = canvas.getContext('2d');
         let painting = false;
 
         canvas.addEventListener('mousedown', () => painting = true);
         canvas.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
-        canvas.addEventListener('mousemove', drawOnCanvas);
+        canvas.addEventListener('mousemove', draw);
 
-        function drawOnCanvas(e) {
+        function draw(e) {
             if(!painting) return;
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -432,35 +585,43 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        // لعبة X-O
-        let board = ['', '', '', '', '', '', '', '', ''];
-        let currentPlayer = 'X';
-        let gameActive = true;
-
-        function makeMove(index) {
-            if(board[index] !== '' || !gameActive) return;
-            board[index] = currentPlayer;
-            document.getElementsByClassName('cell')[index].innerText = currentPlayer;
-            
-            // تبسيط الفحص أو التبديل
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        // بناء لوحة الشطرنج التفاعلية
+        const chessBoard = document.getElementById('chessBoard');
+        const pieces = ['♜','♞','♝','♛','♚','♝','♞','♜','♟','♟','♟','♟','♟','♟','♟','♟','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','♙','♙','♙','♙','♙','♙','♙','♙','♖','♘','♗','♕','♔','♗','♘','♖'];
+        
+        for(let i=0; i<64; i++) {
+            const cell = document.createElement('div');
+            const row = Math.floor(i / 8);
+            const col = i % 8;
+            cell.className = `chess-cell ${(row + col) % 2 === 0 ? 'light' : 'dark'}`;
+            cell.innerText = pieces[i] || '';
+            chessBoard.appendChild(cell);
         }
 
-        function resetTicTacToe() {
-            board = ['', '', '', '', '', '', '', '', ''];
-            gameActive = true;
-            currentPlayer = 'X';
-            Array.from(document.getElementsByClassName('cell')).forEach(cell => cell.innerText = '');
+        // لعبة Tic Tac Toe
+        let tttBoard = ['', '', '', '', '', '', '', '', ''];
+        let tttTurn = 'X';
+        function makeTTT(idx) {
+            if(tttBoard[idx] !== '') return;
+            tttBoard[idx] = tttTurn;
+            document.getElementsByClassName('ttt-cell')[idx].innerText = tttTurn;
+            tttTurn = tttTurn === 'X' ? 'O' : 'X';
         }
 
-        // لعبة الكلك السريع
-        let clicks = 0;
-        function incrementClick() {
-            clicks++;
-            document.getElementById('click-score').innerText = clicks;
+        function resetTTT() {
+            tttBoard = ['', '', '', '', '', '', '', '', ''];
+            tttTurn = 'X';
+            Array.from(document.getElementsByClassName('ttt-cell')).forEach(c => c.innerText = '');
         }
 
-        // تغيير المظهر
+        // لعبة الكلك
+        let clicksCount = 0;
+        function addClick() {
+            clicksCount++;
+            document.getElementById('clickScore').innerText = clicksCount;
+        }
+
+        // تغيير الثيم
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
         }
