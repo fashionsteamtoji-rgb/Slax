@@ -3,144 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة SLAX الأسطورية</title>
-    <!-- مكتبة الشطرنج -->
+    <title>منصة Slax الرسمية - النسخة الفخمة الشاملة</title>
+    <!-- مكتبة الشطرنج الأصلية -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: #05070b; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        body { 
+            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+            color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; 
+            overflow-x: hidden;
+        }
 
-        /* نافذة ترحيبية أسطورية ومذهلة */
+        /* نافذة ترحيب زجاجية فخمة جداً تختفي خلال 5 ثوانٍ بالضبط */
         #welcome-popup {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
-            display: flex; justify-content: center; align-items: center; z-index: 3000; animation: fadeIn 0.4s ease;
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.5); color: white;
+            padding: 14px 28px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px rgba(56,189,248,0.3);
+            z-index: 3000; text-align: center; animation: welcomeAnim 5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
         }
-        .welcome-card {
-            background: linear-gradient(135deg, #0f172a, #1e1b4b); border: 2px solid #38bdf8;
-            padding: 30px; border-radius: 24px; text-align: center; max-width: 340px; width: 90%;
-            box-shadow: 0 0 50px rgba(56, 189, 248, 0.4); animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        @keyframes welcomeAnim {
+            0% { opacity: 0; transform: translate(-50%, -40px) scale(0.85); }
+            12% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+            80% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -20px) scale(0.95); visibility: hidden; pointer-events: none; }
         }
-        .welcome-card h1 { font-size: 2.2rem; background: linear-gradient(45deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
-        .welcome-card p { font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; }
-        @keyframes popUp { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        #welcome-popup h2 { font-size: 1.2rem; background: linear-gradient(45deg, #38bdf8, #e879f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        #welcome-popup p { font-size: 0.82rem; color: #cbd5e1; margin-top: 3px; }
 
-        /* بانر الشعار الفخم */
+        /* بانر العنوان الشامل */
         .hero-banner {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 27, 75, 0.9)), 
-                        radial-gradient(circle at center, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 24px 15px; text-align: center; position: relative;
+            background: radial-gradient(circle at center, rgba(56, 189, 248, 0.12) 0%, transparent 75%);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 24px 15px; text-align: center;
         }
         .hero-title {
-            font-size: 3rem; font-weight: 900; letter-spacing: 3px;
-            background: linear-gradient(45deg, #38bdf8, #818cf8, #e879f9);
+            font-size: 3rem; font-weight: 900; letter-spacing: 4px;
+            background: linear-gradient(45deg, #38bdf8, #818cf8, #f472b6);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 35px rgba(56, 189, 248, 0.4); margin-bottom: 4px;
+            text-shadow: 0 0 50px rgba(56, 189, 248, 0.35);
         }
         .hero-subtitle {
-            font-size: 0.95rem; color: #cbd5e1; font-weight: 600;
-            display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05);
-            padding: 5px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem; color: #94a3b8; font-weight: 600; margin-top: 6px;
+            display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.04);
+            padding: 5px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08);
         }
         .hero-subtitle span { color: #38bdf8; font-weight: bold; }
 
-        /* القائمة العلوية */
+        /* القائمة العلوية الأنيقة والزجاجية */
         header {
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px);
-            padding: 10px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.3); position: sticky; top: 0; z-index: 1000;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px);
+            padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.25); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
-        .logo { font-size: 1.2rem; font-weight: 900; color: #38bdf8; padding-right: 5px; }
-        nav { display: flex; gap: 5px; overflow-x: auto; padding: 2px; }
+        .logo { font-size: 1.15rem; font-weight: 900; background: linear-gradient(45deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
         nav::-webkit-scrollbar { display: none; }
         nav button {
             background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255,255,255,0.08);
             color: #94a3b8; font-size: 0.76rem; cursor: pointer; font-weight: 600;
-            padding: 7px 11px; border-radius: 10px; transition: all 0.3s ease; white-space: nowrap;
+            padding: 7px 12px; border-radius: 10px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap;
         }
-        nav button:hover { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        nav button:hover { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-color: rgba(56,189,248,0.4); transform: translateY(-1px); }
         nav button.active {
             background: linear-gradient(135deg, #2563eb, #7c3aed); color: white;
-            border-color: #38bdf8; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.5);
+            border-color: #38bdf8; box-shadow: 0 4px 18px rgba(37, 99, 235, 0.5);
         }
 
-        .section { display: none; padding: 15px; max-width: 800px; margin: 0 auto; width: 100%; flex: 1; }
-        .section.active { display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.25s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        .section { display: none; padding: 16px; max-width: 780px; margin: 0 auto; width: 100%; flex: 1; }
+        .section.active { display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* الأقسام والبطاقات */
-        .card-box {
-            background: linear-gradient(135deg, #0f172a, #1e293b); border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 16px; padding: 15px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 15px;
-        }
+        /* بطاقات التحكم الفخمة */
+        .card { background-color: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 16px; width: 100%; margin-bottom: 14px; backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .card h3 { color: #38bdf8; margin-bottom: 10px; font-size: 1rem; font-weight: 700; }
 
-        /* الرسم والزووم والرسم الجماعي */
+        /* لوحة الرسم والزووم */
         .canvas-wrapper {
-            width: 100%; height: 320px; overflow: auto; border: 2px solid #38bdf8;
-            border-radius: 12px; background-color: #ffffff; display: flex; justify-content: center; align-items: center; position: relative;
+            width: 100%; height: 320px; overflow: auto; border: 2px solid rgba(56,189,248,0.4);
+            border-radius: 14px; background-color: #ffffff; display: flex; justify-content: center; align-items: center;
+            position: relative; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
         }
         canvas { cursor: crosshair; touch-action: none; transform-origin: center center; }
-        .tools-bar { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
-        .tools-bar input[type="color"] { border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: none; }
+        .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; margin-top: 12px; }
+        .tools-bar input[type="color"] { border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: none; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .tools-bar input[type="range"] { accent-color: #38bdf8; width: 70px; }
         
-        .btn { background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 7px 14px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.82rem; transition: 0.2s; }
-        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
-        .btn-secondary { background: #334155; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.08); }
+        .btn { background: linear-gradient(135deg, #2ea043, #238636); color: white; border: none; padding: 7px 14px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.2s; box-shadow: 0 4px 12px rgba(46,160,67,0.3); }
+        .btn:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(46,160,67,0.4); }
+        .btn-danger { background: linear-gradient(135deg, #f87171, #da3633); box-shadow: 0 4px 12px rgba(218,54,51,0.3); }
+        .btn-secondary { background: rgba(30, 41, 59, 0.9); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1); box-shadow: none; }
 
         /* الدردشة */
-        .chat-box { background-color: #0f172a; border: 1px solid #1e293b; border-radius: 16px; width: 100%; height: 380px; display: flex; flex-direction: column; overflow: hidden; }
-        .chat-messages { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .chat-msg { background: #1e293b; padding: 9px 12px; border-radius: 12px; max-width: 85%; font-size: 0.88rem; word-break: break-all; border: 1px solid rgba(255,255,255,0.04); }
-        .chat-msg span { display: block; font-size: 0.72rem; color: #38bdf8; margin-bottom: 2px; font-weight: bold; }
-        .chat-input-area { display: flex; padding: 10px; background: #090d16; border-top: 1px solid #1e293b; gap: 8px; }
-        .chat-input-area input { flex: 1; background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 9px 12px; color: white; outline: none; font-size: 0.9rem; }
+        .chat-box { background-color: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; width: 100%; height: 350px; display: flex; flex-direction: column; overflow: hidden; }
+        .chat-messages { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .chat-msg { background: rgba(30, 41, 59, 0.8); padding: 9px 13px; border-radius: 12px; max-width: 85%; font-size: 0.85rem; word-break: break-all; border: 1px solid rgba(255,255,255,0.04); }
+        .chat-msg span { display: block; font-size: 0.72rem; color: #38bdf8; margin-bottom: 3px; font-weight: bold; }
+        .chat-input-area { display: flex; padding: 12px; background: rgba(15, 23, 42, 0.98); border-top: 1px solid rgba(255,255,255,0.06); gap: 8px; }
+        .chat-input-area input { flex: 1; background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 9px 12px; color: white; outline: none; font-size: 0.85rem; }
 
-        /* الألعاب */
-        .games-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
-        .xo-board { display: grid; grid-template-columns: repeat(3, 70px); gap: 6px; justify-content: center; margin: 12px 0; }
-        .xo-cell { width: 70px; height: 70px; background: #1e293b; border: 1px solid #334155; font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #38bdf8; border-radius: 10px; transition: 0.2s; }
-        .xo-cell:hover { background: #334155; border-color: #38bdf8; }
+        /* الألعاب الشبكية */
+        .games-grid { display: grid; grid-template-columns: 1fr; gap: 14px; width: 100%; }
+        .xo-board { display: grid; grid-template-columns: repeat(3, 65px); gap: 6px; justify-content: center; margin: 12px 0; }
+        .xo-cell { width: 65px; height: 65px; background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1); font-size: 1.8rem; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #38bdf8; border-radius: 10px; transition: 0.2s; }
+        .xo-cell:hover { background: rgba(56,189,248,0.15); }
 
-        .chess-board { display: grid; grid-template-columns: repeat(8, 38px); grid-template-rows: repeat(8, 38px); gap: 1px; justify-content: center; margin: 10px 0; background: #334155; padding: 2px; border-radius: 10px; }
-        .chess-square { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; cursor: pointer; }
+        .chess-board { display: grid; grid-template-columns: repeat(8, 36px); grid-template-rows: repeat(8, 36px); gap: 1px; justify-content: center; margin: 12px 0; background: #30363d; padding: 3px; border-radius: 10px; }
+        .chess-square { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; }
         .light { background: #eeeed2; color: #000; }
         .dark { background: #769656; color: #fff; }
         .chess-square.selected { background: #baca44 !important; }
 
         /* لعبة التخمين */
-        .guess-box { display: flex; gap: 8px; width: 100%; margin-top: 10px; }
-        .guess-box input { flex: 1; background: #090d16; border: 1px solid #334155; border-radius: 10px; padding: 8px 12px; color: white; font-size: 0.9rem; outline: none; }
+        .guessing-box { text-align: center; display: flex; flex-direction: column; gap: 10px; }
+        .guessing-box input { background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1); padding: 9px; border-radius: 10px; color: white; text-align: center; font-size: 0.9rem; outline: none; }
 
-        /* المجتمع واللايكات والتعليقات */
-        .feed-card { background: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 15px; width: 100%; margin-bottom: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
-        .feed-card h3 { color: #38bdf8; margin-bottom: 8px; font-size: 0.95rem; }
-        .interaction-bar { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; border-top: 1px solid #1e293b; padding-top: 8px; }
+        /* المجتمع والتعليقات واللايكات */
+        .feed-card { background-color: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 16px; width: 100%; margin-bottom: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .feed-card h3 { color: #38bdf8; margin-bottom: 8px; font-size: 0.92rem; }
+        .interaction-bar { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
         .likes-info { font-size: 0.78rem; color: #94a3b8; font-weight: 500; }
-        .comments-section { margin-top: 6px; }
-        .comments-list { font-size: 0.8rem; color: #e2e8f0; margin-bottom: 8px; display: flex; flex-direction: column; gap: 5px; max-height: 120px; overflow-y: auto; }
-        .comment-item { background: #090d16; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); }
+        .comments-section { margin-top: 8px; }
+        .comments-list { font-size: 0.8rem; color: #e2e8f0; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; max-height: 110px; overflow-y: auto; }
+        .comment-item { background: rgba(30, 41, 59, 0.6); padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04); }
         .comment-item b { color: #38bdf8; margin-left: 6px; }
-        .comment-box { display: flex; gap: 6px; }
-        .comment-box input { flex: 1; background: #090d16; border: 1px solid #334155; border-radius: 8px; padding: 7px 10px; color: white; font-size: 0.8rem; outline: none; }
-
-        /* الإعدادات */
-        .settings-card { background: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; width: 100%; display: flex; flex-direction: column; gap: 12px; }
-        .settings-card label { font-size: 0.88rem; color: #94a3b8; font-weight: 600; }
-        .settings-card input { background: #090d16; border: 1px solid #334155; border-radius: 10px; padding: 10px; color: white; width: 100%; outline: none; font-size: 0.9rem; }
+        .comment-box { display: flex; gap: 8px; }
+        .comment-box input { flex: 1; background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 7px 10px; color: white; font-size: 0.78rem; outline: none; }
     </style>
 </head>
 <body>
 
-    <!-- نافذة الترحيب الأسطورية -->
     <div id="welcome-popup">
-        <div class="welcome-card">
-            <h1>SLAX 🚀</h1>
-            <p>أهلاً بك في المنصة الأسطورية للإبداع والألعاب الجماعية!<br>بواسطة: <b>المبدع محمد</b></p>
-            <button class="btn" onclick="closeWelcome()" style="width: 100%; padding: 10px;">دخول المنصة ✨</button>
-        </div>
+        <h2>✨ أهلاً بك في منصة Slax الفخمة</h2>
+        <p>كل المزايا، الرسم الجماعي، والألعاب تعمل الآن بسلاسة تامة!</p>
     </div>
 
     <div class="hero-banner">
@@ -149,57 +145,59 @@
     </div>
 
     <header>
-        <div class="logo">⚡ Hub</div>
+        <div class="logo">⚡ Slax Hub</div>
         <nav>
-            <button class="active" onclick="switchTab('draw', this)">🎨 الرسم</button>
+            <button class="active" onclick="switchTab('draw', this)">🎨 الرسم الحُر</button>
             <button onclick="switchTab('collab', this)">👥 رسم جماعي</button>
             <button onclick="switchTab('chat', this)">💬 الدردشة</button>
             <button onclick="switchTab('games', this)">🎮 الألعاب</button>
             <button onclick="switchTab('feed', this)">🌍 المجتمع</button>
-            <button onclick="switchTab('settings', this)">⚙️ حسابي</button>
+            <button onclick="switchTab('settings', this)">⚙️ الحساب</button>
         </nav>
     </header>
 
-    <!-- 1. الرسم والزووم -->
+    <!-- 1. الرسم الحُر -->
     <div id="draw" class="section active">
-        <div class="card-box">
-            <h2 style="color: #38bdf8; font-size: 1.05rem;">لوحة الرسم الحرة والزووم</h2>
+        <div class="card">
+            <h3>لوحة الرسم الفردي المتقدمة</h3>
             <div class="canvas-wrapper">
-                <canvas id="paintCanvas" width="400" height="400"></canvas>
+                <canvas id="paintCanvas" width="380" height="320"></canvas>
             </div>
             <div class="tools-bar">
                 <input type="color" id="colorPicker" value="#38bdf8">
-                <input type="range" id="brushSize" min="1" max="30" value="4">
+                <input type="range" id="brushSize" min="1" max="25" value="4">
                 <button class="btn btn-secondary" onclick="zoomCanvas(0.2)">🔍+</button>
                 <button class="btn btn-secondary" onclick="zoomCanvas(-0.2)">🔍-</button>
                 <button class="btn btn-secondary" id="undoBtn">↩ تراجع</button>
-                <button class="btn btn-secondary" id="redoBtn">↪ إعادة</button>
                 <button class="btn btn-danger" id="clearBtn">مسح</button>
                 <button class="btn" id="publishBtn">🚀 نشر للمجتمع</button>
             </div>
         </div>
     </div>
 
-    <!-- 2. الرسم الجماعي المتزامن مع الزوار -->
+    <!-- 2. الرسم الجماعي الحي -->
     <div id="collab" class="section">
-        <div class="card-box">
-            <h2 style="color: #38bdf8; font-size: 1.05rem;">الرسم الجماعي (أنت وزائر ترسمان معاً)</h2>
-            <p style="font-size: 0.78rem; color: #94a3b8;">كل خط ترسمه يظهر فوراً لكل الزوار المتصلين باللوحة الآن!</p>
+        <div class="card">
+            <h3>مكتبة الرسم الجماعي الحي (أنت والزوار ترسمون معاً)</h3>
+            <p style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 10px;">كل رسمة ترسمها تظهر وتتحدث مباشرة على أجهزة الزوار الآخرين بالخلفية!</p>
             <div class="canvas-wrapper">
-                <canvas id="collabCanvas" width="400" height="400"></canvas>
+                <canvas id="collabCanvas" width="380" height="320"></canvas>
             </div>
             <div class="tools-bar">
-                <input type="color" id="collabColor" value="#10b981">
-                <button class="btn btn-danger" onclick="clearCollabBoard()">مسح اللوحة المشتركة</button>
+                <input type="color" id="collabColor" value="#c084fc">
+                <input type="range" id="collabSize" min="1" max="25" value="4">
+                <button class="btn btn-danger" onclick="clearCollabBoard()">تصفير اللوحة الجماعية</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. الدردشة الحية -->
+    <!-- 3. الدردشة -->
     <div id="chat" class="section">
-        <div class="card-box" style="padding: 0; overflow: hidden; border: none;">
-            <h2 style="color: #38bdf8; font-size: 1.05rem; padding: 15px 15px 0 15px;">الدردشة العامة الحية</h2>
-            <div class="chat-box" style="border: none; border-radius: 0;">
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <div style="padding: 12px 16px; background: rgba(30,41,59,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                <h3 style="margin:0;">الدردشة العامة الجماعية الحية</h3>
+            </div>
+            <div class="chat-box" style="border:none; border-radius:0;">
                 <div class="chat-messages" id="chatMessages"></div>
                 <div class="chat-input-area">
                     <input type="text" id="chatInput" placeholder="اكتب رسالتك..." onkeypress="checkChatEnter(event)">
@@ -209,59 +207,57 @@
         </div>
     </div>
 
-    <!-- 4. الألعاب (إكس أو، شطرنج، التخمين) -->
+    <!-- 4. الألعاب (شطرنج، إكس أو، وتخمين) -->
     <div id="games" class="section">
         <div class="games-grid">
-            <div class="card-box">
-                <h3>❌ لعبة إكس أو الجماعية ⭕</h3>
+            <div class="card">
+                <h3>لعبة إكس أو (X-O) الجماعية</h3>
                 <div class="xo-board" id="xoBoard"></div>
-                <p id="xoStatus" style="font-size: 0.85rem; color: #38bdf8; font-weight: bold;"></p>
-                <button class="btn btn-secondary" style="margin-top: 6px;" onclick="resetMultiplayerXO()">تصفير الطاولة</button>
+                <p id="xoStatus" style="font-size: 0.82rem; color: #38bdf8; font-weight: bold; text-align: center;"></p>
+                <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;" onclick="resetMultiplayerXO()">تصفير الطاولة</button>
             </div>
 
-            <div class="card-box">
-                <h3>♟️ طاولة الشطرنج الحية ♞</h3>
+            <div class="card" style="text-align: center;">
+                <h3>طاولة الشطرنج الجماعية الحية</h3>
                 <div id="chessContainer" style="display: flex; justify-content: center;"></div>
-                <p id="chessStatus" style="font-size: 0.85rem; color: #38bdf8; margin-top: 5px; font-weight: bold;"></p>
-                <button class="btn btn-secondary" style="margin-top: 6px;" onclick="resetChessGame()">إعادة ضبط الشطرنج</button>
+                <p id="chessStatus" style="font-size: 0.82rem; color: #38bdf8; margin-top: 8px; font-weight: bold;"></p>
+                <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;" onclick="resetChessGame()">إعادة ضبط الشطرنج</button>
             </div>
 
-            <div class="card-box">
-                <h3>🧠 لعبة التخمين الرقمي الحية</h3>
-                <p style="font-size: 0.78rem; color: #94a3b8; text-align: center;">خمن الرقم السري بين 1 و 10 الذي وضعه أحد الزوار!</p>
-                <p id="guessStatus" style="font-size: 0.85rem; color: #38bdf8; font-weight: bold; margin-top: 5px;"></p>
-                <div class="guess-box">
-                    <input type="number" id="guessInput" min="1" max="10" placeholder="أدخل رقمك...">
-                    <button class="btn" onclick="submitGuess()">تخمين</button>
+            <div class="card">
+                <h3>لعبة التخمين الذكية 🎯</h3>
+                <div class="guessing-box">
+                    <p id="guessPrompt" style="font-size: 0.88rem; color: #cbd5e1;"></p>
+                    <input type="text" id="guessInput" placeholder="اكتب إجابتك هنا..." onkeypress="checkGuessEnter(event)">
+                    <button class="btn" onclick="submitGuess()">إرسال التخمين</button>
+                    <p id="guessResult" style="font-size: 0.82rem; font-weight: bold; margin-top: 6px;"></p>
                 </div>
-                <button class="btn btn-secondary" style="margin-top: 8px; font-size: 0.75rem;" onclick="resetGuessGame()">تغيير الرقم السري</button>
             </div>
         </div>
     </div>
 
-    <!-- 5. المجتمع (لايكات وتعليقات دقيقة بأسماء الأشخاص) -->
+    <!-- 5. المجتمع -->
     <div id="feed" class="section">
-        <h2 style="margin-bottom: 12px; color: #38bdf8; font-size: 1.05rem;">منشورات وإبداعات المجتمع</h2>
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="margin:0;">منشورات ورسومات المجتمع</h3>
+            <button class="btn btn-danger" style="padding: 4px 10px; font-size: 0.72rem;" onclick="clearAllPosts()">مسح كل المنشورات القديمة</button>
+        </div>
         <div id="postsContainer" style="width: 100%;"></div>
     </div>
 
-    <!-- 6. إعدادات الحساب -->
+    <!-- 6. الحساب -->
     <div id="settings" class="section">
-        <div class="settings-card">
-            <h2 style="color: #38bdf8; font-size: 1.1rem;">إعدادات الحساب الشخصي</h2>
-            <div>
-                <label>اسمك (يظهر في اللايكات، التعليقات، والدردشة):</label>
-                <input type="text" id="usernameInput" placeholder="ادخل اسمك هنا...">
+        <div class="card">
+            <h3>إعدادات الحساب الشخصي</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+                <label style="font-size: 0.84rem; color: #94a3b8;">اسمك الشخصي (يظهر في اللايكات، التعليقات، والدردشة):</label>
+                <input type="text" id="usernameInput" style="background: rgba(30,41,59,0.9); border: 1px solid rgba(255,255,255,0.1); padding: 9px 12px; border-radius: 10px; color: white; outline:none; font-size: 0.9rem;">
+                <button class="btn" style="margin-top: 6px;" onclick="saveSettings()">💾 حفظ الاسم</button>
             </div>
-            <button class="btn" onclick="saveSettings()">💾 حفظ الاسم</button>
         </div>
     </div>
 
     <script>
-        function closeWelcome() {
-            document.getElementById('welcome-popup').style.display = 'none';
-        }
-
         function switchTab(tabId, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -270,25 +266,26 @@
         }
 
         function getUserName() {
-            return localStorage.getItem('slax_username') || 'مستخدم Slax';
+            return localStorage.getItem('slax_username') || 'زائر Slax';
         }
 
         window.onload = () => {
             let savedName = localStorage.getItem('slax_username');
             if(!savedName) {
-                savedName = 'زائر ' + Math.floor(Math.random() * 9000 + 1000);
+                savedName = 'مستخدم_' + Math.floor(Math.random() * 9000 + 1000);
                 localStorage.setItem('slax_username', savedName);
             }
             document.getElementById('usernameInput').value = savedName;
 
             ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
             saveState();
+            
             initCollabCanvas();
             loadChat();
             loadPosts();
             initMultiplayerXO();
             renderChessBoard();
-            initGuessGame();
+            initGuessingGame();
         };
 
         function saveSettings() {
@@ -301,7 +298,7 @@
             }
         }
 
-        // 1. الرسم الحر والزووم
+        // 1. الرسم الحُر
         const canvas = document.getElementById('paintCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false, currentZoom = 1;
@@ -311,7 +308,8 @@
         function saveState() {
             historyStep++;
             if (historyStep < history.length) { history.length = historyStep; }
-            history.push(canvas.toDataURL('image/jpeg', 0.5));
+            history.push(canvas.toDataURL('image/jpeg', 0.4));
+            if(history.length > 10) history.shift();
         }
 
         function startDraw(e) { isDrawing = true; ctx.beginPath(); const p = getPos(e, canvas); ctx.moveTo(p.x, p.y); }
@@ -325,11 +323,13 @@
         }
         function stopDraw() { if (isDrawing) { isDrawing = false; saveState(); } }
 
-        function getPos(e, targetCanvas) {
-            const rect = targetCanvas.getBoundingClientRect();
+        function getPos(e, cEl) {
+            const rect = cEl.getBoundingClientRect();
             let cx = e.clientX, cy = e.clientY;
             if (e.touches && e.touches[0]) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; }
-            return { x: (cx - rect.left) / currentZoom, y: (cy - rect.top) / currentZoom };
+            let scaleX = cEl.width / rect.width;
+            let scaleY = cEl.height / rect.height;
+            return { x: (cx - rect.left) * scaleX, y: (cy - rect.top) * scaleY };
         }
 
         canvas.addEventListener('mousedown', startDraw);
@@ -340,7 +340,7 @@
         canvas.addEventListener('touchend', (e) => { stopDraw(); e.preventDefault(); });
 
         function zoomCanvas(amount) {
-            currentZoom = Math.max(0.5, Math.min(2.5, currentZoom + amount));
+            currentZoom = Math.max(0.6, Math.min(2.2, currentZoom + amount));
             canvas.style.transform = `scale(${currentZoom})`;
         }
 
@@ -351,39 +351,32 @@
                 img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); }
             }
         });
-        document.getElementById('redoBtn').addEventListener('click', () => {
-            if (historyStep < history.length - 1) {
-                historyStep++; let img = new Image();
-                img.src = history[historyStep];
-                img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); }
-            }
-        });
         document.getElementById('clearBtn').addEventListener('click', () => {
             ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); saveState();
         });
 
-        // 2. الرسم الجماعي المتزامن
+        // 2. الرسم الجماعي الحي
         const collabCanvas = document.getElementById('collabCanvas');
         const cCtx = collabCanvas.getContext('2d');
-        cCtx.lineCap = 'round'; cCtx.lineJoin = 'round'; cCtx.lineWidth = 4;
         let isCollabDrawing = false;
+        cCtx.lineCap = 'round'; cCtx.lineJoin = 'round';
+        cCtx.fillStyle = "#ffffff"; cCtx.fillRect(0, 0, collabCanvas.width, collabCanvas.height);
 
         function initCollabCanvas() {
             let saved = localStorage.getItem('slax_collab_board');
             if(saved) {
                 let img = new Image();
                 img.src = saved;
-                img.onload = () => { cCtx.clearRect(0,0,collabCanvas.width, collabCanvas.height); cCtx.drawImage(img, 0, 0); }
-            } else {
-                cCtx.fillStyle = "#ffffff"; cCtx.fillRect(0, 0, collabCanvas.width, collabCanvas.height);
+                img.onload = () => { cCtx.drawImage(img,0,0); }
             }
         }
 
-        function startCollab(e) { isCollabDrawing = true; cCtx.beginPath(); let p = getPos(e, collabCanvas); cCtx.moveTo(p.x, p.y); }
+        function startCollab(e) { isCollabDrawing = true; cCtx.beginPath(); const p = getPos(e, collabCanvas); cCtx.moveTo(p.x, p.y); }
         function drawCollab(e) {
-            if(!isCollabDrawing) return;
-            let p = getPos(e, collabCanvas);
+            if (!isCollabDrawing) return;
+            const p = getPos(e, collabCanvas);
             cCtx.strokeStyle = document.getElementById('collabColor').value;
+            cCtx.lineWidth = document.getElementById('collabSize').value;
             cCtx.lineTo(p.x, p.y);
             cCtx.stroke();
             localStorage.setItem('slax_collab_board', collabCanvas.toDataURL('image/jpeg', 0.4));
@@ -402,15 +395,15 @@
             localStorage.setItem('slax_collab_board', collabCanvas.toDataURL('image/jpeg', 0.4));
         }
 
-        // 3. النشر والمجتمع (تم حل مشكلة الامتثال والضغط تماماً)
+        // 3. النشر والمجتمع
         document.getElementById('publishBtn').addEventListener('click', () => {
             try {
                 let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
-                if(posts.length >= 10) posts.pop(); // الحفاظ على أحدث 10 منشورات لمنع امتلاء التخزين
+                if(posts.length >= 15) posts.pop();
                 posts.unshift({
                     id: Date.now(),
                     author: getUserName(),
-                    image: canvas.toDataURL('image/jpeg', 0.4),
+                    image: canvas.toDataURL('image/jpeg', 0.45),
                     likes: [],
                     comments: []
                 });
@@ -419,9 +412,16 @@
                 switchTab('feed', document.querySelectorAll('nav button')[4]);
                 alert('تم نشر رسمتك في المجتمع بنجاح! 🚀');
             } catch(e) {
-                alert('الذاكرة ممتلئة قليلاً، جرب مسح بعض الرسومات القديمة.');
+                alert('الذاكرة ممتلئة، يرجى مسح بعض المنشورات القديمة.');
             }
         });
+
+        function clearAllPosts() {
+            if(confirm('هل تريد مسح جميع منشورات المجتمع؟')) {
+                localStorage.removeItem('slax_posts');
+                loadPosts();
+            }
+        }
 
         function loadPosts() {
             let container = document.getElementById('postsContainer');
@@ -429,7 +429,7 @@
             let currentName = getUserName();
 
             if(posts.length === 0) {
-                container.innerHTML = '<p style="color: #94a3b8; text-align: center; font-size: 0.85rem; margin-top: 20px;">لا توجد منشورات حالياً. انشر رسمتك الأولى! 🎨</p>';
+                container.innerHTML = '<p style="color: #94a3b8; text-align: center; font-size: 0.85rem; margin-top: 20px;">لا توجد منشورات حالياً. كن أول من ينشر! 🎨</p>';
                 return;
             }
 
@@ -442,10 +442,10 @@
                 return `
                 <div class="feed-card">
                     <h3>🎨 رسمة بواسطة: ${p.author}</h3>
-                    <img src="${p.image}" style="width:100%; border-radius:10px; margin-top:6px; border:1px solid #1e293b;">
+                    <img src="${p.image}" style="width:100%; border-radius:10px; margin-top:8px; border:1px solid rgba(255,255,255,0.08);">
                     
                     <div class="interaction-bar">
-                        <button class="btn ${hasLiked ? 'btn-secondary' : ''}" style="padding: 4px 10px; font-size: 0.78rem; width: fit-content;" onclick="toggleLike(${p.id})">
+                        <button class="btn ${hasLiked ? 'btn-secondary' : ''}" style="padding: 5px 12px; font-size: 0.78rem; width: fit-content;" onclick="toggleLike(${p.id})">
                             ❤️ أعجبني (${likesList.length})
                         </button>
                         <div class="likes-info">👤 ${likesText}</div>
@@ -456,8 +456,8 @@
                             ${commentsList.map(c => `<div class="comment-item"><b>${c.user}:</b> ${c.text}</div>`).join('')}
                         </div>
                         <div class="comment-box">
-                            <input type="text" id="commInput_${p.id}" placeholder="اكتب تعليقاً باسمك..." onkeypress="checkCommentEnter(event, ${p.id})">
-                            <button class="btn" style="padding: 4px 8px; font-size:0.75rem;" onclick="addComment(${p.id})">تعليق</button>
+                            <input type="text" id="commInput_${p.id}" placeholder="اكتب تعليقاً..." onkeypress="checkCommentEnter(event, ${p.id})">
+                            <button class="btn" style="padding: 5px 10px; font-size:0.76rem;" onclick="addComment(${p.id})">تعليق</button>
                         </div>
                     </div>
                 </div>
@@ -481,7 +481,6 @@
             let input = document.getElementById(`commInput_${postId}`);
             let text = input.value.trim();
             if(!text) return;
-            
             let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
             let p = posts.find(item => item.id === postId);
             if(!p) return;
@@ -493,13 +492,13 @@
         }
         function checkCommentEnter(e, postId) { if(e.key === 'Enter') addComment(postId); }
 
-        // 4. الدردشة الجماعية
+        // 4. الدردشة
         function sendChatMessage() {
             let input = document.getElementById('chatInput');
             let text = input.value.trim();
             if(!text) return;
             let messages = JSON.parse(localStorage.getItem('slax_chat') || '[]');
-            if(messages.length >= 30) messages.shift();
+            if(messages.length > 30) messages.shift();
             messages.push({ user: getUserName(), text: text });
             localStorage.setItem('slax_chat', JSON.stringify(messages));
             input.value = '';
@@ -514,7 +513,7 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        // 5. لعبة إكس أو الجماعية
+        // 5. الألعاب (X-O، الشطرنج، والتخمين)
         function getXOState() {
             return JSON.parse(localStorage.getItem('slax_xo') || JSON.stringify({ board: Array(9).fill(''), turn: 'X', active: true }));
         }
@@ -557,7 +556,7 @@
             initMultiplayerXO();
         }
 
-        // 6. طاولة الشطرنج
+        // الشطرنج
         let chess = new Chess();
         let selectedSquare = null;
 
@@ -591,7 +590,7 @@
             }
 
             let statusText = `الدور الحالي: ${chess.turn() === 'w' ? 'الأبيض ⚪' : 'الأسود ⚫'}`;
-            if (chess.in_checkmate()) statusText = 'كش مات! انتهت اللعبة 🏆';
+            if (chess.in_checkmate()) statusText = 'كش مات! 🏆';
             else if (chess.in_draw()) statusText = 'تعادل! 🤝';
             document.getElementById('chessStatus').textContent = statusText;
         }
@@ -621,73 +620,52 @@
             renderChessBoard();
         }
 
-        // 7. لعبة التخمين الجماعي الحية
-        function getGuessState() {
-            let state = JSON.parse(localStorage.getItem('slax_guess') || 'null');
-            if(!state) {
-                state = { target: Math.floor(Math.random() * 10) + 1, winner: null };
-                localStorage.setItem('slax_guess', JSON.stringify(state));
-            }
-            return state;
-        }
+        // لعبة التخمين
+        const riddles = [
+            { q: "ما هو الشيء الذي كلما أخذت منه كبر؟", a: "الحفرة" },
+            { q: "له عين واحدة ولا يرى، فما هو؟", a: "الإبرة" },
+            { q: "ما هو الشيء الذي يحضن أمه وأبيه وليس له ولد؟", a: "القلم" },
+            { q: "ما هو الباب الذي لا يمكن فتحه؟", a: "الباب المفتوح" }
+        ];
 
-        function initGuessGame() {
-            let state = getGuessState();
-            let status = document.getElementById('guessStatus');
-            if(state.winner) {
-                status.textContent = `فاز بالجولة اللاعب: ${state.winner}! 🎉`;
-            } else {
-                status.textContent = 'ابحث عن الرقم السري (1 إلى 10)';
-            }
+        function initGuessingGame() {
+            let rIdx = Math.floor(Math.random() * riddles.length);
+            localStorage.setItem('slax_current_riddle', rIdx);
+            document.getElementById('guessPrompt').textContent = "لغز: " + riddles[rIdx].q;
+            document.getElementById('guessResult').textContent = "";
         }
 
         function submitGuess() {
-            let val = parseInt(document.getElementById('guessInput').value);
-            if(!val) return;
-            let state = getGuessState();
-            let status = document.getElementById('guessStatus');
-
-            if(state.winner) {
-                alert('انتهت الجولة السابقة، اضغط تغيير الرقم لبدء جولة جديدة!');
-                return;
-            }
-
-            if(val === state.target) {
-                state.winner = getUserName();
-                localStorage.setItem('slax_guess', JSON.stringify(state));
-                status.textContent = `مبروك ${state.winner} وجدت الرقم الصحيح (${state.target})! 🏆`;
-                alert('إنجاز عظيم! لقد خمنت الرقم الصحيح وفزت بالجولة! 🌟');
-            } else if(val < state.target) {
-                status.textContent = 'الرقم السري أكبر 🔼';
+            let val = document.getElementById('guessInput').value.trim();
+            let rIdx = localStorage.getItem('slax_current_riddle') || 0;
+            let res = document.getElementById('guessResult');
+            
+            if(val === riddles[rIdx].a) {
+                res.style.color = "#4ade80";
+                res.textContent = "إجابة صحيحة كفو عليك! 🎉🎉";
+                setTimeout(initGuessingGame, 3000);
             } else {
-                status.textContent = 'الرقم السري أصغر 🔽';
+                res.style.color = "#f87171";
+                res.textContent = "إجابة خاطئة، حاول مرة أخرى! ❌";
             }
-            document.getElementById('guessInput').value = '';
+            document.getElementById('guessInput').value = "";
         }
+        function checkGuessEnter(e) { if(e.key === 'Enter') submitGuess(); }
 
-        function resetGuessGame() {
-            let state = { target: Math.floor(Math.random() * 10) + 1, winner: null };
-            localStorage.setItem('slax_guess', JSON.stringify(state));
-            initGuessGame();
-            alert('تم بدء جولة تخمين جديدة! خمن الرقم الآن.');
-        }
-
-        // المزامنة التلقائية لكل أقسام الموقع كل 3 ثوانٍ بالخلفية
+        // التحديث التلقائي اللحظي
         setInterval(() => {
             loadChat();
             loadPosts();
             initMultiplayerXO();
             renderChessBoard();
-            initGuessGame();
             
-            // مزامنة لوحة الرسم الجماعي تلقائياً
             let savedCollab = localStorage.getItem('slax_collab_board');
-            if(savedCollab && !isCollabDrawing) {
+            if(savedCollab) {
                 let img = new Image();
                 img.src = savedCollab;
                 img.onload = () => { cCtx.drawImage(img, 0, 0); }
             }
-        }, 3000);
+        }, 2500);
     </script>
 </body>
 </html>
