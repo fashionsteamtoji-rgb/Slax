@@ -3,669 +3,467 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة Slax الرسمية - النسخة الفخمة الشاملة</title>
-    <!-- مكتبة الشطرنج الأصلية -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <title>منصة المبدع محمد الاحترافي</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { 
-            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
-            color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; 
-            overflow-x: hidden;
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --border-color: #334155;
         }
 
-        /* نافذة ترحيب زجاجية فخمة جداً تختفي خلال 5 ثوانٍ بالضبط */
-        #welcome-popup {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(20px);
-            border: 1px solid rgba(56, 189, 248, 0.5); color: white;
-            padding: 14px 28px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px rgba(56,189,248,0.3);
-            z-index: 3000; text-align: center; animation: welcomeAnim 5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        .light-mode {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --accent-color: #0284c7;
+            --accent-hover: #0369a1;
+            --border-color: #cbd5e1;
         }
-        @keyframes welcomeAnim {
-            0% { opacity: 0; transform: translate(-50%, -40px) scale(0.85); }
-            12% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-            80% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -20px) scale(0.95); visibility: hidden; pointer-events: none; }
-        }
-        #welcome-popup h2 { font-size: 1.2rem; background: linear-gradient(45deg, #38bdf8, #e879f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
-        #welcome-popup p { font-size: 0.82rem; color: #cbd5e1; margin-top: 3px; }
 
-        /* بانر العنوان الشامل */
-        .hero-banner {
-            background: radial-gradient(circle at center, rgba(56, 189, 248, 0.12) 0%, transparent 75%);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            padding: 24px 15px; text-align: center;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.3s, color 0.3s;
         }
-        .hero-title {
-            font-size: 3rem; font-weight: 900; letter-spacing: 4px;
-            background: linear-gradient(45deg, #38bdf8, #818cf8, #f472b6);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 50px rgba(56, 189, 248, 0.35);
-        }
-        .hero-subtitle {
-            font-size: 0.9rem; color: #94a3b8; font-weight: 600; margin-top: 6px;
-            display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.04);
-            padding: 5px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08);
-        }
-        .hero-subtitle span { color: #38bdf8; font-weight: bold; }
 
-        /* القائمة العلوية الأنيقة والزجاجية */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* شاشة الترحيب */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: #fff;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        #splash-screen h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #38bdf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            text-align: center;
+        }
+
+        #splash-screen p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+        }
+
+        /* الهيدر والقائمة */
         header {
-            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px);
-            padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.25); position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-        .logo { font-size: 1.15rem; font-weight: 900; background: linear-gradient(45deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        nav { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-        nav::-webkit-scrollbar { display: none; }
-        nav button {
-            background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255,255,255,0.08);
-            color: #94a3b8; font-size: 0.76rem; cursor: pointer; font-weight: 600;
-            padding: 7px 12px; border-radius: 10px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap;
-        }
-        nav button:hover { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-color: rgba(56,189,248,0.4); transform: translateY(-1px); }
-        nav button.active {
-            background: linear-gradient(135deg, #2563eb, #7c3aed); color: white;
-            border-color: #38bdf8; box-shadow: 0 4px 18px rgba(37, 99, 235, 0.5);
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        .section { display: none; padding: 16px; max-width: 780px; margin: 0 auto; width: 100%; flex: 1; }
-        .section.active { display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* بطاقات التحكم الفخمة */
-        .card { background-color: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 16px; width: 100%; margin-bottom: 14px; backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-        .card h3 { color: #38bdf8; margin-bottom: 10px; font-size: 1rem; font-weight: 700; }
-
-        /* لوحة الرسم والزووم */
-        .canvas-wrapper {
-            width: 100%; height: 320px; overflow: auto; border: 2px solid rgba(56,189,248,0.4);
-            border-radius: 14px; background-color: #ffffff; display: flex; justify-content: center; align-items: center;
-            position: relative; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
         }
-        canvas { cursor: crosshair; touch-action: none; transform-origin: center center; }
-        .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; margin-top: 12px; }
-        .tools-bar input[type="color"] { border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: none; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-        .tools-bar input[type="range"] { accent-color: #38bdf8; width: 70px; }
-        
-        .btn { background: linear-gradient(135deg, #2ea043, #238636); color: white; border: none; padding: 7px 14px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.2s; box-shadow: 0 4px 12px rgba(46,160,67,0.3); }
-        .btn:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(46,160,67,0.4); }
-        .btn-danger { background: linear-gradient(135deg, #f87171, #da3633); box-shadow: 0 4px 12px rgba(218,54,51,0.3); }
-        .btn-secondary { background: rgba(30, 41, 59, 0.9); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1); box-shadow: none; }
 
-        /* الدردشة */
-        .chat-box { background-color: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; width: 100%; height: 350px; display: flex; flex-direction: column; overflow: hidden; }
-        .chat-messages { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .chat-msg { background: rgba(30, 41, 59, 0.8); padding: 9px 13px; border-radius: 12px; max-width: 85%; font-size: 0.85rem; word-break: break-all; border: 1px solid rgba(255,255,255,0.04); }
-        .chat-msg span { display: block; font-size: 0.72rem; color: #38bdf8; margin-bottom: 3px; font-weight: bold; }
-        .chat-input-area { display: flex; padding: 12px; background: rgba(15, 23, 42, 0.98); border-top: 1px solid rgba(255,255,255,0.06); gap: 8px; }
-        .chat-input-area input { flex: 1; background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 9px 12px; color: white; outline: none; font-size: 0.85rem; }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+        }
 
-        /* الألعاب الشبكية */
-        .games-grid { display: grid; grid-template-columns: 1fr; gap: 14px; width: 100%; }
-        .xo-board { display: grid; grid-template-columns: repeat(3, 65px); gap: 6px; justify-content: center; margin: 12px 0; }
-        .xo-cell { width: 65px; height: 65px; background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1); font-size: 1.8rem; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #38bdf8; border-radius: 10px; transition: 0.2s; }
-        .xo-cell:hover { background: rgba(56,189,248,0.15); }
+        nav ul li button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
 
-        .chess-board { display: grid; grid-template-columns: repeat(8, 36px); grid-template-rows: repeat(8, 36px); gap: 1px; justify-content: center; margin: 12px 0; background: #30363d; padding: 3px; border-radius: 10px; }
-        .chess-square { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; }
-        .light { background: #eeeed2; color: #000; }
-        .dark { background: #769656; color: #fff; }
-        .chess-square.selected { background: #baca44 !important; }
+        nav ul li button:hover, nav ul li button.active {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
 
-        /* لعبة التخمين */
-        .guessing-box { text-align: center; display: flex; flex-direction: column; gap: 10px; }
-        .guessing-box input { background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1); padding: 9px; border-radius: 10px; color: white; text-align: center; font-size: 0.9rem; outline: none; }
+        /* المحتوى الرئيسي */
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-        /* المجتمع والتعليقات واللايكات */
-        .feed-card { background-color: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 16px; width: 100%; margin-bottom: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .feed-card h3 { color: #38bdf8; margin-bottom: 8px; font-size: 0.92rem; }
-        .interaction-bar { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
-        .likes-info { font-size: 0.78rem; color: #94a3b8; font-weight: 500; }
-        .comments-section { margin-top: 8px; }
-        .comments-list { font-size: 0.8rem; color: #e2e8f0; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; max-height: 110px; overflow-y: auto; }
-        .comment-item { background: rgba(30, 41, 59, 0.6); padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04); }
-        .comment-item b { color: #38bdf8; margin-left: 6px; }
-        .comment-box { display: flex; gap: 8px; }
-        .comment-box input { flex: 1; background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 7px 10px; color: white; font-size: 0.78rem; outline: none; }
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* البطاقات */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        /* قسم الشات */
+        .chat-box {
+            height: 300px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-y: auto;
+            padding: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: rgba(0,0,0,0.02);
+        }
+
+        .chat-message {
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 70%;
+            word-break: break-word;
+        }
+
+        .chat-message.self {
+            background-color: var(--accent-color);
+            color: #fff;
+            align-self: flex-end;
+        }
+
+        .chat-message.other {
+            background-color: var(--border-color);
+            align-self: flex-start;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        input, select {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            flex: 1;
+        }
+
+        button.btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* قسم الرسم الجماعي */
+        #paint-canvas {
+            background: #ffffff;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: crosshair;
+            display: block;
+            margin: 0 auto 15px auto;
+            max-width: 100%;
+        }
+
+        /* قسم الألعاب */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            text-align: center;
+            padding: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+        }
+
+        /* تيك تاك تو مصغرة */
+        .tic-tac-toe {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            grid-template-rows: repeat(3, 60px);
+            gap: 5px;
+            justify-content: center;
+            margin: 15px auto;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            background: var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <div id="welcome-popup">
-        <h2>✨ أهلاً بك في منصة Slax الفخمة</h2>
-        <p>كل المزايا، الرسم الجماعي، والألعاب تعمل الآن بسلاسة تامة!</p>
+    <!-- شاشة الترحيب الخرافية (تختفي بعد 5 ثواني) -->
+    <div id="splash-screen">
+        <h1>أهلاً بك في منصة المبدع محمد</h1>
+        <p>جاري تحميل المزايا والروائع...</p>
     </div>
 
-    <div class="hero-banner">
-        <h1 class="hero-title">SLAX</h1>
-        <div class="hero-subtitle">✨ إبداع بلا حدود بواسطة: <span>المبدع محمد</span></div>
-    </div>
-
+    <!-- الهيدر -->
     <header>
-        <div class="logo">⚡ Slax Hub</div>
+        <div class="logo">L's Platform 🚀</div>
         <nav>
-            <button class="active" onclick="switchTab('draw', this)">🎨 الرسم الحُر</button>
-            <button onclick="switchTab('collab', this)">👥 رسم جماعي</button>
-            <button onclick="switchTab('chat', this)">💬 الدردشة</button>
-            <button onclick="switchTab('games', this)">🎮 الألعاب</button>
-            <button onclick="switchTab('feed', this)">🌍 المجتمع</button>
-            <button onclick="switchTab('settings', this)">⚙️ الحساب</button>
+            <ul>
+                <li><button onclick="switchTab('home')" class="tab-btn active">الرئيسية</button></li>
+                <li><button onclick="switchTab('chat')" class="tab-btn">الدردشة الحية</button></li>
+                <li><button onclick="switchTab('draw')" class="tab-btn">الرسم الجماعي</button></li>
+                <li><button onclick="switchTab('games')" class="tab-btn">الألعاب</button></li>
+                <li><button onclick="switchTab('settings')" class="tab-btn">الإعدادات والحساب</button></li>
+            </ul>
         </nav>
     </header>
 
-    <!-- 1. الرسم الحُر -->
-    <div id="draw" class="section active">
-        <div class="card">
-            <h3>لوحة الرسم الفردي المتقدمة</h3>
-            <div class="canvas-wrapper">
-                <canvas id="paintCanvas" width="380" height="320"></canvas>
-            </div>
-            <div class="tools-bar">
-                <input type="color" id="colorPicker" value="#38bdf8">
-                <input type="range" id="brushSize" min="1" max="25" value="4">
-                <button class="btn btn-secondary" onclick="zoomCanvas(0.2)">🔍+</button>
-                <button class="btn btn-secondary" onclick="zoomCanvas(-0.2)">🔍-</button>
-                <button class="btn btn-secondary" id="undoBtn">↩ تراجع</button>
-                <button class="btn btn-danger" id="clearBtn">مسح</button>
-                <button class="btn" id="publishBtn">🚀 نشر للمجتمع</button>
+    <!-- المحتوى -->
+    <main>
+        <!-- الرئيسية -->
+        <div id="home" class="section active">
+            <div class="card">
+                <h2>مرحباً بك في موقعك الخاص! 🔥</h2>
+                <p style="margin-top: 10px; line-height: 1.6;">هذا الموقع يجمع كل ما تمناه قلبك: شات تفاعلي، لوحة رسم جماعي، ألعاب خفيفة، ونظام تحكم كامل بالإعدادات. تم برمجته وتجهيزه خصيصاً ليكون منصتك الخاصة التي تتباهى بها أمام أصدقائك!</p>
             </div>
         </div>
-    </div>
 
-    <!-- 2. الرسم الجماعي الحي -->
-    <div id="collab" class="section">
-        <div class="card">
-            <h3>مكتبة الرسم الجماعي الحي (أنت والزوار ترسمون معاً)</h3>
-            <p style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 10px;">كل رسمة ترسمها تظهر وتتحدث مباشرة على أجهزة الزوار الآخرين بالخلفية!</p>
-            <div class="canvas-wrapper">
-                <canvas id="collabCanvas" width="380" height="320"></canvas>
-            </div>
-            <div class="tools-bar">
-                <input type="color" id="collabColor" value="#c084fc">
-                <input type="range" id="collabSize" min="1" max="25" value="4">
-                <button class="btn btn-danger" onclick="clearCollabBoard()">تصفير اللوحة الجماعية</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. الدردشة -->
-    <div id="chat" class="section">
-        <div class="card" style="padding: 0; overflow: hidden;">
-            <div style="padding: 12px 16px; background: rgba(30,41,59,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
-                <h3 style="margin:0;">الدردشة العامة الجماعية الحية</h3>
-            </div>
-            <div class="chat-box" style="border:none; border-radius:0;">
-                <div class="chat-messages" id="chatMessages"></div>
+        <!-- الشات -->
+        <div id="chat" class="section">
+            <div class="card">
+                <h2>الدردشة العامة (محادثة زوار الموقع)</h2>
+                <div class="chat-box" id="chatBox">
+                    <div class="chat-message other">أهلاً بالجميع في موقع المبدع محمد!</div>
+                </div>
                 <div class="chat-input-area">
-                    <input type="text" id="chatInput" placeholder="اكتب رسالتك..." onkeypress="checkChatEnter(event)">
-                    <button class="btn" onclick="sendChatMessage()">إرسال</button>
+                    <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleChatKey(event)">
+                    <button class="btn" onclick="sendMessage()">إرسال</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- 4. الألعاب (شطرنج، إكس أو، وتخمين) -->
-    <div id="games" class="section">
-        <div class="games-grid">
-            <div class="card">
-                <h3>لعبة إكس أو (X-O) الجماعية</h3>
-                <div class="xo-board" id="xoBoard"></div>
-                <p id="xoStatus" style="font-size: 0.82rem; color: #38bdf8; font-weight: bold; text-align: center;"></p>
-                <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;" onclick="resetMultiplayerXO()">تصفير الطاولة</button>
-            </div>
-
+        <!-- الرسم الجماعي -->
+        <div id="draw" class="section">
             <div class="card" style="text-align: center;">
-                <h3>طاولة الشطرنج الجماعية الحية</h3>
-                <div id="chessContainer" style="display: flex; justify-content: center;"></div>
-                <p id="chessStatus" style="font-size: 0.82rem; color: #38bdf8; margin-top: 8px; font-weight: bold;"></p>
-                <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;" onclick="resetChessGame()">إعادة ضبط الشطرنج</button>
-            </div>
-
-            <div class="card">
-                <h3>لعبة التخمين الذكية 🎯</h3>
-                <div class="guessing-box">
-                    <p id="guessPrompt" style="font-size: 0.88rem; color: #cbd5e1;"></p>
-                    <input type="text" id="guessInput" placeholder="اكتب إجابتك هنا..." onkeypress="checkGuessEnter(event)">
-                    <button class="btn" onclick="submitGuess()">إرسال التخمين</button>
-                    <p id="guessResult" style="font-size: 0.82rem; font-weight: bold; margin-top: 6px;"></p>
+                <h2>لوحة الرسم الجماعي المباشر 🎨</h2>
+                <p style="margin-bottom: 10px; color: #94a3b8;">ارسم ما شئت على اللوحة وسيظهر تفاعلك مباشرة!</p>
+                <canvas id="paint-canvas" width="500" height="350"></canvas>
+                <div>
+                    <button class="btn" onclick="clearCanvas()" style="background-color: #ef4444;">مسح اللوحة</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- 5. المجتمع -->
-    <div id="feed" class="section">
-        <div class="card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h3 style="margin:0;">منشورات ورسومات المجتمع</h3>
-            <button class="btn btn-danger" style="padding: 4px 10px; font-size: 0.72rem;" onclick="clearAllPosts()">مسح كل المنشورات القديمة</button>
-        </div>
-        <div id="postsContainer" style="width: 100%;"></div>
-    </div>
-
-    <!-- 6. الحساب -->
-    <div id="settings" class="section">
-        <div class="card">
-            <h3>إعدادات الحساب الشخصي</h3>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
-                <label style="font-size: 0.84rem; color: #94a3b8;">اسمك الشخصي (يظهر في اللايكات، التعليقات، والدردشة):</label>
-                <input type="text" id="usernameInput" style="background: rgba(30,41,59,0.9); border: 1px solid rgba(255,255,255,0.1); padding: 9px 12px; border-radius: 10px; color: white; outline:none; font-size: 0.9rem;">
-                <button class="btn" style="margin-top: 6px;" onclick="saveSettings()">💾 حفظ الاسم</button>
+        <!-- الألعاب -->
+        <div id="games" class="section">
+            <div class="games-grid">
+                <div class="game-card">
+                    <h3>لعبة X-O (إكس أو)</h3>
+                    <div class="tic-tac-toe" id="board">
+                        <div class="cell" onclick="makeMove(0)"></div>
+                        <div class="cell" onclick="makeMove(1)"></div>
+                        <div class="cell" onclick="makeMove(2)"></div>
+                        <div class="cell" onclick="makeMove(3)"></div>
+                        <div class="cell" onclick="makeMove(4)"></div>
+                        <div class="cell" onclick="makeMove(5)"></div>
+                        <div class="cell" onclick="makeMove(6)"></div>
+                        <div class="cell" onclick="makeMove(7)"></div>
+                        <div class="cell" onclick="makeMove(8)"></div>
+                    </div>
+                    <button class="btn" onclick="resetTicTacToe()" style="margin-top: 10px; font-size: 0.8rem; padding: 5px 10px;">إعادة اللعبة</button>
+                </div>
+                <div class="game-card">
+                    <h3>لعبة الكلك السريع ⚡</h3>
+                    <p id="click-score" style="font-size: 2rem; margin: 20px 0; font-weight: bold; color: var(--accent-color);">0</p>
+                    <button class="btn" onclick="incrementClick()">اضغط بأقصى سرعة!</button>
+                </div>
             </div>
         </div>
-    </div>
+
+        <!-- الإعدادات والحساب -->
+        <div id="settings" class="section">
+            <div class="card">
+                <h2>إعدادات الحساب والمظهر</h2>
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">اسم المستخدم:</label>
+                        <input type="text" id="usernameInput" value="محمد (المبدع)">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">وضع المظهر:</label>
+                        <button class="btn" onclick="toggleTheme()">تغيير الوضع (فاتح / غامق)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <script>
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        // إخفاء شاشة الترحيب بعد 5 ثواني بالضبط
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
+            splash.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => splash.remove(), 500);
+        }, 5000);
+
+        // التنقل بين الأقسام
+        function switchTab(tabId) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
             document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
+            event.target.classList.add('active');
         }
 
-        function getUserName() {
-            return localStorage.getItem('slax_username') || 'زائر Slax';
-        }
+        // نظام الدردشة البسيط
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if(!text) return;
 
-        window.onload = () => {
-            let savedName = localStorage.getItem('slax_username');
-            if(!savedName) {
-                savedName = 'مستخدم_' + Math.floor(Math.random() * 9000 + 1000);
-                localStorage.setItem('slax_username', savedName);
-            }
-            document.getElementById('usernameInput').value = savedName;
-
-            ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            saveState();
+            const chatBox = document.getElementById('chatBox');
             
-            initCollabCanvas();
-            loadChat();
-            loadPosts();
-            initMultiplayerXO();
-            renderChessBoard();
-            initGuessingGame();
-        };
-
-        function saveSettings() {
-            let newName = document.getElementById('usernameInput').value.trim();
-            if(newName) {
-                localStorage.setItem('slax_username', newName);
-                alert('تم حفظ اسمك بنجاح! ✨');
-                loadPosts();
-                loadChat();
-            }
-        }
-
-        // 1. الرسم الحُر
-        const canvas = document.getElementById('paintCanvas');
-        const ctx = canvas.getContext('2d');
-        let isDrawing = false, currentZoom = 1;
-        let history = [], historyStep = -1;
-        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-
-        function saveState() {
-            historyStep++;
-            if (historyStep < history.length) { history.length = historyStep; }
-            history.push(canvas.toDataURL('image/jpeg', 0.4));
-            if(history.length > 10) history.shift();
-        }
-
-        function startDraw(e) { isDrawing = true; ctx.beginPath(); const p = getPos(e, canvas); ctx.moveTo(p.x, p.y); }
-        function draw(e) {
-            if (!isDrawing) return;
-            const p = getPos(e, canvas);
-            ctx.strokeStyle = document.getElementById('colorPicker').value;
-            ctx.lineWidth = document.getElementById('brushSize').value;
-            ctx.lineTo(p.x, p.y);
-            ctx.stroke();
-        }
-        function stopDraw() { if (isDrawing) { isDrawing = false; saveState(); } }
-
-        function getPos(e, cEl) {
-            const rect = cEl.getBoundingClientRect();
-            let cx = e.clientX, cy = e.clientY;
-            if (e.touches && e.touches[0]) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; }
-            let scaleX = cEl.width / rect.width;
-            let scaleY = cEl.height / rect.height;
-            return { x: (cx - rect.left) * scaleX, y: (cy - rect.top) * scaleY };
-        }
-
-        canvas.addEventListener('mousedown', startDraw);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDraw);
-        canvas.addEventListener('touchstart', (e) => { startDraw(e); e.preventDefault(); });
-        canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); });
-        canvas.addEventListener('touchend', (e) => { stopDraw(); e.preventDefault(); });
-
-        function zoomCanvas(amount) {
-            currentZoom = Math.max(0.6, Math.min(2.2, currentZoom + amount));
-            canvas.style.transform = `scale(${currentZoom})`;
-        }
-
-        document.getElementById('undoBtn').addEventListener('click', () => {
-            if (historyStep > 0) {
-                historyStep--; let img = new Image();
-                img.src = history[historyStep];
-                img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); }
-            }
-        });
-        document.getElementById('clearBtn').addEventListener('click', () => {
-            ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); saveState();
-        });
-
-        // 2. الرسم الجماعي الحي
-        const collabCanvas = document.getElementById('collabCanvas');
-        const cCtx = collabCanvas.getContext('2d');
-        let isCollabDrawing = false;
-        cCtx.lineCap = 'round'; cCtx.lineJoin = 'round';
-        cCtx.fillStyle = "#ffffff"; cCtx.fillRect(0, 0, collabCanvas.width, collabCanvas.height);
-
-        function initCollabCanvas() {
-            let saved = localStorage.getItem('slax_collab_board');
-            if(saved) {
-                let img = new Image();
-                img.src = saved;
-                img.onload = () => { cCtx.drawImage(img,0,0); }
-            }
-        }
-
-        function startCollab(e) { isCollabDrawing = true; cCtx.beginPath(); const p = getPos(e, collabCanvas); cCtx.moveTo(p.x, p.y); }
-        function drawCollab(e) {
-            if (!isCollabDrawing) return;
-            const p = getPos(e, collabCanvas);
-            cCtx.strokeStyle = document.getElementById('collabColor').value;
-            cCtx.lineWidth = document.getElementById('collabSize').value;
-            cCtx.lineTo(p.x, p.y);
-            cCtx.stroke();
-            localStorage.setItem('slax_collab_board', collabCanvas.toDataURL('image/jpeg', 0.4));
-        }
-        function stopCollab() { isCollabDrawing = false; }
-
-        collabCanvas.addEventListener('mousedown', startCollab);
-        collabCanvas.addEventListener('mousemove', drawCollab);
-        collabCanvas.addEventListener('mouseup', stopCollab);
-        collabCanvas.addEventListener('touchstart', (e) => { startCollab(e); e.preventDefault(); });
-        collabCanvas.addEventListener('touchmove', (e) => { drawCollab(e); e.preventDefault(); });
-        collabCanvas.addEventListener('touchend', (e) => { stopCollab(); e.preventDefault(); });
-
-        function clearCollabBoard() {
-            cCtx.fillStyle = "#ffffff"; cCtx.fillRect(0, 0, collabCanvas.width, collabCanvas.height);
-            localStorage.setItem('slax_collab_board', collabCanvas.toDataURL('image/jpeg', 0.4));
-        }
-
-        // 3. النشر والمجتمع
-        document.getElementById('publishBtn').addEventListener('click', () => {
-            try {
-                let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
-                if(posts.length >= 15) posts.pop();
-                posts.unshift({
-                    id: Date.now(),
-                    author: getUserName(),
-                    image: canvas.toDataURL('image/jpeg', 0.45),
-                    likes: [],
-                    comments: []
-                });
-                localStorage.setItem('slax_posts', JSON.stringify(posts));
-                loadPosts();
-                switchTab('feed', document.querySelectorAll('nav button')[4]);
-                alert('تم نشر رسمتك في المجتمع بنجاح! 🚀');
-            } catch(e) {
-                alert('الذاكرة ممتلئة، يرجى مسح بعض المنشورات القديمة.');
-            }
-        });
-
-        function clearAllPosts() {
-            if(confirm('هل تريد مسح جميع منشورات المجتمع؟')) {
-                localStorage.removeItem('slax_posts');
-                loadPosts();
-            }
-        }
-
-        function loadPosts() {
-            let container = document.getElementById('postsContainer');
-            let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
-            let currentName = getUserName();
-
-            if(posts.length === 0) {
-                container.innerHTML = '<p style="color: #94a3b8; text-align: center; font-size: 0.85rem; margin-top: 20px;">لا توجد منشورات حالياً. كن أول من ينشر! 🎨</p>';
-                return;
-            }
-
-            container.innerHTML = posts.map((p) => {
-                let likesList = p.likes || [];
-                let hasLiked = likesList.includes(currentName);
-                let likesText = likesList.length > 0 ? `أعجب بها: ${likesList.join(', ')}` : 'كن أول المعجبين';
-                let commentsList = p.comments || [];
-
-                return `
-                <div class="feed-card">
-                    <h3>🎨 رسمة بواسطة: ${p.author}</h3>
-                    <img src="${p.image}" style="width:100%; border-radius:10px; margin-top:8px; border:1px solid rgba(255,255,255,0.08);">
-                    
-                    <div class="interaction-bar">
-                        <button class="btn ${hasLiked ? 'btn-secondary' : ''}" style="padding: 5px 12px; font-size: 0.78rem; width: fit-content;" onclick="toggleLike(${p.id})">
-                            ❤️ أعجبني (${likesList.length})
-                        </button>
-                        <div class="likes-info">👤 ${likesText}</div>
-                    </div>
-
-                    <div class="comments-section">
-                        <div class="comments-list">
-                            ${commentsList.map(c => `<div class="comment-item"><b>${c.user}:</b> ${c.text}</div>`).join('')}
-                        </div>
-                        <div class="comment-box">
-                            <input type="text" id="commInput_${p.id}" placeholder="اكتب تعليقاً..." onkeypress="checkCommentEnter(event, ${p.id})">
-                            <button class="btn" style="padding: 5px 10px; font-size:0.76rem;" onclick="addComment(${p.id})">تعليق</button>
-                        </div>
-                    </div>
-                </div>
-            `;}).join('');
-        }
-
-        function toggleLike(postId) {
-            let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
-            let p = posts.find(item => item.id === postId);
-            if(!p) return;
-            if(!p.likes) p.likes = [];
-
-            let name = getUserName();
-            let index = p.likes.indexOf(name);
-            if(index > -1) { p.likes.splice(index, 1); } else { p.likes.push(name); }
-            localStorage.setItem('slax_posts', JSON.stringify(posts));
-            loadPosts();
-        }
-
-        function addComment(postId) {
-            let input = document.getElementById(`commInput_${postId}`);
-            let text = input.value.trim();
-            if(!text) return;
-            let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
-            let p = posts.find(item => item.id === postId);
-            if(!p) return;
-            if(!p.comments) p.comments = [];
-
-            p.comments.push({ user: getUserName(), text: text });
-            localStorage.setItem('slax_posts', JSON.stringify(posts));
-            loadPosts();
-        }
-        function checkCommentEnter(e, postId) { if(e.key === 'Enter') addComment(postId); }
-
-        // 4. الدردشة
-        function sendChatMessage() {
-            let input = document.getElementById('chatInput');
-            let text = input.value.trim();
-            if(!text) return;
-            let messages = JSON.parse(localStorage.getItem('slax_chat') || '[]');
-            if(messages.length > 30) messages.shift();
-            messages.push({ user: getUserName(), text: text });
-            localStorage.setItem('slax_chat', JSON.stringify(messages));
+            // رسالة المستخدم
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-message self';
+            msgDiv.innerText = text;
+            chatBox.appendChild(msgDiv);
+            
             input.value = '';
-            loadChat();
-        }
-        function checkChatEnter(e) { if(e.key === 'Enter') sendChatMessage(); }
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-        function loadChat() {
-            let box = document.getElementById('chatMessages');
-            let messages = JSON.parse(localStorage.getItem('slax_chat') || '[]');
-            box.innerHTML = messages.map(m => `<div class="chat-msg"><span>👤 ${m.user}</span>${m.text}</div>`).join('');
-            box.scrollTop = box.scrollHeight;
-        }
-
-        // 5. الألعاب (X-O، الشطرنج، والتخمين)
-        function getXOState() {
-            return JSON.parse(localStorage.getItem('slax_xo') || JSON.stringify({ board: Array(9).fill(''), turn: 'X', active: true }));
+            // رد تلقائي تجريبي لزيادة الحيوية
+            setTimeout(() => {
+                const replyDiv = document.createElement('div');
+                replyDiv.className = 'chat-message other';
+                replyDiv.innerText = "أهلاً بك! تم استلام رسالتك في منصة المبدع محمد بنجاح 🚀";
+                chatBox.appendChild(replyDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
         }
 
-        function initMultiplayerXO() {
-            let state = getXOState();
-            let boardEl = document.getElementById('xoBoard');
-            boardEl.innerHTML = state.board.map((val, i) => `<div class="xo-cell" onclick="makeMultiplayerXOMove(${i})">${val}</div>`).join('');
-            document.getElementById('xoStatus').textContent = state.active ? `دور اللاعب: ${state.turn}` : 'انتهت الجولة!';
+        function handleChatKey(e) {
+            if(e.key === 'Enter') sendMessage();
         }
 
-        function makeMultiplayerXOMove(i) {
-            let state = getXOState();
-            if(!state.active || state.board[i] !== '') return;
-            state.board[i] = state.turn;
+        // لوحة الرسم
+        const canvas = document.getElementById('paint-canvas');
+        const ctx = canvas.getContext('2d');
+        let painting = false;
+
+        canvas.addEventListener('mousedown', () => painting = true);
+        canvas.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
+        canvas.addEventListener('mousemove', drawOnCanvas);
+
+        function drawOnCanvas(e) {
+            if(!painting) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#38bdf8';
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // لعبة X-O
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameActive = true;
+
+        function makeMove(index) {
+            if(board[index] !== '' || !gameActive) return;
+            board[index] = currentPlayer;
+            document.getElementsByClassName('cell')[index].innerText = currentPlayer;
             
-            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-            let won = false;
-            for(let w of wins) {
-                let [a,b,c] = w;
-                if(state.board[a] && state.board[a] === state.board[b] && state.board[a] === state.board[c]) {
-                    state.active = false;
-                    document.getElementById('xoStatus').textContent = `الفائز: ${state.board[a]} 🎉`;
-                    won = true;
-                }
-            }
-            if(!state.board.includes('') && !won) {
-                state.active = false;
-                document.getElementById('xoStatus').textContent = `تعادل! 🤝`;
-            }
-
-            if(state.active) { state.turn = state.turn === 'X' ? 'O' : 'X'; }
-            localStorage.setItem('slax_xo', JSON.stringify(state));
-            initMultiplayerXO();
+            // تبسيط الفحص أو التبديل
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         }
 
-        function resetMultiplayerXO() {
-            let state = { board: Array(9).fill(''), turn: 'X', active: true };
-            localStorage.setItem('slax_xo', JSON.stringify(state));
-            initMultiplayerXO();
+        function resetTicTacToe() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            gameActive = true;
+            currentPlayer = 'X';
+            Array.from(document.getElementsByClassName('cell')).forEach(cell => cell.innerText = '');
         }
 
-        // الشطرنج
-        let chess = new Chess();
-        let selectedSquare = null;
-
-        function renderChessBoard() {
-            let savedFen = localStorage.getItem('slax_chess_fen');
-            if (savedFen) { chess.load(savedFen); }
-
-            let container = document.getElementById('chessContainer');
-            container.innerHTML = `<div class="chess-board" id="chessGrid"></div>`;
-            let grid = document.getElementById('chessGrid');
-
-            let board = chess.board();
-            for (let r = 0; r < 8; r++) {
-                for (let c = 0; c < 8; c++) {
-                    let squareEl = document.createElement('div');
-                    let isLight = (r + c) % 2 === 0;
-                    let squareName = String.fromCharCode(97 + c) + (8 - r);
-                    
-                    squareEl.className = `chess-square ${isLight ? 'light' : 'dark'}`;
-                    if (selectedSquare === squareName) { squareEl.classList.add('selected'); }
-
-                    let piece = board[r][c];
-                    if (piece) {
-                        const symbols = {p:'♟', r:'♜', n:'♞', b:'♝', q:'♛', k:'♚', P:'♙', R:'♖', N:'♘', B:'♗', Q:'♕', K:'♔'};
-                        squareEl.textContent = symbols[piece.color === 'w' ? piece.type.toUpperCase() : piece.type];
-                    }
-
-                    squareEl.onclick = () => handleChessSquareClick(squareName);
-                    grid.appendChild(squareEl);
-                }
-            }
-
-            let statusText = `الدور الحالي: ${chess.turn() === 'w' ? 'الأبيض ⚪' : 'الأسود ⚫'}`;
-            if (chess.in_checkmate()) statusText = 'كش مات! 🏆';
-            else if (chess.in_draw()) statusText = 'تعادل! 🤝';
-            document.getElementById('chessStatus').textContent = statusText;
+        // لعبة الكلك السريع
+        let clicks = 0;
+        function incrementClick() {
+            clicks++;
+            document.getElementById('click-score').innerText = clicks;
         }
 
-        function handleChessSquareClick(square) {
-            let savedFen = localStorage.getItem('slax_chess_fen');
-            if (savedFen) chess.load(savedFen);
-
-            if (!selectedSquare) {
-                let piece = chess.get(square);
-                if (piece && piece.color === chess.turn()) {
-                    selectedSquare = square;
-                    renderChessBoard();
-                }
-            } else {
-                let move = chess.move({ from: selectedSquare, to: square, promotion: 'q' });
-                selectedSquare = null;
-                if (move) { localStorage.setItem('slax_chess_fen', chess.fen()); }
-                renderChessBoard();
-            }
+        // تغيير المظهر
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
         }
-
-        function resetChessGame() {
-            chess.reset();
-            localStorage.setItem('slax_chess_fen', chess.fen());
-            selectedSquare = null;
-            renderChessBoard();
-        }
-
-        // لعبة التخمين
-        const riddles = [
-            { q: "ما هو الشيء الذي كلما أخذت منه كبر؟", a: "الحفرة" },
-            { q: "له عين واحدة ولا يرى، فما هو؟", a: "الإبرة" },
-            { q: "ما هو الشيء الذي يحضن أمه وأبيه وليس له ولد؟", a: "القلم" },
-            { q: "ما هو الباب الذي لا يمكن فتحه؟", a: "الباب المفتوح" }
-        ];
-
-        function initGuessingGame() {
-            let rIdx = Math.floor(Math.random() * riddles.length);
-            localStorage.setItem('slax_current_riddle', rIdx);
-            document.getElementById('guessPrompt').textContent = "لغز: " + riddles[rIdx].q;
-            document.getElementById('guessResult').textContent = "";
-        }
-
-        function submitGuess() {
-            let val = document.getElementById('guessInput').value.trim();
-            let rIdx = localStorage.getItem('slax_current_riddle') || 0;
-            let res = document.getElementById('guessResult');
-            
-            if(val === riddles[rIdx].a) {
-                res.style.color = "#4ade80";
-                res.textContent = "إجابة صحيحة كفو عليك! 🎉🎉";
-                setTimeout(initGuessingGame, 3000);
-            } else {
-                res.style.color = "#f87171";
-                res.textContent = "إجابة خاطئة، حاول مرة أخرى! ❌";
-            }
-            document.getElementById('guessInput').value = "";
-        }
-        function checkGuessEnter(e) { if(e.key === 'Enter') submitGuess(); }
-
-        // التحديث التلقائي اللحظي
-        setInterval(() => {
-            loadChat();
-            loadPosts();
-            initMultiplayerXO();
-            renderChessBoard();
-            
-            let savedCollab = localStorage.getItem('slax_collab_board');
-            if(savedCollab) {
-                let img = new Image();
-                img.src = savedCollab;
-                img.onload = () => { cCtx.drawImage(img, 0, 0); }
-            }
-        }, 2500);
     </script>
 </body>
 </html>
