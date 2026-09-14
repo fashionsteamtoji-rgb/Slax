@@ -8,23 +8,24 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { background-color: #0b0f19; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* نافذة الترحيب */
+        /* نافذة الترحيب الخاصة */
         #welcome-popup {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
             color: white;
-            padding: 12px 25px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            font-size: 1rem;
-            font-weight: bold;
-            z-index: 1000;
-            animation: fadeInOut 5s forwards;
+            padding: 15px 30px;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            z-index: 2000;
             text-align: center;
+            animation: fadeInOut 5s forwards;
         }
+        #welcome-popup h2 { font-size: 1.2rem; margin-bottom: 3px; }
+        #welcome-popup p { font-size: 0.85rem; color: #e2e8f0; }
+
         @keyframes fadeInOut {
             0% { opacity: 0; transform: translate(-50%, -20px); }
             15% { opacity: 1; transform: translate(-50%, 0); }
@@ -34,177 +35,185 @@
 
         /* القائمة العلوية */
         header {
-            background-color: #1e1e2f;
-            padding: 15px 20px;
+            background-color: #161b22;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #3b82f6;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .logo { font-size: 1.5rem; font-weight: bold; color: #38bdf8; }
-        nav { display: flex; gap: 15px; }
+        .logo { font-size: 1.4rem; font-weight: bold; color: #38bdf8; }
+        nav { display: flex; gap: 10px; overflow-x: auto; }
         nav button {
-            background: none; border: none; color: #94a3b8; font-size: 1rem; cursor: pointer; font-weight: bold; transition: 0.2s;
+            background: none; border: none; color: #94a3b8; font-size: 0.9rem; cursor: pointer; font-weight: bold; padding: 5px 10px; transition: 0.2s; white-space: nowrap;
         }
-        nav button.active, nav button:hover { color: #38bdf8; }
+        nav button.active, nav button:hover { color: #38bdf8; border-bottom: 2px solid #38bdf8; }
 
         /* الأقسام */
-        .section { display: none; padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; flex: 1; }
+        .section { display: none; padding: 15px; max-width: 800px; margin: 0 auto; width: 100%; flex: 1; }
         .section.active { display: flex; flex-direction: column; align-items: center; }
 
-        /* قسم الرسم */
+        /* قسم الرسم مع الزوم */
         .canvas-container {
             background-color: #161b22;
-            border: 2px solid #30363d;
+            border: 1px solid #30363d;
             border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            padding: 12px;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
-        canvas {
+        .canvas-wrapper {
+            width: 100%;
+            height: 380px;
+            overflow: auto;
             border: 2px solid #38bdf8;
             border-radius: 8px;
             background-color: #ffffff;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
             cursor: crosshair;
             touch-action: none;
+            transform-origin: center center;
+            transition: transform 0.1s ease;
         }
         .tools-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             justify-content: center;
             align-items: center;
         }
-        .tools-bar input[type="color"] {
-            border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; background: none;
-        }
-        .tools-bar input[type="range"] { accent-color: #38bdf8; }
-        .btn {
-            background-color: #238636; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;
-        }
+        .tools-bar input[type="color"] { border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; background: none; }
+        .tools-bar input[type="range"] { accent-color: #38bdf8; width: 90px; }
+        .btn { background-color: #238636; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
         .btn:hover { opacity: 0.9; }
         .btn-danger { background-color: #da3633; }
         .btn-secondary { background-color: #30363d; }
 
-        /* قسم النشر والتفاعل (لايك وتعليق) */
-        .feed-card {
+        /* الدردشة الجماعية */
+        .chat-box {
             background-color: #161b22;
             border: 1px solid #30363d;
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 12px;
             width: 100%;
-            margin-bottom: 15px;
-        }
-        .feed-card h3 { color: #38bdf8; margin-bottom: 8px; }
-        .interaction-bar {
+            height: 400px;
             display: flex;
-            gap: 15px;
-            margin-top: 10px;
-            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
         }
-        .interaction-bar button {
-            background: none; border: none; color: #8b949e; cursor: pointer; font-size: 0.9rem; display: flex; gap: 5px; align-items: center;
-        }
-        .interaction-bar button:hover { color: #58a6ff; }
-        .comments-section {
-            margin-top: 10px;
-            border-top: 1px solid #30363d;
-            padding-top: 10px;
-        }
-        .comments-list { font-size: 0.85rem; color: #c9d1d9; margin-bottom: 8px; }
-        .comment-input-box {
-            display: flex; gap: 8px;
-        }
-        .comment-input-box input {
-            flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 6px 10px; color: white;
-        }
+        .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .chat-msg { background: #21262d; padding: 8px 12px; border-radius: 8px; max-width: 80%; font-size: 0.9rem; word-break: break-all; }
+        .chat-msg span { display: block; font-size: 0.7rem; color: #38bdf8; margin-bottom: 2px; }
+        .chat-input-area { display: flex; padding: 10px; background: #0d1117; border-top: 1px solid #30363d; gap: 8px; }
+        .chat-input-area input { flex: 1; background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 8px; color: white; outline: none; }
 
-        /* قسم الألعاب */
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            width: 100%;
-        }
-        .game-card {
-            background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s;
-        }
-        .game-card:hover { border-color: #38bdf8; transform: translateY(-3px); }
+        /* الألعاب (X-O والشطرنج) */
+        .games-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
+        .game-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 15px; text-align: center; }
+        
+        /* تكة X-O */
+        .xo-board { display: grid; grid-template-columns: repeat(3, 70px); gap: 5px; justify-content: center; margin: 15px 0; }
+        .xo-cell { width: 70px; height: 70px; background: #21262d; border: 1px solid #30363d; font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #38bdf8; border-radius: 6px; }
+        .xo-cell:hover { background: #30363d; }
+
+        /* قسم النشر */
+        .feed-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 12px; width: 100%; margin-bottom: 12px; }
+        .feed-card h3 { color: #38bdf8; margin-bottom: 6px; font-size: 1rem; }
+        .interaction-bar { display: flex; gap: 15px; margin-top: 8px; align-items: center; }
+        .interaction-bar button { background: none; border: none; color: #8b949e; cursor: pointer; font-size: 0.85rem; display: flex; gap: 4px; align-items: center; }
     </style>
 </head>
 <body>
 
-    <!-- الترحيب -->
-    <div id="welcome-popup">أهلاً بك يا بطل في منصة Slax المتكاملة! 🚀</div>
+    <!-- الترحيب المطلوب -->
+    <div id="welcome-popup">
+        <h2>نورتو موقع Slax 🚀</h2>
+        <p>المبدع: محمد</p>
+    </div>
 
-    <!-- القائمة -->
     <header>
         <div class="logo">Slax Hub</div>
         <nav>
-            <button class="active" onclick="switchTab('draw', this)">الرسم</button>
+            <button class="active" onclick="switchTab('draw', this)">الرسم والزووم</button>
+            <button onclick="switchTab('chat', this)">الدردشة الجماعية</button>
+            <button onclick="switchTab('games', this)">الألعاب والتحدي</button>
             <button onclick="switchTab('feed', this)">النشر والمجتمع</button>
-            <button onclick="switchTab('games', this)">الألعاب</button>
         </nav>
     </header>
 
-    <!-- 1. قسم الرسم -->
+    <!-- 1. الرسم والزووم -->
     <div id="draw" class="section active">
         <div class="canvas-container">
-            <h2 style="color: #38bdf8;">لوحة الرسم الاحترافية</h2>
-            <canvas id="paintCanvas" width="320" height="380"></canvas>
+            <h2 style="color: #38bdf8; font-size: 1.1rem;">لوحة الرسم مع التحكم بالحجم والزووم</h2>
+            <div class="canvas-wrapper" id="canvasWrapper">
+                <canvas id="paintCanvas" width="500" height="500"></canvas>
+            </div>
             <div class="tools-bar">
                 <input type="color" id="colorPicker" value="#38bdf8">
-                <input type="range" id="brushSize" min="1" max="30" value="4">
-                <button class="btn btn-secondary" id="undoBtn">↩ تراجع</button>
-                <button class="btn btn-secondary" id="redoBtn">↪ إعادة</button>
+                <input type="range" id="brushSize" min="1" max="40" value="4">
+                <button class="btn btn-secondary" onclick="zoomCanvas(0.2)">🔍+</button>
+                <button class="btn btn-secondary" onclick="zoomCanvas(-0.2)">🔍-</button>
+                <button class="btn btn-secondary" id="undoBtn">↩</button>
+                <button class="btn btn-secondary" id="redoBtn">↪</button>
                 <button class="btn btn-danger" id="clearBtn">مسح</button>
                 <button class="btn" id="publishBtn">نشر الرسمة</button>
             </div>
         </div>
     </div>
 
-    <!-- 2. قسم النشر -->
-    <div id="feed" class="section">
-        <h2 style="margin-bottom: 15px;">منشورات ورسومات المجتمع</h2>
-        <div id="postsContainer" style="width: 100%;">
-            <!-- منشور تجريبي -->
-            <div class="feed-card">
-                <h3>محمد (L)</h3>
-                <p>أهلاً بكم في أول منصة رسم ونشر تفاعلية لـ Slax!</p>
-                <div class="interaction-bar">
-                    <button onclick="likePost(this)">❤️ <span class="like-count">12</span> لايك</button>
-                </div>
-                <div class="comments-section">
-                    <div class="comments-list">💬 فكرة رهيبة وراقي جداً!</div>
-                    <div class="comment-input-box">
-                        <input type="text" placeholder="اكتب تعليقك هنا..." onkeypress="addComment(event, this)">
-                        <button class="btn" style="padding: 4px 10px;" onclick="postCommentBtn(this)">تعليق</button>
-                    </div>
-                </div>
+    <!-- 2. المحادثة الجماعية -->
+    <div id="chat" class="section">
+        <h2 style="margin-bottom: 10px; color: #38bdf8;">الدردشة الجماعية الحية</h2>
+        <div class="chat-box">
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="checkChatEnter(event)">
+                <button class="btn" onclick="sendChatMessage()">إرسال</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. قسم الألعاب -->
+    <!-- 3. الألعاب (X-O وشطرنج) -->
     <div id="games" class="section">
-        <h2 style="margin-bottom: 15px;">قسم الألعاب المصغرة</h2>
+        <h2 style="margin-bottom: 10px; color: #38bdf8;">ساحة الألعاب</h2>
         <div class="games-grid">
-            <div class="game-card" onclick="alert('لعبة الذاكرة قادمة قريباً!')">
-                <h3>🧠 لعبة الذاكرة</h3>
-                <p style="color: #8b949e; font-size: 0.85rem; margin-top: 5px;">اختبر قوة تركيزك</p>
+            <div class="game-card">
+                <h3>لعبة إكس أو (X-O)</h3>
+                <p style="color: #8b949e; font-size: 0.8rem; margin: 5px 0;">اختر نمط اللعب:</p>
+                <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 8px;">
+                    <button class="btn btn-secondary" onclick="setXOMode('pvp')">مع صديق 👥</button>
+                    <button class="btn btn-secondary" onclick="setXOMode('pve')">ضد بوت 🤖</button>
+                </div>
+                <div class="xo-board" id="xoBoard"></div>
+                <p id="xoStatus" style="font-size: 0.85rem; color: #38bdf8;"></p>
+                <button class="btn" style="margin-top: 8px;" onclick="resetXO()">إعادة اللعبة</button>
             </div>
-            <div class="game-card" onclick="alert('لعبة السرعة قادمة قريباً!')">
-                <h3>⚡ تحدي السرعة</h3>
-                <p style="color: #8b949e; font-size: 0.85rem; margin-top: 5px;">أسرع ضغطة تفوز</p>
+
+            <div class="game-card">
+                <h3>لعبة الشطرنج المصغرة</h3>
+                <p style="color: #8b949e; font-size: 0.85rem; margin-top: 5px;">قريباً طاولات شطرنج جماعية بالكامل!</p>
+                <button class="btn btn-secondary" style="margin-top: 10px;" onclick="alert('جارِ تجهيز لوحة الشطرنج الكاملة للمتصفح!')">دخول الشطرنج</button>
             </div>
         </div>
+    </div>
+
+    <!-- 4. النشر -->
+    <div id="feed" class="section">
+        <h2 style="margin-bottom: 10px; color: #38bdf8;">منشورات ورسومات المجتمع</h2>
+        <div id="postsContainer" style="width: 100%;"></div>
     </div>
 
     <script>
-        // التنقل بين الأقسام
         function switchTab(tabId, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -212,147 +221,181 @@
             btn.classList.add('active');
         }
 
-        // إعدادات لوحة الرسم
+        // رسم وزوم
         const canvas = document.getElementById('paintCanvas');
         const ctx = canvas.getContext('2d');
-        let isDrawing = false;
-        let history = [];
-        let historyStep = -1;
+        let isDrawing = false, currentZoom = 1;
+        let history = [], historyStep = -1;
 
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
         function saveState() {
             historyStep++;
             if (historyStep < history.length) { history.length = historyStep; }
             history.push(canvas.toDataURL());
         }
 
-        function startDraw(e) {
-            isDrawing = true;
-            ctx.beginPath();
-            const pos = getPos(e);
-            ctx.moveTo(pos.x, pos.y);
-        }
-
+        function startDraw(e) { isDrawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); }
         function draw(e) {
             if (!isDrawing) return;
-            const pos = getPos(e);
+            const p = getPos(e);
             ctx.strokeStyle = document.getElementById('colorPicker').value;
             ctx.lineWidth = document.getElementById('brushSize').value;
-            ctx.lineTo(pos.x, pos.y);
+            ctx.lineTo(p.x, p.y);
             ctx.stroke();
         }
-
-        function stopDraw() {
-            if (isDrawing) {
-                isDrawing = false;
-                saveState();
-            }
-        }
+        function stopDraw() { if (isDrawing) { isDrawing = false; saveState(); } }
 
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            let clientX = e.clientX, clientY = e.clientY;
-            if (e.touches && e.touches[0]) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            }
-            return { x: clientX - rect.left, y: clientY - rect.top };
+            let cx = e.clientX, cy = e.clientY;
+            if (e.touches && e.touches[0]) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; }
+            return { x: (cx - rect.left) / currentZoom, y: (cy - rect.top) / currentZoom };
         }
 
         canvas.addEventListener('mousedown', startDraw);
         canvas.addEventListener('mousemove', draw);
         canvas.addEventListener('mouseup', stopDraw);
-
         canvas.addEventListener('touchstart', (e) => { startDraw(e); e.preventDefault(); });
         canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); });
         canvas.addEventListener('touchend', (e) => { stopDraw(); e.preventDefault(); });
 
-        // حفظ أول حالة بيضاء للكانفاس
         window.onload = () => {
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
             saveState();
+            loadChat();
+            loadPosts();
+            initXO();
         };
 
-        // زر التراجع
+        function zoomCanvas(amount) {
+            currentZoom = Math.max(0.5, Math.min(3, currentZoom + amount));
+            canvas.style.transform = `scale(${currentZoom})`;
+        }
+
         document.getElementById('undoBtn').addEventListener('click', () => {
             if (historyStep > 0) {
-                historyStep--;
-                let img = new Image();
+                historyStep--; let img = new Image();
                 img.src = history[historyStep];
-                img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); }
+                img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); }
             }
         });
-
-        // زر الإعادة
         document.getElementById('redoBtn').addEventListener('click', () => {
             if (historyStep < history.length - 1) {
-                historyStep++;
-                let img = new Image();
+                historyStep++; let img = new Image();
                 img.src = history[historyStep];
-                img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); }
+                img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); }
             }
         });
-
-        // مسح اللوحة
         document.getElementById('clearBtn').addEventListener('click', () => {
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            saveState();
+            ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); saveState();
         });
 
-        // نشر الرسمة للمجتمع
+        // النشر
         document.getElementById('publishBtn').addEventListener('click', () => {
-            let dataUrl = canvas.toDataURL();
+            let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
+            posts.unshift({ author: 'محمد (L)', image: canvas.toDataURL(), likes: 0 });
+            localStorage.setItem('slax_posts', JSON.stringify(posts));
+            loadPosts();
+            switchTab('feed', document.querySelectorAll('nav button')[3]);
+        });
+
+        function loadPosts() {
             let container = document.getElementById('postsContainer');
-            let card = document.createElement('div');
-            card.className = 'feed-card';
-            card.innerHTML = `
-                <h3>رسمة جديدة بواسطة L</h3>
-                <img src="${dataUrl}" style="width:100%; border-radius:6px; margin-top:8px;">
-                <div class="interaction-bar">
-                    <button onclick="likePost(this)">❤️ <span class="like-count">0</span> لايك</button>
-                </div>
-                <div class="comments-section">
-                    <div class="comments-list"></div>
-                    <div class="comment-input-box">
-                        <input type="text" placeholder="اكتب تعليقك هنا..." onkeypress="addComment(event, this)">
-                        <button class="btn" style="padding: 4px 10px;" onclick="postCommentBtn(this)">تعليق</button>
+            let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
+            container.innerHTML = posts.map((p, idx) => `
+                <div class="feed-card">
+                    <h3>${p.author}</h3>
+                    <img src="${p.image}" style="width:100%; border-radius:6px; margin-top:6px;">
+                    <div class="interaction-bar">
+                        <button onclick="likePost(${idx})">❤️ <span class="like-count">${p.likes}</span> لايك</button>
                     </div>
                 </div>
-            `;
-            container.prepend(card);
-            switchTab('feed', document.querySelectorAll('nav button')[1]);
-        });
-
-        // نظام اللايكات
-        function likePost(btn) {
-            let countSpan = btn.querySelector('.like-count');
-            countSpan.textContent = parseInt(countSpan.textContent) + 1;
-            btn.style.color = '#f85149';
+            `).join('');
         }
 
-        // إضافة تعليق
-        function addComment(e, input) {
-            if (e.key === 'Enter' && input.value.trim() !== '') {
-                saveComment(input);
-            }
+        function likePost(idx) {
+            let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
+            posts[idx].likes++;
+            localStorage.setItem('slax_posts', JSON.stringify(posts));
+            loadPosts();
         }
-        function postCommentBtn(btn) {
-            let input = btn.previousElementSibling;
-            if (input.value.trim() !== '') {
-                saveComment(input);
-            }
-        }
-        function saveComment(input) {
-            let commentsList = input.closest('.comments-section').querySelector('.comments-list');
-            let newComment = document.createElement('div');
-            newComment.style.marginTop = '4px';
-            newComment.textContent = `• زائر: ${input.value}`;
-            commentsList.appendChild(newComment);
+
+        // الدردشة الجماعية (LocalStorage)
+        function sendChatMessage() {
+            let input = document.getElementById('chatInput');
+            let text = input.value.trim();
+            if(!text) return;
+            let messages = JSON.parse(localStorage.getItem('slax_chat') || '[]');
+            messages.push({ user: 'زائر Slax', text: text });
+            localStorage.setItem('slax_chat', JSON.stringify(messages));
             input.value = '';
+            loadChat();
+        }
+        function checkChatEnter(e) { if(e.key === 'Enter') sendChatMessage(); }
+
+        function loadChat() {
+            let box = document.getElementById('chatMessages');
+            let messages = JSON.parse(localStorage.getItem('slax_chat') || '[]');
+            box.innerHTML = messages.map(m => `<div class="chat-msg"><span>${m.user}</span>${m.text}</div>`).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+        setInterval(loadChat, 3000); // تحديث دوري للدردشة
+
+        // لعبة X-O
+        let xoBoard = ['', '', '', '', '', '', '', '', ''];
+        let xoTurn = 'X', xoGameActive = true, xoMode = 'pvp';
+
+        function setXOMode(mode) { xoMode = mode; resetXO(); }
+        function initXO() {
+            let boardEl = document.getElementById('xoBoard');
+            boardEl.innerHTML = xoBoard.map((val, i) => `<div class="xo-cell" onclick="makeXOMove(${i})">${val}</div>`).join('');
+            document.getElementById('xoStatus').textContent = xoGameActive ? `دور اللاعب: ${xoTurn}` : '';
+        }
+
+        function makeXOMove(i) {
+            if(!xoGameActive || xoBoard[i] !== '') return;
+            xoBoard[i] = xoTurn;
+            checkXOWin();
+            if(xoGameActive) {
+                xoTurn = xoTurn === 'X' ? 'O' : 'X';
+                initXO();
+                if(xoMode === 'pve' && xoTurn === 'O' && xoGameActive) {
+                    setTimeout(botXOMove, 400);
+                }
+            }
+        }
+
+        function botXOMove() {
+            let empty = xoBoard.map((v, i) => v === '' ? i : null).filter(v => v !== null);
+            if(empty.length === 0) return;
+            let r = empty[Math.floor(Math.random() * empty.length)];
+            xoBoard[r] = 'O';
+            checkXOWin();
+            if(xoGameActive) { xoTurn = 'X'; initXO(); }
+        }
+
+        function checkXOWin() {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            for(let w of wins) {
+                [a, b, c] = w;
+                if(xoBoard[a] && xoBoard[a] === xoBoard[b] && xoBoard[a] === xoBoard[c]) {
+                    document.getElementById('xoStatus').textContent = `الفائز هو: ${xoBoard[a]} 🎉`;
+                    xoGameActive = false;
+                    initXO();
+                    return;
+                }
+            }
+            if(!xoBoard.includes('')) {
+                document.getElementById('xoStatus').textContent = `تعادل! 🤝`;
+                xoGameActive = false;
+                initXO();
+            }
+        }
+
+        function resetXO() {
+            xoBoard = ['', '', '', '', '', '', '', '', ''];
+            xoTurn = 'X'; xoGameActive = true;
+            initXO();
         }
     </script>
 </body>
