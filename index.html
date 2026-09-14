@@ -8,20 +8,12 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { background-color: #0b0f19; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* نافذة الترحيب الخاصة */
+        /* نافذة الترحيب */
         #welcome-popup {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 14px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-            z-index: 2000;
-            text-align: center;
-            animation: fadeInOut 5s forwards;
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(135deg, #2563eb, #7c3aed); color: white;
+            padding: 15px 30px; border-radius: 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            z-index: 2000; text-align: center; animation: fadeInOut 5s forwards;
         }
         #welcome-popup h2 { font-size: 1.2rem; margin-bottom: 3px; }
         #welcome-popup p { font-size: 0.85rem; color: #e2e8f0; }
@@ -35,20 +27,15 @@
 
         /* القائمة العلوية */
         header {
-            background-color: #161b22;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #3b82f6;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background-color: #161b22; padding: 12px 20px; display: flex;
+            justify-content: space-between; align-items: center; border-bottom: 2px solid #3b82f6;
+            position: sticky; top: 0; z-index: 1000;
         }
         .logo { font-size: 1.4rem; font-weight: bold; color: #38bdf8; }
-        nav { display: flex; gap: 10px; overflow-x: auto; }
+        nav { display: flex; gap: 8px; overflow-x: auto; }
         nav button {
-            background: none; border: none; color: #94a3b8; font-size: 0.9rem; cursor: pointer; font-weight: bold; padding: 5px 10px; transition: 0.2s; white-space: nowrap;
+            background: none; border: none; color: #94a3b8; font-size: 0.85rem; cursor: pointer;
+            font-weight: bold; padding: 5px 8px; transition: 0.2s; white-space: nowrap;
         }
         nav button.active, nav button:hover { color: #38bdf8; border-bottom: 2px solid #38bdf8; }
 
@@ -56,86 +43,58 @@
         .section { display: none; padding: 15px; max-width: 800px; margin: 0 auto; width: 100%; flex: 1; }
         .section.active { display: flex; flex-direction: column; align-items: center; }
 
-        /* قسم الرسم مع الزوم */
+        /* لوحة الرسم والزووم */
         .canvas-container {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 12px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            background-color: #161b22; border: 1px solid #30363d; border-radius: 12px;
+            padding: 12px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
         .canvas-wrapper {
-            width: 100%;
-            height: 380px;
-            overflow: auto;
-            border: 2px solid #38bdf8;
-            border-radius: 8px;
-            background-color: #ffffff;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100%; height: 360px; overflow: auto; border: 2px solid #38bdf8;
+            border-radius: 8px; background-color: #ffffff; position: relative; display: flex; justify-content: center; align-items: center;
         }
-        canvas {
-            cursor: crosshair;
-            touch-action: none;
-            transform-origin: center center;
-            transition: transform 0.1s ease;
-        }
-        .tools-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            align-items: center;
-        }
+        canvas { cursor: crosshair; touch-action: none; transform-origin: center center; transition: transform 0.1s ease; }
+        .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
         .tools-bar input[type="color"] { border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; background: none; }
-        .tools-bar input[type="range"] { accent-color: #38bdf8; width: 90px; }
-        .btn { background-color: #238636; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
+        .tools-bar input[type="range"] { accent-color: #38bdf8; width: 80px; }
+        
+        .btn { background-color: #238636; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
         .btn:hover { opacity: 0.9; }
         .btn-danger { background-color: #da3633; }
         .btn-secondary { background-color: #30363d; }
 
-        /* الدردشة الجماعية */
-        .chat-box {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            width: 100%;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        /* الدردشة */
+        .chat-box { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; width: 100%; height: 380px; display: flex; flex-direction: column; overflow: hidden; }
         .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .chat-msg { background: #21262d; padding: 8px 12px; border-radius: 8px; max-width: 80%; font-size: 0.9rem; word-break: break-all; }
+        .chat-msg { background: #21262d; padding: 8px 12px; border-radius: 8px; max-width: 85%; font-size: 0.9rem; word-break: break-all; }
         .chat-msg span { display: block; font-size: 0.7rem; color: #38bdf8; margin-bottom: 2px; }
         .chat-input-area { display: flex; padding: 10px; background: #0d1117; border-top: 1px solid #30363d; gap: 8px; }
         .chat-input-area input { flex: 1; background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 8px; color: white; outline: none; }
 
-        /* الألعاب (X-O والشطرنج) */
+        /* الألعاب */
         .games-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
         .game-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 15px; text-align: center; }
-        
-        /* تكة X-O */
         .xo-board { display: grid; grid-template-columns: repeat(3, 70px); gap: 5px; justify-content: center; margin: 15px 0; }
         .xo-cell { width: 70px; height: 70px; background: #21262d; border: 1px solid #30363d; font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #38bdf8; border-radius: 6px; }
         .xo-cell:hover { background: #30363d; }
 
-        /* قسم النشر */
+        /* المجتمع والتعليقات */
         .feed-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 12px; width: 100%; margin-bottom: 12px; }
         .feed-card h3 { color: #38bdf8; margin-bottom: 6px; font-size: 1rem; }
         .interaction-bar { display: flex; gap: 15px; margin-top: 8px; align-items: center; }
         .interaction-bar button { background: none; border: none; color: #8b949e; cursor: pointer; font-size: 0.85rem; display: flex; gap: 4px; align-items: center; }
+        .comments-section { margin-top: 8px; border-top: 1px solid #30363d; padding-top: 8px; }
+        .comments-list { font-size: 0.8rem; color: #c9d1d9; margin-bottom: 6px; }
+        .comment-box { display: flex; gap: 6px; }
+        .comment-box input { flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 5px; padding: 5px 8px; color: white; font-size: 0.8rem; }
+
+        /* الإعدادات والحسابات */
+        .settings-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; width: 100%; display: flex; flex-direction: column; gap: 12px; }
+        .settings-card label { font-size: 0.9rem; color: #8b949e; }
+        .settings-card input { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; color: white; width: 100%; outline: none; }
     </style>
 </head>
 <body>
 
-    <!-- الترحيب المطلوب -->
     <div id="welcome-popup">
         <h2>نورتو موقع Slax 🚀</h2>
         <p>المبدع: محمد</p>
@@ -145,18 +104,19 @@
         <div class="logo">Slax Hub</div>
         <nav>
             <button class="active" onclick="switchTab('draw', this)">الرسم والزووم</button>
-            <button onclick="switchTab('chat', this)">الدردشة الجماعية</button>
-            <button onclick="switchTab('games', this)">الألعاب والتحدي</button>
-            <button onclick="switchTab('feed', this)">النشر والمجتمع</button>
+            <button onclick="switchTab('chat', this)">الدردشة</button>
+            <button onclick="switchTab('games', this)">الألعاب</button>
+            <button onclick="switchTab('feed', this)">المجتمع</button>
+            <button onclick="switchTab('settings', this)">الحساب والإعدادات</button>
         </nav>
     </header>
 
-    <!-- 1. الرسم والزووم -->
+    <!-- 1. الرسم -->
     <div id="draw" class="section active">
         <div class="canvas-container">
-            <h2 style="color: #38bdf8; font-size: 1.1rem;">لوحة الرسم مع التحكم بالحجم والزووم</h2>
+            <h2 style="color: #38bdf8; font-size: 1.1rem;">لوحة الرسم مع الزووم</h2>
             <div class="canvas-wrapper" id="canvasWrapper">
-                <canvas id="paintCanvas" width="500" height="500"></canvas>
+                <canvas id="paintCanvas" width="450" height="450"></canvas>
             </div>
             <div class="tools-bar">
                 <input type="color" id="colorPicker" value="#38bdf8">
@@ -171,26 +131,25 @@
         </div>
     </div>
 
-    <!-- 2. المحادثة الجماعية -->
+    <!-- 2. الدردشة الجماعية -->
     <div id="chat" class="section">
-        <h2 style="margin-bottom: 10px; color: #38bdf8;">الدردشة الجماعية الحية</h2>
+        <h2 style="margin-bottom: 10px; color: #38bdf8;">الدردشة الجماعية</h2>
         <div class="chat-box">
             <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="checkChatEnter(event)">
+                <input type="text" id="chatInput" placeholder="اكتب رسالتك..." onkeypress="checkChatEnter(event)">
                 <button class="btn" onclick="sendChatMessage()">إرسال</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. الألعاب (X-O وشطرنج) -->
+    <!-- 3. الألعاب -->
     <div id="games" class="section">
         <h2 style="margin-bottom: 10px; color: #38bdf8;">ساحة الألعاب</h2>
         <div class="games-grid">
             <div class="game-card">
                 <h3>لعبة إكس أو (X-O)</h3>
-                <p style="color: #8b949e; font-size: 0.8rem; margin: 5px 0;">اختر نمط اللعب:</p>
-                <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: center; gap: 8px; margin: 8px 0;">
                     <button class="btn btn-secondary" onclick="setXOMode('pvp')">مع صديق 👥</button>
                     <button class="btn btn-secondary" onclick="setXOMode('pve')">ضد بوت 🤖</button>
                 </div>
@@ -198,19 +157,29 @@
                 <p id="xoStatus" style="font-size: 0.85rem; color: #38bdf8;"></p>
                 <button class="btn" style="margin-top: 8px;" onclick="resetXO()">إعادة اللعبة</button>
             </div>
-
-            <div class="game-card">
-                <h3>لعبة الشطرنج المصغرة</h3>
-                <p style="color: #8b949e; font-size: 0.85rem; margin-top: 5px;">قريباً طاولات شطرنج جماعية بالكامل!</p>
-                <button class="btn btn-secondary" style="margin-top: 10px;" onclick="alert('جارِ تجهيز لوحة الشطرنج الكاملة للمتصفح!')">دخول الشطرنج</button>
-            </div>
         </div>
     </div>
 
-    <!-- 4. النشر -->
+    <!-- 4. المجتمع -->
     <div id="feed" class="section">
         <h2 style="margin-bottom: 10px; color: #38bdf8;">منشورات ورسومات المجتمع</h2>
         <div id="postsContainer" style="width: 100%;"></div>
+    </div>
+
+    <!-- 5. الحساب والإعدادات -->
+    <div id="settings" class="section">
+        <div class="settings-card">
+            <h2 style="color: #38bdf8; font-size: 1.2rem;">إعدادات الحساب</h2>
+            <div>
+                <label>اسم المستخدم:</label>
+                <input type="text" id="usernameInput" placeholder="أدخل اسمك هنا...">
+            </div>
+            <div>
+                <label>نبذة عنك (Bio):</label>
+                <input type="text" id="bioInput" placeholder="اكتب شيئاً عنك...">
+            </div>
+            <button class="btn" onclick="saveSettings()">حفظ التعديلات</button>
+        </div>
     </div>
 
     <script>
@@ -221,13 +190,35 @@
             btn.classList.add('active');
         }
 
-        // رسم وزوم
+        // جلب اسم المستخدم المحفوظ أو الافتراضي
+        function getUserName() {
+            return localStorage.getItem('slax_username') || 'محمد (L)';
+        }
+
+        // إعدادات الحساب
+        window.onload = () => {
+            document.getElementById('usernameInput').value = localStorage.getItem('slax_username') || 'محمد (L)';
+            document.getElementById('bioInput').value = localStorage.getItem('slax_bio') || 'المبدع وراء منصة Slax';
+            ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveState();
+            loadChat();
+            loadPosts();
+            initXO();
+        };
+
+        function saveSettings() {
+            localStorage.setItem('slax_username', document.getElementById('usernameInput').value);
+            localStorage.setItem('slax_bio', document.getElementById('bioInput').value);
+            alert('تم حفظ إعدادات الحساب بنجاح! ✨');
+        }
+
+        // رسم وزووم
         const canvas = document.getElementById('paintCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false, currentZoom = 1;
         let history = [], historyStep = -1;
-
         ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+
         function saveState() {
             historyStep++;
             if (historyStep < history.length) { history.length = historyStep; }
@@ -259,14 +250,6 @@
         canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); });
         canvas.addEventListener('touchend', (e) => { stopDraw(); e.preventDefault(); });
 
-        window.onload = () => {
-            ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            saveState();
-            loadChat();
-            loadPosts();
-            initXO();
-        };
-
         function zoomCanvas(amount) {
             currentZoom = Math.max(0.5, Math.min(3, currentZoom + amount));
             canvas.style.transform = `scale(${currentZoom})`;
@@ -290,10 +273,10 @@
             ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); saveState();
         });
 
-        // النشر
+        // النشر والتعليقات واللايكات
         document.getElementById('publishBtn').addEventListener('click', () => {
             let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
-            posts.unshift({ author: 'محمد (L)', image: canvas.toDataURL(), likes: 0 });
+            posts.unshift({ author: getUserName(), image: canvas.toDataURL(), likes: 0, comments: [] });
             localStorage.setItem('slax_posts', JSON.stringify(posts));
             loadPosts();
             switchTab('feed', document.querySelectorAll('nav button')[3]);
@@ -309,6 +292,15 @@
                     <div class="interaction-bar">
                         <button onclick="likePost(${idx})">❤️ <span class="like-count">${p.likes}</span> لايك</button>
                     </div>
+                    <div class="comments-section">
+                        <div class="comments-list">
+                            ${p.comments.map(c => `<div>• <b>${c.user}:</b> ${c.text}</div>`).join('')}
+                        </div>
+                        <div class="comment-box">
+                            <input type="text" id="commInput_${idx}" placeholder="اكتب تعليقاً..." onkeypress="checkCommentEnter(event, ${idx})">
+                            <button class="btn" style="padding: 4px 8px; font-size:0.75rem;" onclick="addComment(${idx})">تعليق</button>
+                        </div>
+                    </div>
                 </div>
             `).join('');
         }
@@ -320,13 +312,27 @@
             loadPosts();
         }
 
-        // الدردشة الجماعية (LocalStorage)
+        function addComment(idx) {
+            let input = document.getElementById(`commInput_${idx}`);
+            let text = input.value.trim();
+            if(!text) return;
+            let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
+            posts[idx].comments.push({ user: getUserName(), text: text });
+            localStorage.setItem('slax_posts', JSON.stringify(posts));
+            loadPosts();
+        }
+
+        function checkCommentEnter(e, idx) {
+            if(e.key === 'Enter') addComment(idx);
+        }
+
+        // الدردشة الجماعية
         function sendChatMessage() {
             let input = document.getElementById('chatInput');
             let text = input.value.trim();
             if(!text) return;
             let messages = JSON.parse(localStorage.getItem('slax_chat') || '[]');
-            messages.push({ user: 'زائر Slax', text: text });
+            messages.push({ user: getUserName(), text: text });
             localStorage.setItem('slax_chat', JSON.stringify(messages));
             input.value = '';
             loadChat();
@@ -339,7 +345,7 @@
             box.innerHTML = messages.map(m => `<div class="chat-msg"><span>${m.user}</span>${m.text}</div>`).join('');
             box.scrollTop = box.scrollHeight;
         }
-        setInterval(loadChat, 3000); // تحديث دوري للدردشة
+        setInterval(loadChat, 3000);
 
         // لعبة X-O
         let xoBoard = ['', '', '', '', '', '', '', '', ''];
@@ -377,7 +383,7 @@
         function checkXOWin() {
             const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
             for(let w of wins) {
-                [a, b, c] = w;
+                let [a, b, c] = w;
                 if(xoBoard[a] && xoBoard[a] === xoBoard[b] && xoBoard[a] === xoBoard[c]) {
                     document.getElementById('xoStatus').textContent = `الفائز هو: ${xoBoard[a]} 🎉`;
                     xoGameActive = false;
