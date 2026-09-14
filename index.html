@@ -3,25 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المبدع L الاحترافية</title>
+    <title>منصة المبدع محمد الخارقة</title>
     <style>
         :root {
-            --bg-gradient: radial-gradient(circle at top, #1e1b4b, #0f172a, #020617);
-            --card-bg: rgba(30, 41, 59, 0.7);
+            --bg-gradient: radial-gradient(circle at top, #0f172a, #1e1b4b, #020617);
+            --card-bg: rgba(30, 41, 59, 0.75);
             --text-color: #f8fafc;
             --accent-color: #38bdf8;
             --accent-hover: #0ea5e9;
-            --border-color: rgba(51, 65, 85, 0.6);
-            --glass-blur: blur(12px);
+            --border-color: rgba(56, 189, 248, 0.2);
+            --glass-blur: blur(16px);
+        }
+
+        .theme-cyber {
+            --bg-gradient: radial-gradient(circle at top, #3b0764, #18181b, #09090b);
+            --accent-color: #f43f5e;
+            --accent-hover: #e11d48;
+            --border-color: rgba(244, 63, 94, 0.3);
+        }
+
+        .theme-emerald {
+            --bg-gradient: radial-gradient(circle at top, #064e3b, #022c22, #020617);
+            --accent-color: #10b981;
+            --accent-hover: #059669;
+            --border-color: rgba(16, 185, 129, 0.3);
         }
 
         .light-mode {
-            --bg-gradient: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --bg-gradient: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+            --card-bg: rgba(255, 255, 255, 0.9);
             --text-color: #0f172a;
             --accent-color: #0284c7;
             --accent-hover: #0369a1;
-            --border-color: rgba(203, 213, 225, 0.8);
+            --border-color: rgba(2, 132, 199, 0.2);
         }
 
         * {
@@ -41,14 +55,14 @@
             flex-direction: column;
         }
 
-        /* شاشة ترحيب خرافية فاخرة */
+        /* شاشة الترحيب الفخمة للمبدع محمد */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #1e1b4b 0%, #090d16 100%);
+            background: #020617;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -61,27 +75,26 @@
         }
 
         #splash-screen h1 {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(45deg, #38bdf8, #c084fc, #f43f5e);
+            font-size: 3.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #38bdf8, #c084fc, #f43f5e, #10b981);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
-            animation: pulseGlow 2s infinite alternate;
+            text-shadow: 0 0 40px rgba(56, 189, 248, 0.5);
+            animation: textGlow 2s infinite alternate;
         }
 
         #splash-screen p {
-            font-size: 1.4rem;
-            color: #cbd5e1;
-            letter-spacing: 1px;
+            font-size: 1.5rem;
+            color: #94a3b8;
         }
 
-        @keyframes pulseGlow {
-            0% { transform: scale(1); filter: brightness(1); }
-            100% { transform: scale(1.02); filter: brightness(1.2); }
+        @keyframes textGlow {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(56,189,248,0.4)); }
+            100% { transform: scale(1.03); filter: drop-shadow(0 0 25px rgba(244,63,94,0.6)); }
         }
 
-        /* هيدر عصري متطور */
+        /* الهيدر العلوي الذكي */
         header {
             background: var(--card-bg);
             backdrop-filter: var(--glass-blur);
@@ -93,13 +106,13 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .logo {
             font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #38bdf8, #a855f7);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent-color), #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -107,7 +120,7 @@
         nav ul {
             display: flex;
             list-style: none;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
@@ -115,9 +128,9 @@
             background: transparent;
             border: 1px solid transparent;
             color: var(--text-color);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
-            padding: 8px 14px;
+            padding: 8px 12px;
             border-radius: 8px;
             font-weight: 600;
         }
@@ -125,8 +138,7 @@
         nav ul li button:hover, nav ul li button.active {
             background: var(--accent-color);
             color: #fff;
-            border-color: var(--accent-hover);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 15px var(--accent-color);
         }
 
         /* المحتوى الرئيسي */
@@ -147,147 +159,45 @@
             animation: fadeIn 0.4s ease;
         }
 
-        /* بطاقات زجاجية فاخرة */
+        /* بطاقات الزجاج المعتم الفخمة */
         .card {
             background: var(--card-bg);
             backdrop-filter: var(--glass-blur);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
             margin-bottom: 25px;
         }
 
-        /* عناصر الإدخال والأزرار */
         input, select, textarea {
             padding: 12px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            background: rgba(15, 23, 42, 0.5);
+            background: rgba(15, 23, 42, 0.4);
             color: var(--text-color);
             width: 100%;
             outline: none;
             font-size: 1rem;
         }
 
-        .light-mode input, .light-mode select, .light-mode textarea {
-            background: rgba(255, 255, 255, 0.9);
-        }
-
         button.btn {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            background: var(--accent-color);
             color: white;
             border: none;
             padding: 12px 24px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 4px 15px var(--accent-color);
         }
 
         button.btn:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
+            background: var(--accent-hover);
+            transform: translateY(-2px);
         }
 
-        /* قسم المنشورات */
-        .post-box {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .feed-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .post-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .post-header {
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 8px;
-        }
-
-        .post-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 12px;
-            font-size: 0.9rem;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            opacity: 0.8;
-        }
-
-        .action-btn:hover {
-            opacity: 1;
-            color: var(--accent-color);
-        }
-
-        /* قسم الشات */
-        .chat-box {
-            height: 350px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow-y: auto;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .chat-message {
-            padding: 10px 14px;
-            border-radius: 10px;
-            max-width: 75%;
-            word-break: break-word;
-        }
-
-        .chat-message.self {
-            background: var(--accent-color);
-            color: #fff;
-            align-self: flex-end;
-        }
-
-        .chat-message.other {
-            background: var(--border-color);
-            align-self: flex-start;
-        }
-
-        /* لوحات الرسم */
-        .canvas-container {
-            text-align: center;
-        }
-
-        .paint-canvas {
-            background: #ffffff;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            cursor: crosshair;
-            display: block;
-            margin: 0 auto 15px auto;
-            max-width: 100%;
-        }
-
-        /* قسم الألعاب */
+        /* شبكة الألعاب */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -302,42 +212,54 @@
             text-align: center;
         }
 
-        /* شطرنج مبسط وتفاعلي */
+        /* لوحات الكانفاس للرسم */
+        .canvas-box {
+            text-align: center;
+        }
+
+        .custom-canvas {
+            background: #ffffff;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: crosshair;
+            display: block;
+            margin: 0 auto 15px auto;
+            max-width: 100%;
+        }
+
+        /* شطرنج */
         .chess-board {
             display: grid;
-            grid-template-columns: repeat(8, 35px);
-            grid-template-rows: repeat(8, 35px);
+            grid-template-columns: repeat(8, 36px);
+            grid-template-rows: repeat(8, 36px);
             justify-content: center;
             margin: 15px auto;
-            border: 2px solid var(--border-color);
+            border: 3px solid var(--border-color);
         }
 
         .chess-cell {
-            width: 35px;
-            height: 35px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
+            font-size: 1.3rem;
         }
+        .chess-cell.light { background: #e2e8f0; color: #000; }
+        .chess-cell.dark { background: #334155; color: #fff; }
 
-        .chess-cell.light { background: #cbd5e1; color: #000; }
-        .chess-cell.dark { background: #475569; color: #fff; }
-
-        /* لعبة Tic Tac Toe */
+        /* تيك تاك تو */
         .tic-tac-toe {
             display: grid;
-            grid-template-columns: repeat(3, 65px);
-            grid-template-rows: repeat(3, 65px);
-            gap: 6px;
+            grid-template-columns: repeat(3, 60px);
+            grid-template-rows: repeat(3, 60px);
+            gap: 5px;
             justify-content: center;
             margin: 15px auto;
         }
-
         .ttt-cell {
-            width: 65px;
-            height: 65px;
+            width: 60px;
+            height: 60px;
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--border-color);
             display: flex;
@@ -349,6 +271,38 @@
             border-radius: 8px;
         }
 
+        /* الشات */
+        .chat-box {
+            height: 350px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow-y: auto;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(0,0,0,0.15);
+        }
+
+        .chat-message {
+            padding: 10px 14px;
+            border-radius: 10px;
+            max-width: 75%;
+            word-break: break-word;
+        }
+        .chat-message.self { background: var(--accent-color); color: #fff; align-self: flex-end; }
+        .chat-message.other { background: rgba(255,255,255,0.1); align-self: flex-start; }
+
+        /* المنشورات */
+        .post-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -357,128 +311,145 @@
 </head>
 <body>
 
-    <!-- شاشة ترحيب خرافية باسم المبدع L -->
+    <!-- شاشة ترحيب المبدع محمد -->
     <div id="splash-screen">
-        <h1>منصة المبدع L</h1>
-        <p>جاري تحميل أضخم عالم تفاعلي، ألعاب، وشات، ورسم...</p>
+        <h1>مرحباً بك في عالم المبدع محمد</h1>
+        <p>جاري تفعيل كافة الأقسام، الألعاب، والرسم الحصري...</p>
     </div>
 
-    <!-- الهيدر والتحكم -->
+    <!-- القائمة الرئيسية المتقدمة -->
     <header>
-        <div class="logo">L Platform ⚡</div>
+        <div class="logo">المبدع محمد ⚡</div>
         <nav>
             <ul>
                 <li><button onclick="switchTab('home')" class="tab-btn active">الرئيسية</button></li>
+                <li><button onclick="switchTab('solo-draw')" class="tab-btn">الرسم المنفرد</button></li>
+                <li><button onclick="switchTab('group-draw')" class="tab-btn">الرسم الجماعي</button></li>
                 <li><button onclick="switchTab('posts')" class="tab-btn">المنشورات</button></li>
-                <li><button onclick="switchTab('chat')" class="tab-btn">الدردشة الحية</button></li>
-                <li><button onclick="switchTab('draw')" class="tab-btn">الرسم (منفرد وجماعي)</button></li>
-                <li><button onclick="switchTab('games')" class="tab-btn">الألعاب والشطرنج</button></li>
-                <li><button onclick="switchTab('settings')" class="tab-btn">الحساب والإعدادات</button></li>
+                <li><button onclick="switchTab('chat')" class="tab-btn">الدردشة</button></li>
+                <li><button onclick="switchTab('games')" class="tab-btn">الألعاب</button></li>
+                <li><button onclick="switchTab('chess')" class="tab-btn">الشطرنج</button></li>
+                <li><button onclick="switchTab('settings')" class="tab-btn">الإعدادات والحساب</button></li>
             </ul>
         </nav>
     </header>
 
-    <!-- أقسام المحتوى -->
     <main>
         <!-- الرئيسية -->
         <div id="home" class="section active">
             <div class="card" style="text-align: center; padding: 40px;">
-                <h2 style="font-size: 2.5rem; margin-bottom: 15px; color: var(--accent-color);">أهلاً بك في مملكة الإبداع يا L! 🔥</h2>
-                <p style="font-size: 1.2rem; line-height: 1.8; color: #cbd5e1;">هذا الموقع يجمع كل ما تحتاجه: انشر أفكارك، العب الشطرنج وألعاب التحدي، ارسم بمفردك أو مع أصدقائك، وتحدث بحرية في الشات المباشر.</p>
+                <h2 style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 15px;">أهلاً بك في منصتك الخاصة والفريدة! 🔥</h2>
+                <p style="font-size: 1.2rem; line-height: 1.8; color: #cbd5e1;">هنا تمتلك السيطرة الكاملة: ارسم بمفردك، ارسم مع أصدقائك في القسم الجماعي، انشر أفكارك، العب الشطرنج والألعاب الحماسية، وتحدث في الشات بحرية تامة!</p>
             </div>
         </div>
 
-        <!-- المنشورات واللايك والكومنت -->
-        <div id="posts" class="section">
-            <div class="card post-box">
-                <h2>شارك منشوراً جديداً</h2>
-                <textarea id="postInput" placeholder="ما الذي يدور في ذهنك يا أسطورة؟" rows="3"></textarea>
-                <button class="btn" onclick="createPost()">نشر المنشور</button>
+        <!-- 1. قسم الرسم المنفرد -->
+        <div id="solo-draw" class="section">
+            <div class="card canvas-box">
+                <h2>استوديو الرسم المنفرد 🎨</h2>
+                <p style="color: #94a3b8; margin-bottom: 15px;">لوحتك الخاصة وحدك للإبداع بحرية</p>
+                <canvas id="soloCanvas" class="custom-canvas" width="600" height="350"></canvas>
+                <button class="btn" onclick="clearCanvas('soloCanvas')" style="background-color: #ef4444;">مسح اللوحة</button>
             </div>
-            <div class="feed-container" id="feedContainer">
+        </div>
+
+        <!-- 2. قسم الرسم الجماعي -->
+        <div id="group-draw" class="section">
+            <div class="card canvas-box">
+                <h2>لوحة الرسم الجماعي المباشر 🌐</h2>
+                <p style="color: #94a3b8; margin-bottom: 15px;">ارسم وتفاعل مع كل من يدخل على الرابط</p>
+                <canvas id="groupCanvas" class="custom-canvas" width="600" height="350"></canvas>
+                <button class="btn" onclick="clearCanvas('groupCanvas')" style="background-color: #ef4444;">مسح لوحة الجماعة</button>
+            </div>
+        </div>
+
+        <!-- 3. قسم المنشورات (لايك وتعليق) -->
+        <div id="posts" class="section">
+            <div class="card" style="margin-bottom: 20px;">
+                <h2>أضف منشوراً جديداً</h2>
+                <textarea id="postText" placeholder="اكتب فكرتك أو منشورك هنا..." rows="3" style="margin: 10px 0;"></textarea>
+                <button class="btn" onclick="addNewPost()">نشر المنشور</button>
+            </div>
+            <div id="feedList">
                 <div class="post-card">
-                    <div class="post-header">المبدع L</div>
-                    <p>أهلاً بالجميع في منصتي الخاصة والمتكاملة! تم تفعيل كل المزايا بنجاح 🚀</p>
-                    <div class="post-actions">
-                        <button class="action-btn" onclick="likePost(this)">❤️ إعجاب (<span class="like-count">12</span>)</button>
-                        <button class="action-btn">💬 تعليقات (3)</button>
+                    <h3 style="color: var(--accent-color); margin-bottom: 5px;">المبدع محمد</h3>
+                    <p>أهلاً بالجميع في منصتي المحدثة كلياً! شاركوني إبداعاتكم 🚀</p>
+                    <div style="margin-top: 10px; display: flex; gap: 15px;">
+                        <button onclick="likePost(this)" style="background:none; border:none; color:var(--text-color); cursor:pointer;">❤️ إعجاب (<span class="l-count">5</span>)</button>
+                        <button style="background:none; border:none; color:var(--text-color); cursor:pointer;">💬 تعليقات (2)</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- الشات الحي -->
+        <!-- 4. قسم الدردشة -->
         <div id="chat" class="section">
             <div class="card">
-                <h2>الدردشة العامة الجماعية</h2>
+                <h2>الدردشة الحية العامة</h2>
                 <div class="chat-box" id="chatBox">
-                    <div class="chat-message other">مرحباً بالزوار في شات المبدع L العابر للشبكات!</div>
+                    <div class="chat-message other">مرحباً بكل الزوار في شات المبدع محمد!</div>
                 </div>
                 <div style="display: flex; gap: 10px;">
-                    <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleChatKey(event)">
-                    <button class="btn" onclick="sendChatMessage()">إرسال</button>
+                    <input type="text" id="chatInput" placeholder="اكتب رسالة..." onkeypress="if(event.key==='Enter') sendChat()">
+                    <button class="btn" onclick="sendChat()">إرسال</button>
                 </div>
             </div>
         </div>
 
-        <!-- الرسم المنفرد والجماعي -->
-        <div id="draw" class="section">
-            <div class="card canvas-container">
-                <h2>لوحة الإبداع والرسومات (منفرد وجماعي) 🎨</h2>
-                <p style="color: #94a3b8; margin-bottom: 15px;">ارسم بحرية تامة على اللوحة أدناه</p>
-                <canvas id="paintCanvas" class="paint-canvas" width="600" height="350"></canvas>
-                <div>
-                    <button class="btn" onclick="clearCanvas()" style="background-color: #ef4444;">مسح اللوحة بالكامل</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- الألعاب والشطرنج -->
+        <!-- 5. قسم الألعاب المتكاملة -->
         <div id="games" class="section">
             <div class="games-grid">
-                <!-- شطرنج -->
-                <div class="game-card">
-                    <h3>لعبة الشطرنج التكتيكية ♟️</h3>
-                    <div class="chess-board" id="chessBoard"></div>
-                    <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 10px;">رقعة شطرنج احترافية مصغرة</p>
-                </div>
                 <!-- Tic Tac Toe -->
                 <div class="game-card">
-                    <h3>لعبة X-O السريعة ❌</h3>
-                    <div class="tic-tac-toe" id="tttBoard">
-                        <div class="ttt-cell" onclick="makeTTT(0)"></div>
-                        <div class="ttt-cell" onclick="makeTTT(1)"></div>
-                        <div class="ttt-cell" onclick="makeTTT(2)"></div>
-                        <div class="ttt-cell" onclick="makeTTT(3)"></div>
-                        <div class="ttt-cell" onclick="makeTTT(4)"></div>
-                        <div class="ttt-cell" onclick="makeTTT(5)"></div>
-                        <div class="ttt-cell" onclick="makeTTT(6)"></div>
-                        <div class="ttt-cell" onclick="makeTTT(7)"></div>
-                        <div class="ttt-cell" onclick="makeTTT(8)"></div>
+                    <h3>لعبة X-O التحدي</h3>
+                    <div class="tic-tac-toe" id="tttGrid">
+                        <div class="ttt-cell" onclick="playTTT(0)"></div>
+                        <div class="ttt-cell" onclick="playTTT(1)"></div>
+                        <div class="ttt-cell" onclick="playTTT(2)"></div>
+                        <div class="ttt-cell" onclick="playTTT(3)"></div>
+                        <div class="ttt-cell" onclick="playTTT(4)"></div>
+                        <div class="ttt-cell" onclick="playTTT(5)"></div>
+                        <div class="ttt-cell" onclick="playTTT(6)"></div>
+                        <div class="ttt-cell" onclick="playTTT(7)"></div>
+                        <div class="ttt-cell" onclick="playTTT(8)"></div>
                     </div>
-                    <button class="btn" onclick="resetTTT()" style="margin-top: 10px; padding: 6px 12px; font-size: 0.85rem;">إعادة اللعبة</button>
+                    <button class="btn" onclick="resetTTT()" style="margin-top: 10px; font-size: 0.85rem; padding: 6px 12px;">إعادة اللعبة</button>
                 </div>
-                <!-- الكلك السريع -->
+                <!-- تحدي النقرات -->
                 <div class="game-card">
-                    <h3>تحدي النقرات السريعة ⚡</h3>
-                    <p id="clickScore" style="font-size: 2.5rem; font-weight: bold; color: var(--accent-color); margin: 15px 0;">0</p>
-                    <button class="btn" onclick="addClick()">اضغط بسرعة جنونية!</button>
+                    <h3>تحدي الكلك السريع ⚡</h3>
+                    <p id="clickNum" style="font-size: 3rem; font-weight: bold; color: var(--accent-color); margin: 15px 0;">0</p>
+                    <button class="btn" onclick="clickPlus()">اضغط بأقصى سرعة!</button>
                 </div>
             </div>
         </div>
 
-        <!-- الإعدادات والحساب -->
+        <!-- 6. قسم الشطرنج -->
+        <div id="chess" class="section">
+            <div class="card" style="text-align: center;">
+                <h2>رقعة الشطرنج الاحترافية ♟️</h2>
+                <p style="color: #94a3b8; margin-bottom: 10px;">استمتع بتكتيكات الشطرنج الذكية</p>
+                <div class="chess-board" id="chessGrid"></div>
+            </div>
+        </div>
+
+        <!-- 7. الإعدادات والحساب وثيمات الألوان -->
         <div id="settings" class="section">
             <div class="card">
-                <h2>إعدادات الحساب والمظهر الشخصي</h2>
+                <h2>إعدادات الحساب وتخصيص الألوان</h2>
                 <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
                     <div>
                         <label style="display: block; margin-bottom: 5px;">اسم المستخدم:</label>
-                        <input type="text" id="usernameField" value="المبدع L">
+                        <input type="text" id="usernameSet" value="المبدع محمد">
                     </div>
                     <div>
-                        <label style="display: block; margin-bottom: 5px;">وضع الألوان:</label>
-                        <button class="btn" onclick="toggleTheme()">تغيير الثيم (فاتح / داكن فضائي)</button>
+                        <label style="display: block; margin-bottom: 5px;">اختر ثيم الألوان المفضل:</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn" onclick="setTheme('default')" style="background:#38bdf8;">النيون الأزرق</button>
+                            <button class="btn" onclick="setTheme('cyber')" style="background:#f43f5e;">سايبر فوشيا</button>
+                            <button class="btn" onclick="setTheme('emerald')" style="background:#10b981;">الأخضر الملكي</button>
+                            <button class="btn" onclick="setTheme('light')" style="background:#0284c7;">الوضع الفاتح</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -486,12 +457,12 @@
     </main>
 
     <script>
-        // إخفاء شاشة الترحيب بسلاسة بعد 4.5 ثانية
+        // ترحيب يختفي بعد 4.5 ثانية
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
             splash.style.opacity = '0';
-            splash.style.transition = 'opacity 0.6s ease';
-            setTimeout(() => splash.remove(), 600);
+            splash.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => splash.remove(), 500);
         }, 4500);
 
         // التنقل بين الأقسام
@@ -502,128 +473,126 @@
             event.target.classList.add('active');
         }
 
-        // نظام المنشورات واللايكات
-        function createPost() {
-            const input = document.getElementById('postInput');
-            const text = input.value.trim();
-            if(!text) return;
+        // إعدادات الكانفاس (الرسم المنفرد والجماعي)
+        function initCanvas(id) {
+            const canvas = document.getElementById(id);
+            const ctx = canvas.getContext('2d');
+            let painting = false;
 
-            const feed = document.getElementById('feedContainer');
-            const postCard = document.createElement('div');
-            postCard.className = 'post-card';
-            postCard.innerHTML = `
-                <div class="post-header">المبدع L</div>
+            canvas.addEventListener('mousedown', () => painting = true);
+            canvas.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
+            canvas.addEventListener('mousemove', (e) => {
+                if(!painting) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            });
+        }
+        initCanvas('soloCanvas');
+        initCanvas('groupCanvas');
+
+        function clearCanvas(id) {
+            const canvas = document.getElementById(id);
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // نظام المنشورات واللايكات
+        function addNewPost() {
+            const text = document.getElementById('postText').value.trim();
+            if(!text) return;
+            const feed = document.getElementById('feedList');
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.innerHTML = `
+                <h3 style="color: var(--accent-color); margin-bottom: 5px;">المبدع محمد</h3>
                 <p>${text}</p>
-                <div class="post-actions">
-                    <button class="action-btn" onclick="likePost(this)">❤️ إعجاب (<span class="like-count">0</span>)</button>
-                    <button class="action-btn">💬 تعليقات (0)</button>
+                <div style="margin-top: 10px; display: flex; gap: 15px;">
+                    <button onclick="likePost(this)" style="background:none; border:none; color:var(--text-color); cursor:pointer;">❤️ إعجاب (<span class="l-count">0</span>)</button>
+                    <button style="background:none; border:none; color:var(--text-color); cursor:pointer;">💬 تعليقات (0)</button>
                 </div>
             `;
-            feed.prepend(postCard);
-            input.value = '';
+            feed.prepend(card);
+            document.getElementById('postText').value = '';
         }
 
         function likePost(btn) {
-            const countSpan = btn.querySelector('.like-count');
-            countSpan.innerText = parseInt(countSpan.innerText) + 1;
+            const span = btn.querySelector('.l-count');
+            span.innerText = parseInt(span.innerText) + 1;
             btn.style.color = '#f43f5e';
         }
 
-        // شات جماعي
-        function sendChatMessage() {
+        // الشات التفاعلي
+        function sendChat() {
             const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if(!text) return;
-
-            const chatBox = document.getElementById('chatBox');
+            const val = input.value.trim();
+            if(!val) return;
+            const box = document.getElementById('chatBox');
             const msg = document.createElement('div');
             msg.className = 'chat-message self';
-            msg.innerText = text;
-            chatBox.appendChild(msg);
+            msg.innerText = val;
+            box.appendChild(msg);
             input.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
+            box.scrollTop = box.scrollHeight;
 
             setTimeout(() => {
                 const reply = document.createElement('div');
                 reply.className = 'chat-message other';
-                reply.innerText = "تم استقبال رسالتك بنجاح في شبكة المبدع L 🚀";
-                chatBox.appendChild(reply);
-                chatBox.scrollTop = chatBox.scrollHeight;
+                reply.innerText = "تم استلام رسالتك بنجاح في شبكة المبدع محمد 🚀";
+                box.appendChild(reply);
+                box.scrollTop = box.scrollHeight;
             }, 1000);
         }
 
-        function handleChatKey(e) {
-            if(e.key === 'Enter') sendChatMessage();
-        }
-
-        // لوحة الرسم
-        const canvas = document.getElementById('paintCanvas');
-        const ctx = canvas.getContext('2d');
-        let painting = false;
-
-        canvas.addEventListener('mousedown', () => painting = true);
-        canvas.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
-        canvas.addEventListener('mousemove', draw);
-
-        function draw(e) {
-            if(!painting) return;
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            ctx.lineWidth = 4;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#38bdf8';
-
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        // بناء لوحة الشطرنج التفاعلية
-        const chessBoard = document.getElementById('chessBoard');
-        const pieces = ['♜','♞','♝','♛','♚','♝','♞','♜','♟','♟','♟','♟','♟','♟','♟','♟','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','♙','♙','♙','♙','♙','♙','♙','♙','♖','♘','♗','♕','♔','♗','♘','♖'];
-        
-        for(let i=0; i<64; i++) {
-            const cell = document.createElement('div');
-            const row = Math.floor(i / 8);
-            const col = i % 8;
-            cell.className = `chess-cell ${(row + col) % 2 === 0 ? 'light' : 'dark'}`;
-            cell.innerText = pieces[i] || '';
-            chessBoard.appendChild(cell);
-        }
-
-        // لعبة Tic Tac Toe
-        let tttBoard = ['', '', '', '', '', '', '', '', ''];
+        // لعبة X-O
+        let tttData = ['', '', '', '', '', '', '', '', ''];
         let tttTurn = 'X';
-        function makeTTT(idx) {
-            if(tttBoard[idx] !== '') return;
-            tttBoard[idx] = tttTurn;
+        function playTTT(idx) {
+            if(tttData[idx] !== '') return;
+            tttData[idx] = tttTurn;
             document.getElementsByClassName('ttt-cell')[idx].innerText = tttTurn;
             tttTurn = tttTurn === 'X' ? 'O' : 'X';
         }
-
         function resetTTT() {
-            tttBoard = ['', '', '', '', '', '', '', '', ''];
+            tttData = ['', '', '', '', '', '', '', '', ''];
             tttTurn = 'X';
             Array.from(document.getElementsByClassName('ttt-cell')).forEach(c => c.innerText = '');
         }
 
-        // لعبة الكلك
-        let clicksCount = 0;
-        function addClick() {
-            clicksCount++;
-            document.getElementById('clickScore').innerText = clicksCount;
+        // تحدي النقرات
+        let countClicks = 0;
+        function clickPlus() {
+            countClicks++;
+            document.getElementById('clickNum').innerText = countClicks;
         }
 
-        // تغيير الثيم
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
+        // بناء الشطرنج
+        const chessGrid = document.getElementById('chessGrid');
+        const pArr = ['♜','♞','♝','♛','♚','♝','♞','♜','♟','♟','♟','♟','♟','♟','♟','♟','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','♙','♙','♙','♙','♙','♙','♙','♙','♖','♘','♗','♕','♔','♗','♘','♖'];
+        for(let i=0; i<64; i++) {
+            const cell = document.createElement('div');
+            const r = Math.floor(i / 8);
+            const c = i % 8;
+            cell.className = `chess-cell ${(r + c) % 2 === 0 ? 'light' : 'dark'}`;
+            cell.innerText = pArr[i] || '';
+            chessGrid.appendChild(cell);
+        }
+
+        // إعدادات الثيمات والألوان
+        function setTheme(theme) {
+            document.body.className = '';
+            if(theme === 'cyber') document.body.classList.add('theme-cyber');
+            if(theme === 'emerald') document.body.classList.add('theme-emerald');
+            if(theme === 'light') document.body.classList.add('light-mode');
         }
     </script>
 </body>
