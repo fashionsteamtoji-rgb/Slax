@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة Slax الرسمية</title>
+    <!-- مكتبة الشطرنج الأصلية والمستقرة -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
@@ -33,13 +34,6 @@
             border-bottom: 1px solid rgba(59, 130, 246, 0.2);
             padding: 25px 15px; text-align: center; position: relative; overflow: hidden;
         }
-        .hero-banner::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
-            animation: pulseGlow 8s infinite alternate; pointer-events: none;
-        }
-        @keyframes pulseGlow { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-        
         .hero-title {
             font-size: 2.8rem; font-weight: 900; letter-spacing: 2px;
             background: linear-gradient(45deg, #38bdf8, #818cf8, #c084fc);
@@ -115,10 +109,11 @@
         .xo-cell { width: 70px; height: 70px; background: #21262d; border: 1px solid #30363d; font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #38bdf8; border-radius: 8px; transition: 0.2s; }
         .xo-cell:hover { background: #30363d; border-color: #38bdf8; }
 
-        .chess-board { display: grid; grid-template-columns: repeat(8, 36px); grid-template-rows: repeat(8, 36px); gap: 1px; justify-content: center; margin: 10px 0; background: #30363d; padding: 2px; border-radius: 8px; }
-        .chess-square { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; cursor: pointer; }
+        .chess-board { display: grid; grid-template-columns: repeat(8, 38px); grid-template-rows: repeat(8, 38px); gap: 1px; justify-content: center; margin: 10px 0; background: #30363d; padding: 2px; border-radius: 8px; }
+        .chess-square { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; cursor: pointer; }
         .light { background: #eeeed2; color: #000; }
         .dark { background: #769656; color: #fff; }
+        .chess-square.selected { background: #baca44 !important; }
 
         /* المجتمع والتعليقات واللايكات بأسماء واضحة */
         .feed-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 14px; width: 100%; margin-bottom: 14px; }
@@ -126,7 +121,7 @@
         .interaction-bar { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; border-top: 1px solid #21262d; padding-top: 8px; }
         .likes-info { font-size: 0.78rem; color: #94a3b8; }
         .comments-section { margin-top: 6px; }
-        .comments-list { font-size: 0.8rem; color: #e2e8f0; margin-bottom: 8px; display: flex; flex-direction: column; gap: 4px; }
+        .comments-list { font-size: 0.8rem; color: #e2e8f0; margin-bottom: 8px; display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; }
         .comment-item { background: #0d1117; padding: 5px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03); }
         .comment-item b { color: #38bdf8; margin-left: 4px; }
         .comment-box { display: flex; gap: 6px; }
@@ -211,6 +206,7 @@
                 <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 3px;">حرك القطع بالتناوب مع الزوار الآخرين لحظياً</p>
                 <div id="chessContainer" style="display: flex; justify-content: center;"></div>
                 <p id="chessStatus" style="font-size: 0.85rem; color: #38bdf8; margin-top: 5px; font-weight: bold;"></p>
+                <button class="btn btn-secondary" style="margin-top: 8px;" onclick="resetChessGame()">إعادة ضبط الشطرنج</button>
             </div>
         </div>
     </div>
@@ -226,7 +222,7 @@
         <div class="settings-card">
             <h2 style="color: #38bdf8; font-size: 1.1rem;">إعدادات الحساب الشخصي</h2>
             <div>
-                <label>اسم المستخدم (الذي يظهر بالدردشة واللايكات والتعليقات):</label>
+                <label>اسم المستخدم (يظهر بالدردشة واللايكات والتعليقات):</label>
                 <input type="text" id="usernameInput" placeholder="أدخل اسمك هنا...">
             </div>
             <div>
@@ -257,13 +253,15 @@
             loadChat();
             loadPosts();
             initMultiplayerXO();
-            initMultiplayerChess();
+            renderChessBoard();
         };
 
         function saveSettings() {
             localStorage.setItem('slax_username', document.getElementById('usernameInput').value);
             localStorage.setItem('slax_bio', document.getElementById('bioInput').value);
             alert('تم حفظ إعدادات الحساب بنجاح! ✨');
+            loadPosts();
+            loadChat();
         }
 
         // الرسم وزووم
@@ -327,7 +325,7 @@
             ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); saveState();
         });
 
-        // المجتمع وتفاصيل اللايكات والتعليقات
+        // المجتمع وتفاصيل اللايكات والتعليقات (مُصلح بالكامل)
         document.getElementById('publishBtn').addEventListener('click', () => {
             let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
             posts.unshift({ author: getUserName(), image: canvas.toDataURL(), likes: [], comments: [] });
@@ -341,9 +339,16 @@
             let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
             let currentName = getUserName();
 
+            if(posts.length === 0) {
+                container.innerHTML = '<p style="color: #94a3b8; text-align: center; font-size: 0.85rem; margin-top: 20px;">لا توجد منشورات حالياً. كن أول من ينشر رسمة! 🎨</p>';
+                return;
+            }
+
             container.innerHTML = posts.map((p, idx) => {
-                let hasLiked = p.likes.includes(currentName);
-                let likesNamesText = p.likes.length > 0 ? `أعجب بها: ${p.likes.join(', ')}` : 'كن أول المعجبين!';
+                let hasLiked = p.likes && p.likes.includes(currentName);
+                let likesList = p.likes || [];
+                let likesNamesText = likesList.length > 0 ? `أعجب بها: ${likesList.join(', ')}` : 'كن أول المعجبين!';
+                let commentsList = p.comments || [];
                 
                 return `
                 <div class="feed-card">
@@ -352,14 +357,14 @@
                     
                     <div class="interaction-bar">
                         <button class="btn ${hasLiked ? 'btn-secondary' : ''}" style="padding: 4px 10px; font-size: 0.8rem; width: fit-content;" onclick="toggleLike(${idx})">
-                            ❤️ أعجبني (${p.likes.length})
+                            ❤️ أعجبني (${likesList.length})
                         </button>
                         <div class="likes-info">👤 ${likesNamesText}</div>
                     </div>
 
                     <div class="comments-section">
                         <div class="comments-list">
-                            ${p.comments.map(c => `<div class="comment-item"><b>${c.user}:</b> ${c.text}</div>`).join('')}
+                            ${commentsList.map(c => `<div class="comment-item"><b>${c.user}:</b> ${c.text}</div>`).join('')}
                         </div>
                         <div class="comment-box">
                             <input type="text" id="commInput_${idx}" placeholder="اكتب تعليقاً باسمك..." onkeypress="checkCommentEnter(event, ${idx})">
@@ -373,6 +378,7 @@
         function toggleLike(idx) {
             let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
             let name = getUserName();
+            if(!posts[idx].likes) posts[idx].likes = [];
             let userIndex = posts[idx].likes.indexOf(name);
             
             if(userIndex > -1) {
@@ -390,6 +396,7 @@
             let text = input.value.trim();
             if(!text) return;
             let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
+            if(!posts[idx].comments) posts[idx].comments = [];
             posts[idx].comments.push({ user: getUserName(), text: text });
             localStorage.setItem('slax_posts', JSON.stringify(posts));
             loadPosts();
@@ -461,63 +468,89 @@
             initMultiplayerXO();
         }
 
-        // شطرنج جماعي
-        let chessGame = new Chess();
-        function getChessState() {
-            let fen = localStorage.getItem('slax_chess_fen');
-            if(fen) chessGame.load(fen);
-            return chessGame;
-        }
+        // شطرنج جماعي مستقر وخالي من الأخطاء
+        let chess = new Chess();
+        let selectedSquare = null;
 
-        let selectedChessSquare = null;
-        function initMultiplayerChess() {
-            let game = getChessState();
+        function renderChessBoard() {
+            let savedFen = localStorage.getItem('slax_chess_fen');
+            if (savedFen) {
+                chess.load(savedFen);
+            }
+
             let container = document.getElementById('chessContainer');
-            container.innerHTML = `<div class="chess-board" id="chessBoardGrid"></div>`;
-            let grid = document.getElementById('chessBoardGrid');
-            
-            let board = game.board();
-            for(let r=0; r<8; r++) {
-                for(let c=0; c<8; c++) {
+            container.innerHTML = `<div class="chess-board" id="chessGrid"></div>`;
+            let grid = document.getElementById('chessGrid');
+
+            let board = chess.board();
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
                     let squareEl = document.createElement('div');
                     let isLight = (r + c) % 2 === 0;
-                    squareEl.className = `chess-square ${isLight ? 'light' : 'dark'}`;
-                    let piece = board[r][c];
                     let squareName = String.fromCharCode(97 + c) + (8 - r);
                     
-                    if(piece) {
+                    squareEl.className = `chess-square ${isLight ? 'light' : 'dark'}`;
+                    if (selectedSquare === squareName) {
+                        squareEl.classList.add('selected');
+                    }
+
+                    let piece = board[r][c];
+                    if (piece) {
                         const symbols = {p:'♟', r:'♜', n:'♞', b:'♝', q:'♛', k:'♚', P:'♙', R:'♖', N:'♘', B:'♗', Q:'♕', K:'♔'};
                         squareEl.textContent = symbols[piece.color === 'w' ? piece.type.toUpperCase() : piece.type];
                     }
-                    
-                    squareEl.onclick = () => handleChessClick(squareName);
+
+                    squareEl.onclick = () => handleChessSquareClick(squareName);
                     grid.appendChild(squareEl);
                 }
             }
-            document.getElementById('chessStatus').textContent = `الدور الحالي: ${game.turn() === 'w' ? 'الأبيض ⚪' : 'الأسود ⚫'}`;
+
+            let statusText = `الدور الحالي: ${chess.turn() === 'w' ? 'الأبيض ⚪' : 'الأسود ⚫'}`;
+            if (chess.in_checkmate()) statusText = 'كش مات! انتهت اللعبة 🏆';
+            else if (chess.in_draw()) statusText = 'تعادل! 🤝';
+            document.getElementById('chessStatus').textContent = statusText;
         }
 
-        function handleChessClick(sq) {
-            let game = getChessState();
-            if(!selectedChessSquare) {
-                selectedChessSquare = sq;
-            } else {
-                let move = game.move({ from: selectedChessSquare, to: sq, promotion: 'q' });
-                selectedChessSquare = null;
-                if(move) {
-                    localStorage.setItem('slax_chess_fen', game.fen());
+        function handleChessSquareClick(square) {
+            let savedFen = localStorage.getItem('slax_chess_fen');
+            if (savedFen) chess.load(savedFen);
+
+            if (!selectedSquare) {
+                let piece = chess.get(square);
+                if (piece && piece.color === chess.turn()) {
+                    selectedSquare = square;
+                    renderChessBoard();
                 }
-                initMultiplayerChess();
+            } else {
+                let move = chess.move({
+                    from: selectedSquare,
+                    to: square,
+                    promotion: 'q'
+                });
+
+                selectedSquare = null;
+                if (move) {
+                    localStorage.setItem('slax_chess_fen', chess.fen());
+                }
+                renderChessBoard();
             }
         }
 
-        // مزامنة تلقائية دورية بالخلفية للكل
+        function resetChessGame() {
+            chess.reset();
+            localStorage.setItem('slax_chess_fen', chess.fen());
+            selectedSquare = null;
+            renderChessBoard();
+        }
+
+        // مزامنة تلقائية ذكية كل 3 ثوانٍ بالخلفية بدون إعادة تحميل الصفحة
         setInterval(() => {
             loadChat();
             loadPosts();
             initMultiplayerXO();
-            initMultiplayerChess();
+            renderChessBoard();
         }, 3000);
     </script>
 </body>
 </html>
+ 
