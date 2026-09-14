@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>منصة سلاكس المتكاملة - Slax Pro</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0d1117; color: #f0f6fc; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* نافذة الترحيب المنبثقة */
+        #welcomeModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
+        .modal-card { background: #161b22; border: 2px solid #8957e5; border-radius: 16px; padding: 30px; text-align: center; max-width: 380px; width: 90%; box-shadow: 0 10px 30px rgba(137,87,229,0.4); }
+        .modal-card h2 { color: #58a6ff; margin-bottom: 12px; font-size: 24px; }
+        .modal-card p { color: #c9d1d9; margin-bottom: 20px; font-size: 16px; line-height: 1.6; }
+        .modal-card .producer { color: #3fb950; font-weight: bold; font-size: 14px; margin-bottom: 20px; border-top: 1px solid #30363d; padding-top: 10px; }
+
+        .navbar { background-color: #161b22; display: flex; overflow-x: auto; white-space: nowrap; padding: 12px; border-bottom: 2px solid #8957e5; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+        .nav-btn { background: transparent; border: none; color: #8b949e; padding: 10px 18px; margin: 0 6px; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+        .nav-btn:hover { background-color: #21262d; color: #fff; transform: translateY(-2px); }
+        .nav-btn.active { background-color: #8957e5; color: #fff; box-shadow: 0 0 12px rgba(137,87,229,0.7); }
+        
+        .content-container { flex: 1; padding: 20px; max-width: 850px; margin: 0 auto; width: 100%; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background-color: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 22px; margin-bottom: 18px; box-shadow: 0 6px 12px rgba(0,0,0,0.4); }
+        .card-title { font-size: 19px; font-weight: bold; margin-bottom: 18px; color: #58a6ff; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+        
+        input[type="text"], input[type="file"], textarea { width: 100%; padding: 14px; background-color: #0d1117; border: 1px solid #30363d; border-radius: 10px; color: #fff; font-size: 15px; margin-bottom: 16px; outline: none; transition: 0.2s; }
+        input[type="text"]:focus, textarea:focus { border-color: #58a6ff; box-shadow: 0 0 8px rgba(88,166,255,0.3); }
+
+        .btn { background-color: #238636; color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn:hover { background-color: #2ea043; }
+        .btn-purple { background-color: #8957e5; }
+        .btn-purple:hover { background-color: #986ee2; }
+        .btn-danger { background-color: #da3633; color: white; border: none; padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .btn-danger:hover { background-color: #f85149; }
+        .btn-secondary { background-color: #30363d; color: #f0f6fc; }
+        .btn-secondary:hover { background-color: #484f58; }
+
+        /* أدوات لوحة الرسم الاحترافية والزوم */
+        .drawing-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; background: #21262d; padding: 12px; border-radius: 10px; border: 1px solid #30363d; align-items: center; justify-content: space-between; }
+        .tool-group { display: flex; gap: 6px; align-items: center; }
+        .icon-btn { background: #30363d; border: 1px solid #484f58; color: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .icon-btn:hover { background: #8957e5; border-color: #8957e5; }
+        
+        .canvas-viewport { width: 100%; height: 360px; background-color: #ffffff; border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 14px; box-shadow: inset 0 0 15px rgba(0,0,0,0.15); cursor: crosshair; touch-action: none; }
+        #drawCanvas { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+
+        .palette-box { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; background: #21262d; padding: 10px; border-radius: 10px; border: 1px solid #30363d; align-items: center; }
+        .color-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; transition: 0.2s; }
+        .color-btn.active-color { border-color: #58a6ff; transform: scale(1.2); box-shadow: 0 0 10px #58a6ff; }
+
+        /* تفاعل الخلاصة (لايك وتعليق) */
+        .feed-item { background: #21262d; border: 1px solid #30363d; border-radius: 12px; padding: 16px; margin-bottom: 16px; position: relative; }
+        .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .feed-actions { display: flex; gap: 15px; margin-top: 12px; border-top: 1px solid #30363d; padding-top: 10px; align-items: center; }
+        .action-btn { background: transparent; border: none; color: #8b949e; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px; font-weight: 600; transition: 0.2s; }
+        .action-btn.liked { color: #f85149; }
+        .action-btn:hover { color: #58a6ff; }
+        .comments-section { margin-top: 12px; background: #161b22; padding: 10px; border-radius: 8px; border: 1px solid #30363d; }
+        .comment-item { font-size: 13px; margin-bottom: 6px; border-bottom: 1px solid #21262d; padding-bottom: 4px; }
+        .comment-input-box { display: flex; gap: 8px; margin-top: 8px; }
+        .comment-input-box input { margin-bottom: 0; padding: 8px; font-size: 13px; }
+        .comment-input-box button { width: auto; padding: 6px 14px; font-size: 13px; }
+
+        /* الألعاب الجديدة (شطرنج وإكس أو) */
+        .tic-tac-toe { display: grid; grid-template-columns: repeat(3, 80px); gap: 6px; justify-content: center; margin: 15px 0; }
+        .ttt-cell { width: 80px; height: 80px; background: #0d1117; border: 2px solid #30363d; font-size: 32px; font-weight: bold; color: #58a6ff; display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 8px; transition: 0.2s; }
+        .ttt-cell:hover { background: #21262d; border-color: #8957e5; }
+    </style>
+</head>
+<body>
+
+    <!-- نافذة الترحيب عند الدخول -->
+    <div id="welcomeModal">
+        <div class="modal-card">
+            <h2>مرحباً بك في Slax 🔥</h2>
+            <p>منورين بموقع Slax للألعاب والرسم والتفاعل الجماعي!</p>
+            <div class="producer">المنتج: محمد 👑</div>
+            <button class="btn btn-purple" onclick="closeWelcomeModal()">دخول الموقع 🚀</button>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <button class="nav-btn active" onclick="switchTab('profile', this)">👤 الحساب</button>
+        <button class="nav-btn" onclick="switchTab('draw', this)">🎨 الرسم الاحترافي</button>
+        <button class="nav-btn" onclick="switchTab('feed', this)">📢 الخلاصة والتفاعل</button>
+        <button class="nav-btn" onclick="switchTab('games', this)">🎮 الألعاب والتحديات</button>
+        <button class="nav-btn" onclick="switchTab('chat', this)">💬 المحادثة</button>
+    </nav>
+
+    <div class="content-container">
+        <!-- 1. حساب المستخدم -->
+        <div id="profile" class="tab-content active">
+            <div class="card">
+                <div class="card-title">👤 إعدادات الملف الشخصي والحسابات</div>
+                <label style="display:block; margin-bottom:8px; color:#8b949e;">اسم المستخدم:</label>
+                <input type="text" id="profileName" value="L">
+                <label style="display:block; margin-bottom:8px; color:#8b949e;">نبذة تعريفية عنك (Bio):</label>
+                <textarea id="profileBio" rows="3" placeholder="اكتب نبذة عنك..."></textarea>
+                <label style="display:block; margin-bottom:8px; color:#8b949e;">رابط حساب خارجي (تليجرام / انستا):</label>
+                <input type="text" id="profileLink" placeholder="https://t.me/...">
+                <button class="btn btn-purple" onclick="saveProfile()">💾 حفظ التعديلات الشخصية</button>
+            </div>
+        </div>
+
+        <!-- 2. لوحة الرسم الاحترافية -->
+        <div id="draw" class="tab-content">
+            <div class="card">
+                <div class="card-title">🎨 استوديو الرسم الاحترافي (زووم وأدوات متقدمة)</div>
+                <div class="drawing-toolbar">
+                    <div class="tool-group">
+                        <button class="icon-btn" onclick="undoDraw()" title="تراجع">↩️ تراجع</button>
+                        <button class="icon-btn" onclick="redoDraw()" title="إعادة">↪️ إعادة</button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="icon-btn" onclick="zoomCanvas(1.25)" title="تكبير">🔍+</button>
+                        <button class="icon-btn" onclick="zoomCanvas(0.8)" title="تصغير">🔍-</button>
+                        <button class="icon-btn" onclick="resetZoom()" title="إعادة تعيين الزوم">⟲ إعادة ضبط</button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="btn-danger" onclick="clearCanvas()">مسح اللوحة</button>
+                    </div>
+                </div>
+
+                <div class="palette-box">
+                    <span style="font-size: 13px; color:#8b949e;">الألوان السريعة:</span>
+                    <div class="color-btn active-color" style="background-color: #000000;" onclick="setDrawColor('#000000', this)"></div>
+                    <div class="color-btn" style="background-color: #ffffff;" onclick="setDrawColor('#ffffff', this)"></div>
+                    <div class="color-btn" style="background-color: #ff3b30;" onclick="setDrawColor('#ff3b30', this)"></div>
+                    <div class="color-btn" style="background-color: #ff9500;" onclick="setDrawColor('#ff9500', this)"></div>
+                    <div class="color-btn" style="background-color: #ffcc00;" onclick="setDrawColor('#ffcc00', this)"></div>
+                    <div class="color-btn" style="background-color: #34c759;" onclick="setDrawColor('#34c759', this)"></div>
+                    <div class="color-btn" style="background-color: #007aff;" onclick="setDrawColor('#007aff', this)"></div>
+                    <div class="color-btn" style="background-color: #af52de;" onclick="setDrawColor('#af52de', this)"></div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; background: #21262d; padding: 10px; border-radius: 10px; border: 1px solid #30363d;">
+                    <span style="font-size: 13px; color:#8b949e;">حجم الفرشاة:</span>
+                    <input type="range" id="brushSize" min="1" max="40" value="5" style="margin-bottom:0; flex:1;" oninput="currentBrushSize=this.value">
+                    <button class="icon-btn" onclick="setDrawColor('#ffffff', null)">🧹 ممحاة</button>
+                </div>
+
+                <div class="canvas-viewport" id="canvasViewport">
+                    <canvas id="drawCanvas" width="800" height="600"></canvas>
+                </div>
+                
+                <button class="btn btn-purple" onclick="publishDrawingToFeed()">📤 نشر الرسمة المبدعة للخلاصة</button>
+            </div>
+        </div>
+
+        <!-- 3. الخلاصة والتفاعل -->
+        <div id="feed" class="tab-content">
+            <div class="card">
+                <div class="card-title">📢 أنشر منشوراً جديداً</div>
+                <input type="text" id="postText" placeholder="بماذا تفكر يا L؟">
+                <input type="file" id="postMedia" accept="image/*,video/*">
+                <button class="btn btn-purple" onclick="createPost()">نشر الآن 🚀</button>
+            </div>
+            <div id="feedContainer">
+                <p style="color: #8b949e; text-align: center;">لا توجد منشورات حالياً.</p>
+            </div>
+        </div>
+
+        <!-- 4. الألعاب والتحديات -->
+        <div id="games" class="tab-content">
+            <div class="card">
+                <div class="card-title">🎮 ساحة الألعاب التنافسية الكبرى</div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px; background: #21262d; padding: 12px; border-radius: 8px;">
+                    <span>نقاطك الحالية: <strong id="scoreDisplay" style="color: #3fb950;">0 نقطة</strong></span>
+                </div>
+
+                <!-- لعبة إكس أو -->
+                <div class="card" style="background: #161b22; text-align: center;">
+                    <h3 style="color: #58a6ff; margin-bottom: 8px;">❌⭕ لعبة إكس أو (Tic-Tac-Toe)</h3>
+                    <p style="color: #8b949e; font-size: 13px;">العب مع صديقك على نفس الجهاز!</p>
+                    <div class="tic-tac-toe" id="tttBoard"></div>
+                    <button class="btn btn-secondary" style="width: auto; margin: 10px auto 0;" onclick="resetTTT()">إعادة اللعبة</button>
+                </div>
+
+                <!-- تحدي الشطرنج -->
+                <div class="card" style="background: #161b22; text-align: center; margin-top: 15px;">
+                    <h3 style="color: #58a6ff; margin-bottom: 8px;">♟️ تحدي الشطرنج السريع</h3>
+                    <p style="color: #8b949e; font-size: 13px; margin-bottom: 10px;">لوحة شطرنج تفاعلية لتحليل الحركات واللعب الجماعي:</p>
+                    <div style="background: #21262d; padding: 20px; border-radius: 8px; border: 1px solid #30363d;">
+                        <p style="color: #ffcc00; font-weight: bold; margin-bottom: 10px;">العب الودية المباشرة مع أصدقائك عبر الشات!</p>
+                        <button class="btn btn-purple" onclick="alert('قم بدعوة صديقك عبر الشات لبدء مباراة شطرنج حية!')">بدء تحدي شطرنج جديد ⚔️</button>
+                    </div>
+                </div>
+
+                <!-- ترتيب الحروف -->
+                <div class="card" style="background: #161b22; margin-top: 15px;">
+                    <h3 style="color: #58a6ff; margin-bottom: 8px;">🔤 تحدي ترتيب الحروف السريع</h3>
+                    <div id="scrambleWord" style="font-size: 22px; font-weight: bold; color: #ffcc00; letter-spacing: 4px; margin: 10px 0;">-----</div>
+                    <input type="text" id="scrambleInput" placeholder="اكتب الكلمة المرتبطة هنا...">
+                    <button class="btn btn-purple" onclick="checkScramble()">تحقق من الإجابة الفورية ⚡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. المحادثة -->
+        <div id="chat" class="tab-content">
+            <div class="card">
+                <div class="card-title">💬 محادثة سلاكس العامة</div>
+                <div id="chatBox" style="height: 280px; background: #0d1117; border: 1px solid #30363d; border-radius: 10px; padding: 12px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;"></div>
+                <input type="text" id="chatInput" placeholder="اكتب رسالتك للجميع...">
+                <button class="btn btn-purple" onclick="sendChat()">إرسال 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // إغلاق نافذة الترحيب
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
+        }
+
+        // التبويبات
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(e => e.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+            if(id === 'draw') initDrawingApp();
+        }
+
+        // الحساب الشخصي
+        function saveProfile() {
+            localStorage.setItem('slax_name', document.getElementById('profileName').value);
+            localStorage.setItem('slax_bio', document.getElementById('profileBio').value);
+            localStorage.setItem('slax_link', document.getElementById('profileLink').value);
+            alert("تم حفظ بيانات الحساب بنجاح!");
+        }
+        document.getElementById('profileName').value = localStorage.getItem('slax_name') || 'L';
+        document.getElementById('profileBio').value = localStorage.getItem('slax_bio') || '';
+        document.getElementById('profileLink').value = localStorage.getItem('slax_link') || '';
+
+        // استوديو الرسم المتقدم
+        let canvas, ctx;
+        let currentDrawColor = '#000000';
+        let currentBrushSize = 5;
+        let scale = 1;
+        let isDrawing = false;
+        let historyStack = [], redoStack = [];
+
+        function initDrawingApp() {
+            canvas = document.getElementById('drawCanvas');
+            ctx = canvas.getContext('2d');
+            if(historyStack.length === 0) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                saveState();
+            }
+
+            canvas.onmousedown = (e) => {
+                isDrawing = true;
+                let rect = canvas.getBoundingClientRect();
+                let startX = (e.clientX - rect.left) / scale;
+                let startY = (e.clientY - rect.top) / scale;
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+            };
+
+            canvas.onmousemove = (e) => {
+                if(!isDrawing) return;
+                let rect = canvas.getBoundingClientRect();
+                let x = (e.clientX - rect.left) / scale;
+                let y = (e.clientY - rect.top) / scale;
+                ctx.lineWidth = currentBrushSize;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = currentDrawColor;
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            };
+
+            canvas.onmouseup = () => {
+                if(isDrawing) {
+                    isDrawing = false;
+                    saveState();
+                }
+            };
+        }
+
+        function setDrawColor(color, el) {
+            currentDrawColor = color;
+            if(el) {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active-color'));
+                el.classList.add('active-color');
+            }
+        }
+
+        function saveState() {
+            redoStack = [];
+            historyStack.push(canvas.toDataURL());
+            if(historyStack.length > 20) historyStack.shift();
+        }
+
+        function undoDraw() {
+            if(historyStack.length > 1) {
+                redoStack.push(historyStack.pop());
+                let img = new Image();
+                img.src = historyStack[historyStack.length - 1];
+                img.onload = () => {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                }
+            }
+        }
+
+        function redoDraw() {
+            if(redoStack.length > 0) {
+                let state = redoStack.pop();
+                historyStack.push(state);
+                let img = new Image();
+                img.src = state;
+                img.onload = () => {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                }
+            }
+        }
+
+        function zoomCanvas(factor) {
+            scale *= factor;
+            if(scale < 0.5) scale = 0.5;
+            if(scale > 4) scale = 4;
+            canvas.style.transform = `scale(${scale})`;
+        }
+
+        function resetZoom() {
+            scale = 1;
+            canvas.style.transform = `scale(1)`;
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveState();
+        }
+
+        // الخلاصة واللايك والتعليقات
+        let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
+
+        function createPost() {
+            let text = document.getElementById('postText').value;
+            let fileInput = document.getElementById('postMedia');
+            let name = localStorage.getItem('slax_name') || 'L';
+
+            if(!text && fileInput.files.length === 0) {
+                alert("اكتب شيئاً أو أرفق صورة للنشر!");
+                return;
+            }
+
+            let newPostObj = {
+                id: Date.now(),
+                author: name,
+                text: text,
+                media: '',
+                likes: 0,
+                likedByMe: false,
+                comments: []
+            };
+
+            if(fileInput.files && fileInput.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    newPostObj.media = e.target.result;
+                    posts.unshift(newPostObj);
+                    saveAndRenderPosts();
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                posts.unshift(newPostObj);
+                saveAndRenderPosts();
+            }
+
+            document.getElementById('postText').value = '';
+            fileInput.value = '';
+        }
+
+        function publishDrawingToFeed() {
+            let name = localStorage.getItem('slax_name') || 'L';
+            let newPostObj = {
+                id: Date.now(),
+                author: name,
+                text: '🎨 رسمة جديدة قمت بإنجازها في استوديو سلاكس الاحترافي!',
+                media: canvas.toDataURL(),
+                likes: 0,
+                likedByMe: false,
+                comments: []
+            };
+            posts.unshift(newPostObj);
+            saveAndRenderPosts();
+            alert("تم نشر الرسمة في الخلاصة بنجاح!");
+            switchTab('feed', document.querySelectorAll('.nav-btn')[2]);
+        }
+
+        function saveAndRenderPosts() {
+            localStorage.setItem('slax_posts', JSON.stringify(posts));
+            renderPosts();
+        }
+
+        function renderPosts() {
+            let container = document.getElementById('feedContainer');
+            if(posts.length === 0) {
+                container.innerHTML = '<p style="color: #8b949e; text-align: center;">لا توجد منشورات حالياً.</p>';
+                return;
+            }
+            container.innerHTML = posts.map(p => `
+                <div class="feed-item" id="post_${p.id}">
+                    <div class="feed-header">
+                        <b>👤 ${p.author}</b>
+                        <button class="btn-danger" onclick="deletePost(${p.id})">حذف</button>
+                    </div>
+                    <p style="margin-bottom: 10px;">${p.text}</p>
+                    ${p.media ? `<img src="${p.media}" style="max-width:100%; border-radius:8px; margin-bottom:10px;">` : ''}
+                    
+                    <div class="feed-actions">
+                        <button class="action-btn ${p.likedByMe ? 'liked' : ''}" onclick="toggleLike(${p.id})">
+                            ❤️ <span>${p.likes}</span> إعجاب
+                        </button>
+                        <button class="action-btn" onclick="toggleComments(${p.id})">
+                            💬 تعليقات (${p.comments.length})
+                        </button>
+                    </div>
+
+                    <div class="comments-section" id="comments_${p.id}" style="display:none;">
+                        <div id="commentList_${p.id}">
+                            ${p.comments.map(c => `<div class="comment-item"><b>${c.user}:</b> ${c.text}</div>`).join('')}
+                        </div>
+                        <div class="comment-input-box">
+                            <input type="text" id="commentText_${p.id}" placeholder="اكتب تعليقاً...">
+                            <button class="btn btn-purple" onclick="addComment(${p.id})">تعليق</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleLike(id) {
+            let p = posts.find(x => x.id === id);
+            if(p) {
+                if(p.likedByMe) {
+                    p.likes--;
+                    p.likedByMe = false;
+                } else {
+                    p.likes++;
+                    p.likedByMe = true;
+                }
+                saveAndRenderPosts();
+            }
+        }
+
+        function toggleComments(id) {
+            let box = document.getElementById(`comments_${id}`);
+            box.style.display = box.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function addComment(id) {
+            let input = document.getElementById(`commentText_${id}`);
+            let text = input.value.trim();
+            if(!text) return;
+            let name = localStorage.getItem('slax_name') || 'L';
+            let p = posts.find(x => x.id === id);
+            if(p) {
+                p.comments.push({ user: name, text: text });
+                saveAndRenderPosts();
+            }
+        }
+
+        function deletePost(id) {
+            posts = posts.filter(x => x.id !== id);
+            saveAndRenderPosts();
+        }
+
+        // لعبة إكس أو
+        let tttState = ['', '', '', '', '', '', '', '', ''];
+        let tttTurn = 'X';
+        function initTTT() {
+            let board = document.getElementById('tttBoard');
+            board.innerHTML = tttState.map((val, idx) => `
+                <div class="ttt-cell" onclick="makeTTTMove(${idx})">${val}</div>
+            `).join('');
+        }
+        function makeTTTMove(idx) {
+            if(tttState[idx] === '') {
+                tttState[idx] = tttTurn;
+                tttTurn = tttTurn === 'X' ? 'O' : 'X';
+                initTTT();
+            }
+        }
+        function resetTTT() {
+            tttState = ['', '', '', '', '', '', '', '', ''];
+            tttTurn = 'X';
+            initTTT();
+        }
+
+        // ترتيب الحروف
+        let currentTargetWord = "برمجة";
+        function loadScramble() {
+            let words = ["سلاكس", "برمجة", "تكنولوجيا", "حاسوب", "ذكاء"];
+            currentTargetWord = words[Math.floor(Math.random() * words.length)];
+            let scrambled = currentTargetWord.split('').sort(() => 0.5 - Math.random()).join('');
+            document.getElementById('scrambleWord').innerText = scrambled;
+        }
+        let score = parseInt(localStorage.getItem('slax_score') || '0');
+        document.getElementById('scoreDisplay').innerText = score + ' نقطة';
+        function checkScramble() {
+            let val = document.getElementById('scrambleInput').value.trim();
+            if(val === currentTargetWord) {
+                score += 15;
+                localStorage.setItem('slax_score', score);
+                document.getElementById('scoreDisplay').innerText = score + ' نقطة';
+                alert("كفوو يا بطل! ربحت 15 نقطة 🎉");
+                document.getElementById('scrambleInput').value = '';
+                loadScramble();
+            } else {
+                alert("خطأ، حاول مرة أخرى!");
+            }
+        }
+
+        // المحادثة
+        function loadChat() {
+            let box = document.getElementById('chatBox');
+            box.innerHTML = localStorage.getItem('slax_chat') || '<div style="color:#8b949e;">أهلاً بك في محادثة سلاكس العامة!</div>';
+        }
+        function sendChat() {
+            let input = document.getElementById('chatInput');
+            if(!input.value.trim()) return;
+            let name = localStorage.getItem('slax_name') || 'L';
+            let box = document.getElementById('chatBox');
+            box.innerHTML += `<div><b>${name}:</b> ${input.value}</div>`;
+            input.value = '';
+            localStorage.setItem('slax_chat', box.innerHTML);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        window.onload = () => {
+            renderPosts();
+            initTTT();
+            loadScramble();
+            loadChat();
+        };
+    </script>
+</body>
+</html>
