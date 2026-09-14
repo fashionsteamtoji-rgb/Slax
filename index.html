@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة Slax الرسمية</title>
-    <!-- مكتبة الشطرنج الأصلية والمستقرة -->
+    <title>منصة Slax الرسمية - النسخة المطورة</title>
+    <!-- مكتبة الشطرنج الأصلية -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
@@ -14,133 +14,124 @@
         #welcome-popup {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white;
-            padding: 14px 28px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            z-index: 2000; text-align: center; animation: fadeInOut 5s forwards; border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 24px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 2000; text-align: center; animation: fadeInOut 4s forwards; border: 1px solid rgba(255,255,255,0.2);
         }
-        #welcome-popup h2 { font-size: 1.15rem; margin-bottom: 2px; }
-        #welcome-popup p { font-size: 0.8rem; color: #cbd5e1; }
-
         @keyframes fadeInOut {
             0% { opacity: 0; transform: translate(-50%, -20px); }
             15% { opacity: 1; transform: translate(-50%, 0); }
-            85% { opacity: 1; transform: translate(-50%, 0); }
+            80% { opacity: 1; transform: translate(-50%, 0); }
             100% { opacity: 0; transform: translate(-50%, -20px); pointer-events: none; }
         }
 
-        /* خلفية الشعار الفاخرة لـ Slax والمبدع محمد */
+        /* بانر الشعار */
         .hero-banner {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8)), 
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85)), 
                         radial-gradient(circle at center, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
             border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-            padding: 25px 15px; text-align: center; position: relative; overflow: hidden;
+            padding: 22px 15px; text-align: center;
         }
         .hero-title {
-            font-size: 2.8rem; font-weight: 900; letter-spacing: 2px;
+            font-size: 2.6rem; font-weight: 900; letter-spacing: 2px;
             background: linear-gradient(45deg, #38bdf8, #818cf8, #c084fc);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(56, 189, 248, 0.3); margin-bottom: 4px;
+            margin-bottom: 4px;
         }
         .hero-subtitle {
-            font-size: 0.95rem; color: #94a3b8; font-weight: 600; letter-spacing: 1px;
+            font-size: 0.9rem; color: #94a3b8; font-weight: 600;
             display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.03);
-            padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);
+            padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);
         }
         .hero-subtitle span { color: #38bdf8; font-weight: bold; }
 
-        /* القائمة العلوية الفاخرة جداً */
+        /* القائمة العلوية */
         header {
-            background: rgba(22, 27, 34, 0.85); backdrop-filter: blur(12px);
+            background: rgba(22, 27, 34, 0.9); backdrop-filter: blur(12px);
             padding: 10px 15px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(59, 130, 246, 0.3); position: sticky; top: 0; z-index: 1000;
         }
-        .logo { font-size: 1.2rem; font-weight: 900; color: #38bdf8; }
-        
-        nav { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+        .logo { font-size: 1.1rem; font-weight: 900; color: #38bdf8; }
+        nav { display: flex; gap: 5px; overflow-x: auto; }
         nav::-webkit-scrollbar { display: none; }
         nav button {
             background: rgba(33, 38, 45, 0.6); border: 1px solid rgba(255,255,255,0.05);
-            color: #94a3b8; font-size: 0.78rem; cursor: pointer; font-weight: 600;
+            color: #94a3b8; font-size: 0.76rem; cursor: pointer; font-weight: 600;
             padding: 6px 10px; border-radius: 8px; transition: all 0.3s ease; white-space: nowrap;
-            display: flex; align-items: center; gap: 4px;
         }
-        nav button:hover { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); }
+        nav button:hover { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
         nav button.active {
             background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white;
             border-color: #38bdf8; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
         }
 
-        /* الأقسام */
-        .section { display: none; padding: 15px; max-width: 800px; margin: 0 auto; width: 100%; flex: 1; }
-        .section.active { display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.3s ease; }
+        .section { display: none; padding: 15px; max-width: 750px; margin: 0 auto; width: 100%; flex: 1; }
+        .section.active { display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* لوحة الرسم والزووم */
+        /* الرسم والزووم */
         .canvas-container {
             background-color: #161b22; border: 1px solid #30363d; border-radius: 14px;
             padding: 12px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
         .canvas-wrapper {
-            width: 100%; height: 340px; overflow: auto; border: 2px solid #38bdf8;
-            border-radius: 10px; background-color: #ffffff; position: relative; display: flex; justify-content: center; align-items: center;
+            width: 100%; height: 320px; overflow: auto; border: 2px solid #38bdf8;
+            border-radius: 10px; background-color: #ffffff; display: flex; justify-content: center; align-items: center;
         }
-        canvas { cursor: crosshair; touch-action: none; transform-origin: center center; transition: transform 0.1s ease; }
+        canvas { cursor: crosshair; touch-action: none; transform-origin: center center; }
         .tools-bar { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
-        .tools-bar input[type="color"] { border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: none; }
-        .tools-bar input[type="range"] { accent-color: #38bdf8; width: 70px; }
+        .tools-bar input[type="color"] { border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: none; }
+        .tools-bar input[type="range"] { accent-color: #38bdf8; width: 65px; }
         
-        .btn { background-color: #238636; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.82rem; transition: 0.2s; }
-        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn { background-color: #238636; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.2s; }
+        .btn:hover { opacity: 0.9; }
         .btn-danger { background-color: #da3633; }
         .btn-secondary { background-color: #30363d; color: #c9d1d9; border: 1px solid rgba(255,255,255,0.05); }
 
         /* الدردشة */
-        .chat-box { background-color: #161b22; border: 1px solid #30363d; border-radius: 14px; width: 100%; height: 380px; display: flex; flex-direction: column; overflow: hidden; }
+        .chat-box { background-color: #161b22; border: 1px solid #30363d; border-radius: 14px; width: 100%; height: 360px; display: flex; flex-direction: column; overflow: hidden; }
         .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .chat-msg { background: #21262d; padding: 8px 12px; border-radius: 10px; max-width: 85%; font-size: 0.88rem; word-break: break-all; border: 1px solid rgba(255,255,255,0.03); }
-        .chat-msg span { display: block; font-size: 0.72rem; color: #38bdf8; margin-bottom: 2px; font-weight: bold; }
+        .chat-msg { background: #21262d; padding: 8px 12px; border-radius: 10px; max-width: 85%; font-size: 0.86rem; word-break: break-all; border: 1px solid rgba(255,255,255,0.03); }
+        .chat-msg span { display: block; font-size: 0.7rem; color: #38bdf8; margin-bottom: 2px; font-weight: bold; }
         .chat-input-area { display: flex; padding: 10px; background: #0d1117; border-top: 1px solid #30363d; gap: 8px; }
-        .chat-input-area input { flex: 1; background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 8px 12px; color: white; outline: none; font-size: 0.9rem; }
+        .chat-input-area input { flex: 1; background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 8px; color: white; outline: none; font-size: 0.88rem; }
 
         /* الألعاب */
         .games-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
         .game-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 15px; text-align: center; }
-        .xo-board { display: grid; grid-template-columns: repeat(3, 70px); gap: 6px; justify-content: center; margin: 15px 0; }
-        .xo-cell { width: 70px; height: 70px; background: #21262d; border: 1px solid #30363d; font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #38bdf8; border-radius: 8px; transition: 0.2s; }
-        .xo-cell:hover { background: #30363d; border-color: #38bdf8; }
+        .xo-board { display: grid; grid-template-columns: repeat(3, 65px); gap: 5px; justify-content: center; margin: 12px 0; }
+        .xo-cell { width: 65px; height: 65px; background: #21262d; border: 1px solid #30363d; font-size: 1.8rem; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #38bdf8; border-radius: 8px; }
 
-        .chess-board { display: grid; grid-template-columns: repeat(8, 38px); grid-template-rows: repeat(8, 38px); gap: 1px; justify-content: center; margin: 10px 0; background: #30363d; padding: 2px; border-radius: 8px; }
-        .chess-square { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; cursor: pointer; }
+        .chess-board { display: grid; grid-template-columns: repeat(8, 36px); grid-template-rows: repeat(8, 36px); gap: 1px; justify-content: center; margin: 10px 0; background: #30363d; padding: 2px; border-radius: 8px; }
+        .chess-square { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; }
         .light { background: #eeeed2; color: #000; }
         .dark { background: #769656; color: #fff; }
         .chess-square.selected { background: #baca44 !important; }
 
-        /* المجتمع والتعليقات واللايكات بأسماء واضحة */
+        /* المجتمع واللايكات والتعليقات بأسماء واضحة ودقيقة */
         .feed-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 14px; width: 100%; margin-bottom: 14px; }
-        .feed-card h3 { color: #38bdf8; margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px; }
+        .feed-card h3 { color: #38bdf8; margin-bottom: 8px; font-size: 0.9rem; }
         .interaction-bar { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; border-top: 1px solid #21262d; padding-top: 8px; }
-        .likes-info { font-size: 0.78rem; color: #94a3b8; }
+        .likes-info { font-size: 0.78rem; color: #94a3b8; font-weight: 500; }
         .comments-section { margin-top: 6px; }
-        .comments-list { font-size: 0.8rem; color: #e2e8f0; margin-bottom: 8px; display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; }
+        .comments-list { font-size: 0.8rem; color: #e2e8f0; margin-bottom: 8px; display: flex; flex-direction: column; gap: 4px; max-height: 110px; overflow-y: auto; }
         .comment-item { background: #0d1117; padding: 5px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03); }
         .comment-item b { color: #38bdf8; margin-left: 4px; }
         .comment-box { display: flex; gap: 6px; }
-        .comment-box input { flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 6px 10px; color: white; font-size: 0.8rem; outline: none; }
+        .comment-box input { flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 6px 10px; color: white; font-size: 0.78rem; outline: none; }
 
         /* الإعدادات */
-        .settings-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 20px; width: 100%; display: flex; flex-direction: column; gap: 12px; }
-        .settings-card label { font-size: 0.88rem; color: #94a3b8; font-weight: 600; }
-        .settings-card input { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 10px; color: white; width: 100%; outline: none; font-size: 0.9rem; }
+        .settings-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 18px; width: 100%; display: flex; flex-direction: column; gap: 12px; }
+        .settings-card label { font-size: 0.85rem; color: #94a3b8; font-weight: 600; }
+        .settings-card input { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 9px; color: white; width: 100%; outline: none; font-size: 0.88rem; }
     </style>
 </head>
 <body>
 
     <div id="welcome-popup">
-        <h2>نورتو موقع Slax 🚀</h2>
+        <h2>نورتو منصة Slax 🚀</h2>
         <p>المبدع: محمد</p>
     </div>
 
-    <!-- خلفية الشعار والاسم البارز -->
     <div class="hero-banner">
         <h1 class="hero-title">SLAX</h1>
         <div class="hero-subtitle">✨ إبداع بلا حدود بواسطة: <span>المبدع محمد</span></div>
@@ -151,22 +142,22 @@
         <nav>
             <button class="active" onclick="switchTab('draw', this)">🎨 الرسم والزووم</button>
             <button onclick="switchTab('chat', this)">💬 الدردشة</button>
-            <button onclick="switchTab('games', this)">🎮 الألعاب الجماعية</button>
+            <button onclick="switchTab('games', this)">🎮 الألعاب</button>
             <button onclick="switchTab('feed', this)">🌍 المجتمع</button>
-            <button onclick="switchTab('settings', this)">⚙️ الإعدادات</button>
+            <button onclick="switchTab('settings', this)">⚙️ الحساب</button>
         </nav>
     </header>
 
     <!-- 1. الرسم -->
     <div id="draw" class="section active">
         <div class="canvas-container">
-            <h2 style="color: #38bdf8; font-size: 1.05rem;">لوحة الرسم الحرة والزووم</h2>
+            <h2 style="color: #38bdf8; font-size: 1rem;">لوحة الرسم الحرة والزووم</h2>
             <div class="canvas-wrapper" id="canvasWrapper">
-                <canvas id="paintCanvas" width="450" height="450"></canvas>
+                <canvas id="paintCanvas" width="400" height="400"></canvas>
             </div>
             <div class="tools-bar">
                 <input type="color" id="colorPicker" value="#38bdf8">
-                <input type="range" id="brushSize" min="1" max="40" value="4">
+                <input type="range" id="brushSize" min="1" max="30" value="4">
                 <button class="btn btn-secondary" onclick="zoomCanvas(0.2)">🔍+</button>
                 <button class="btn btn-secondary" onclick="zoomCanvas(-0.2)">🔍-</button>
                 <button class="btn btn-secondary" id="undoBtn">↩ تراجع</button>
@@ -179,33 +170,31 @@
 
     <!-- 2. الدردشة -->
     <div id="chat" class="section">
-        <h2 style="margin-bottom: 10px; color: #38bdf8; font-size: 1.05rem;">الدردشة العامة الجماعية</h2>
+        <h2 style="margin-bottom: 10px; color: #38bdf8; font-size: 1rem;">الدردشة الجماعية الحية</h2>
         <div class="chat-box">
             <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="اكتب رسالتك واضغط إنتر..." onkeypress="checkChatEnter(event)">
+                <input type="text" id="chatInput" placeholder="اكتب رسالتك..." onkeypress="checkChatEnter(event)">
                 <button class="btn" onclick="sendChatMessage()">إرسال</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. الألعاب الجماعية -->
+    <!-- 3. الألعاب -->
     <div id="games" class="section">
-        <h2 style="margin-bottom: 10px; color: #38bdf8; font-size: 1.05rem;">ساحة التحدي والألعاب الحية</h2>
+        <h2 style="margin-bottom: 10px; color: #38bdf8; font-size: 1rem;">التحدي والألعاب الحية</h2>
         <div class="games-grid">
             <div class="game-card">
-                <h3>لعبة إكس أو (X-O) الجماعية</h3>
-                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 3px;">العب مباشرة مع أي زائر يفتح الموقع الآن!</p>
+                <h3>لعبة إكس أو (X-O)</h3>
                 <div class="xo-board" id="xoBoard"></div>
-                <p id="xoStatus" style="font-size: 0.85rem; color: #38bdf8; font-weight: bold;"></p>
+                <p id="xoStatus" style="font-size: 0.82rem; color: #38bdf8; font-weight: bold;"></p>
                 <button class="btn btn-secondary" style="margin-top: 8px;" onclick="resetMultiplayerXO()">تصفير الطاولة</button>
             </div>
 
             <div class="game-card">
-                <h3>طاولة الشطرنج الجماعية</h3>
-                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 3px;">حرك القطع بالتناوب مع الزوار الآخرين لحظياً</p>
+                <h3>طاولة الشطرنج</h3>
                 <div id="chessContainer" style="display: flex; justify-content: center;"></div>
-                <p id="chessStatus" style="font-size: 0.85rem; color: #38bdf8; margin-top: 5px; font-weight: bold;"></p>
+                <p id="chessStatus" style="font-size: 0.82rem; color: #38bdf8; margin-top: 5px; font-weight: bold;"></p>
                 <button class="btn btn-secondary" style="margin-top: 8px;" onclick="resetChessGame()">إعادة ضبط الشطرنج</button>
             </div>
         </div>
@@ -213,23 +202,19 @@
 
     <!-- 4. المجتمع -->
     <div id="feed" class="section">
-        <h2 style="margin-bottom: 10px; color: #38bdf8; font-size: 1.05rem;">منشورات وإبداعات المجتمع</h2>
+        <h2 style="margin-bottom: 10px; color: #38bdf8; font-size: 1rem;">منشورات المجتمع واللايكات</h2>
         <div id="postsContainer" style="width: 100%;"></div>
     </div>
 
     <!-- 5. الإعدادات -->
     <div id="settings" class="section">
         <div class="settings-card">
-            <h2 style="color: #38bdf8; font-size: 1.1rem;">إعدادات الحساب الشخصي</h2>
+            <h2 style="color: #38bdf8; font-size: 1.05rem;">إعدادات الحساب</h2>
             <div>
-                <label>اسم المستخدم (يظهر بالدردشة واللايكات والتعليقات):</label>
-                <input type="text" id="usernameInput" placeholder="أدخل اسمك هنا...">
+                <label>اسمك (يظهر بالتعليقات واللايكات والدردشة):</label>
+                <input type="text" id="usernameInput" placeholder="ادخل اسمك...">
             </div>
-            <div>
-                <label>نبذة عنك (Bio):</label>
-                <input type="text" id="bioInput" placeholder="اكتب شيئاً عنك...">
-            </div>
-            <button class="btn" onclick="saveSettings()">💾 حفظ التعديلات</button>
+            <button class="btn" onclick="saveSettings()">💾 حفظ الاسم</button>
         </div>
     </div>
 
@@ -242,12 +227,17 @@
         }
 
         function getUserName() {
-            return localStorage.getItem('slax_username') || 'محمد (L)';
+            return localStorage.getItem('slax_username') || 'زائر Slax';
         }
 
         window.onload = () => {
-            document.getElementById('usernameInput').value = localStorage.getItem('slax_username') || 'محمد (L)';
-            document.getElementById('bioInput').value = localStorage.getItem('slax_bio') || 'المبدع وراء منصة Slax';
+            let savedName = localStorage.getItem('slax_username');
+            if(!savedName) {
+                savedName = 'مستخدم ' + Math.floor(Math.random() * 900 + 100);
+                localStorage.setItem('slax_username', savedName);
+            }
+            document.getElementById('usernameInput').value = savedName;
+
             ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
             saveState();
             loadChat();
@@ -257,11 +247,13 @@
         };
 
         function saveSettings() {
-            localStorage.setItem('slax_username', document.getElementById('usernameInput').value);
-            localStorage.setItem('slax_bio', document.getElementById('bioInput').value);
-            alert('تم حفظ إعدادات الحساب بنجاح! ✨');
-            loadPosts();
-            loadChat();
+            let newName = document.getElementById('usernameInput').value.trim();
+            if(newName) {
+                localStorage.setItem('slax_username', newName);
+                alert('تم حفظ اسمك بنجاح! ✨');
+                loadPosts();
+                loadChat();
+            }
         }
 
         // الرسم وزووم
@@ -274,7 +266,7 @@
         function saveState() {
             historyStep++;
             if (historyStep < history.length) { history.length = historyStep; }
-            history.push(canvas.toDataURL());
+            history.push(canvas.toDataURL('image/png', 0.5));
         }
 
         function startDraw(e) { isDrawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); }
@@ -303,7 +295,7 @@
         canvas.addEventListener('touchend', (e) => { stopDraw(); e.preventDefault(); });
 
         function zoomCanvas(amount) {
-            currentZoom = Math.max(0.5, Math.min(3, currentZoom + amount));
+            currentZoom = Math.max(0.5, Math.min(2.5, currentZoom + amount));
             canvas.style.transform = `scale(${currentZoom})`;
         }
 
@@ -325,13 +317,24 @@
             ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); saveState();
         });
 
-        // المجتمع وتفاصيل اللايكات والتعليقات (مُصلح بالكامل)
+        // النشر واللايكات والتعليقات بدقة تامة
         document.getElementById('publishBtn').addEventListener('click', () => {
-            let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
-            posts.unshift({ author: getUserName(), image: canvas.toDataURL(), likes: [], comments: [] });
-            localStorage.setItem('slax_posts', JSON.stringify(posts));
-            loadPosts();
-            switchTab('feed', document.querySelectorAll('nav button')[3]);
+            try {
+                let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
+                posts.unshift({
+                    id: Date.now(),
+                    author: getUserName(),
+                    image: canvas.toDataURL('image/jpeg', 0.6),
+                    likes: [],
+                    comments: []
+                });
+                localStorage.setItem('slax_posts', JSON.stringify(posts));
+                loadPosts();
+                switchTab('feed', document.querySelectorAll('nav button')[3]);
+                alert('تم نشر رسمتك في المجتمع بنجاح! 🚀');
+            } catch(e) {
+                alert('حدث خطأ أثناء النشر، حاول مسح بعض الرسومات القديمة.');
+            }
         });
 
         function loadPosts() {
@@ -340,26 +343,26 @@
             let currentName = getUserName();
 
             if(posts.length === 0) {
-                container.innerHTML = '<p style="color: #94a3b8; text-align: center; font-size: 0.85rem; margin-top: 20px;">لا توجد منشورات حالياً. كن أول من ينشر رسمة! 🎨</p>';
+                container.innerHTML = '<p style="color: #94a3b8; text-align: center; font-size: 0.82rem; margin-top: 20px;">لا توجد منشورات حالياً. انشر رسمتك الأولى! 🎨</p>';
                 return;
             }
 
             container.innerHTML = posts.map((p, idx) => {
-                let hasLiked = p.likes && p.likes.includes(currentName);
                 let likesList = p.likes || [];
-                let likesNamesText = likesList.length > 0 ? `أعجب بها: ${likesList.join(', ')}` : 'كن أول المعجبين!';
+                let hasLiked = likesList.includes(currentName);
+                let likesText = likesList.length > 0 ? `أعجب بها: ${likesList.join(', ')}` : 'كن أول المعجبين بهذا المنشور';
                 let commentsList = p.comments || [];
-                
+
                 return `
                 <div class="feed-card">
-                    <h3>🎨 رسملة بواسطة: ${p.author}</h3>
+                    <h3>🎨 رسمة بواسطة: ${p.author}</h3>
                     <img src="${p.image}" style="width:100%; border-radius:8px; margin-top:6px; border:1px solid #30363d;">
                     
                     <div class="interaction-bar">
-                        <button class="btn ${hasLiked ? 'btn-secondary' : ''}" style="padding: 4px 10px; font-size: 0.8rem; width: fit-content;" onclick="toggleLike(${idx})">
+                        <button class="btn ${hasLiked ? 'btn-secondary' : ''}" style="padding: 4px 10px; font-size: 0.78rem; width: fit-content;" onclick="toggleLike(${p.id})">
                             ❤️ أعجبني (${likesList.length})
                         </button>
-                        <div class="likes-info">👤 ${likesNamesText}</div>
+                        <div class="likes-info">👤 ${likesText}</div>
                     </div>
 
                     <div class="comments-section">
@@ -367,41 +370,46 @@
                             ${commentsList.map(c => `<div class="comment-item"><b>${c.user}:</b> ${c.text}</div>`).join('')}
                         </div>
                         <div class="comment-box">
-                            <input type="text" id="commInput_${idx}" placeholder="اكتب تعليقاً باسمك..." onkeypress="checkCommentEnter(event, ${idx})">
-                            <button class="btn" style="padding: 4px 10px; font-size:0.78rem;" onclick="addComment(${idx})">تعليق</button>
+                            <input type="text" id="commInput_${p.id}" placeholder="اكتب تعليقاً..." onkeypress="checkCommentEnter(event, ${p.id})">
+                            <button class="btn" style="padding: 4px 8px; font-size:0.75rem;" onclick="addComment(${p.id})">تعليق</button>
                         </div>
                     </div>
                 </div>
             `;}).join('');
         }
 
-        function toggleLike(idx) {
+        function toggleLike(postId) {
             let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
+            let p = posts.find(item => item.id === postId);
+            if(!p) return;
+            if(!p.likes) p.likes = [];
+
             let name = getUserName();
-            if(!posts[idx].likes) posts[idx].likes = [];
-            let userIndex = posts[idx].likes.indexOf(name);
-            
-            if(userIndex > -1) {
-                posts[idx].likes.splice(userIndex, 1);
+            let index = p.likes.indexOf(name);
+            if(index > -1) {
+                p.likes.splice(index, 1);
             } else {
-                posts[idx].likes.push(name);
+                p.likes.push(name);
             }
-            
             localStorage.setItem('slax_posts', JSON.stringify(posts));
             loadPosts();
         }
 
-        function addComment(idx) {
-            let input = document.getElementById(`commInput_${idx}`);
+        function addComment(postId) {
+            let input = document.getElementById(`commInput_${postId}`);
             let text = input.value.trim();
             if(!text) return;
+            
             let posts = JSON.parse(localStorage.getItem('slax_posts') || '[]');
-            if(!posts[idx].comments) posts[idx].comments = [];
-            posts[idx].comments.push({ user: getUserName(), text: text });
+            let p = posts.find(item => item.id === postId);
+            if(!p) return;
+            if(!p.comments) p.comments = [];
+
+            p.comments.push({ user: getUserName(), text: text });
             localStorage.setItem('slax_posts', JSON.stringify(posts));
             loadPosts();
         }
-        function checkCommentEnter(e, idx) { if(e.key === 'Enter') addComment(idx); }
+        function checkCommentEnter(e, postId) { if(e.key === 'Enter') addComment(postId); }
 
         // الدردشة
         function sendChatMessage() {
@@ -468,15 +476,13 @@
             initMultiplayerXO();
         }
 
-        // شطرنج جماعي مستقر وخالي من الأخطاء
+        // شطرنج جماعي مستقر
         let chess = new Chess();
         let selectedSquare = null;
 
         function renderChessBoard() {
             let savedFen = localStorage.getItem('slax_chess_fen');
-            if (savedFen) {
-                chess.load(savedFen);
-            }
+            if (savedFen) { chess.load(savedFen); }
 
             let container = document.getElementById('chessContainer');
             container.innerHTML = `<div class="chess-board" id="chessGrid"></div>`;
@@ -490,9 +496,7 @@
                     let squareName = String.fromCharCode(97 + c) + (8 - r);
                     
                     squareEl.className = `chess-square ${isLight ? 'light' : 'dark'}`;
-                    if (selectedSquare === squareName) {
-                        squareEl.classList.add('selected');
-                    }
+                    if (selectedSquare === squareName) { squareEl.classList.add('selected'); }
 
                     let piece = board[r][c];
                     if (piece) {
@@ -522,16 +526,9 @@
                     renderChessBoard();
                 }
             } else {
-                let move = chess.move({
-                    from: selectedSquare,
-                    to: square,
-                    promotion: 'q'
-                });
-
+                let move = chess.move({ from: selectedSquare, to: square, promotion: 'q' });
                 selectedSquare = null;
-                if (move) {
-                    localStorage.setItem('slax_chess_fen', chess.fen());
-                }
+                if (move) { localStorage.setItem('slax_chess_fen', chess.fen()); }
                 renderChessBoard();
             }
         }
@@ -543,7 +540,7 @@
             renderChessBoard();
         }
 
-        // مزامنة تلقائية ذكية كل 3 ثوانٍ بالخلفية بدون إعادة تحميل الصفحة
+        // المزامنة التلقائية بالخلفية كل 3 ثوانٍ
         setInterval(() => {
             loadChat();
             loadPosts();
@@ -553,4 +550,3 @@
     </script>
 </body>
 </html>
- 
